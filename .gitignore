@@ -1,0 +1,11 @@
+*\.swp
+*\.o
+*\.a
+*\.so
+*\.gz
+*\.ro
+*\.exe
+*\.tar
+*\.swp
+*\.tab\.[ch]
+lex\.yy\.c
