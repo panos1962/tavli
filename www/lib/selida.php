@@ -20,12 +20,40 @@ class Selida {
 			self::$www_dir = "http://" . $_SERVER["SERVER_NAME"] . "/tavli";
 			break;
 		}
+
+		return __CLASS__;
+	}
+
+	public static function head($titlos = "Τάβλι") {
 ?>
+<html>
+<head>
+<link rel="icon" type="image/svg+xml" href="<?php print self::www("ikona/tavli.svg"); ?>">
+<title>
+<?php print $titlos; ?>
+</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?php print Selida::www("lib/selida.css"); ?>">
 <?php
+		return __CLASS__;
+	}
+
+	public static function body() {
+?>
+</head>
+<body>
+<?php
+		return __CLASS__;
+	}
+
+	public static function klisimo() {
+?>
+</body>
+</html>
+<?php
+		return __CLASS__;
 	}
 
 	public function stylesheet($css) {
@@ -38,6 +66,7 @@ class Selida {
 ?>
 <script src="<?php print $js; ?>"></script>
 <?php
+		return __CLASS__;
 	}
 
 	public function www($file) {
