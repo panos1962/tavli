@@ -13,13 +13,12 @@ class Selida {
 
 		$server_name = $_SERVER["SERVER_NAME"];
 		switch ($server_name) {
-		case "localhost":
-		case "127.0.0.1":
-			self::$www_dir = "http://" . $_SERVER["SERVER_NAME"] . "/tavli";
+		case "tavladoros.gr":
+			self::$www_dir = "http://" . $_SERVER["SERVER_NAME"];
 			break;
 		default:
-			print $server_name . ": unknown server";
-			exit(0);
+			self::$www_dir = "http://" . $_SERVER["SERVER_NAME"] . "/tavli";
+			break;
 		}
 ?>
 <link rel="preconnect" href="https://fonts.googleapis.com">
