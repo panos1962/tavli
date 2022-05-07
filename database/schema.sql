@@ -34,6 +34,8 @@ CREATE TABLE `pektis` (
 
 	`kodikos`	CHARACTER(40) COLLATE utf8_bin NOT NULL COMMENT 'Password',
 
+	`poll`		TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Τελευταία προσπέλαση του παίκτη',
+
 	PRIMARY KEY (
 		`login`
 	) USING BTREE,
@@ -200,11 +202,7 @@ CREATE TABLE `trapezi` (
 		'ΝΑΙ'
 	) NOT NULL DEFAULT 'ΟΧΙ' COMMENT 'Αποδοχή όρων από τον δεύτερο παίκτη',
 
-	-- Για νέα τραπέζια θα πρέπει να τίθεται current timestamp, αλλά δεν
-	-- επιτρέπει η MySQL. Λύνεται με trigger.
-
 	`poll`		TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Last poll time',
-
 	`arxio`		TIMESTAMP NULL DEFAULT NULL COMMENT 'Αρχειοθέτηση τραπεζιού',
 
 	PRIMARY KEY (
@@ -560,12 +558,6 @@ CREATE TABLE `istoriko` (
 	`pektis`	VARCHAR(64) NOT NULL COMMENT 'Παίκτης',
 	`ip`		VARCHAR(64) NOT NULL DEFAULT '' COMMENT 'IP address',
 	`isodos`	TIMESTAMP NOT NULL COMMENT 'Είσοδος',
-
-	-- Κανονικά θα έπρεπε στην έξοδο να έχω default current timestamp, αλλά
-	-- δεν μου επιτρέπει επειδή υπάρχει και άλλο not null timestamp και πεδίο
-	-- με auto increment (MySQL bug). Αυτό το θέμα το αντιμετωπίζουμε και σε
-	-- άλλους πίνακες και το λύνουμε με triggers.
-
 	`exodos`	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Έξοδος',
 
 	PRIMARY KEY (
@@ -800,47 +792,6 @@ COMMIT WORK
 ;
 
 \! echo "database relations created!"
-
-\! echo "creating triggers…"
-
--- Εδώ συμπληρώνουμε το πεδίο "poll" για τις νέες συνεδρίες.
-
-DELIMITER //
-CREATE TRIGGER `nea_sinedria` BEFORE INSERT ON `sinedria`
-FOR EACH ROW
-BEGIN
-	IF (NEW.`poll` < NEW.`isodos`) THEN
-		SET NEW.`poll` = NEW.`isodos`;
-	END IF;
-END;//
-DELIMITER ;
-
--- Εδώ συμπληρώνουμε το πεδίο "exodos" για τις αρχειοθετημένες συνεδρίες.
-
-DELIMITER //
-CREATE TRIGGER `neo_istoriko` BEFORE INSERT ON `istoriko`
-FOR EACH ROW
-BEGIN
-	SET NEW.`exodos` = NOW();
-END;//
-DELIMITER ;
-
--- Εδώ συμπληρώνουμε το πεδίο "poll" για τα νέα τραπέζια.
-
-DELIMITER //
-CREATE TRIGGER `neo_trapezi` BEFORE INSERT ON `trapezi`
-FOR EACH ROW
-BEGIN
-	if (NEW.`poll` < NEW.`stisimo`) THEN
-		SET NEW.`poll` = NEW.`stisimo`;
-	END IF;
-END;//
-DELIMITER ;
-
-\! echo "database triggers created!"
-
-COMMIT WORK
-;
 
 \! echo "creating views…"
 
