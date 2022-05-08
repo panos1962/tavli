@@ -1,25 +1,27 @@
-DROP DATABASE IF EXISTS `tavli`
+\! [ -z "__SILENT__" ] && echo "[re]Creating database…"
+
+DROP DATABASE IF EXISTS `__DATABASE__`
 ;
 
 -- Με το παρόν κατασκευάζουμε την database.
 
-CREATE DATABASE `tavli`
+CREATE DATABASE `__DATABASE__`
 DEFAULT CHARSET = utf8mb4
 DEFAULT COLLATE = utf8mb4_general_ci
 ;
 
-\! echo "database created!"
+\! [ -z "__SILENT__" ] && echo "Database created!"
 
 -- Καθιστούμε τρέχουσα την database που μόλις κατασκευάσαμε.
 
-USE `tavli`;
+USE `__DATABASE__`;
 
 -- Ακυρώνουμε προσωρινά τα foreign key checks, όχι επειδή είναι απαραίτητο,
 -- αλλά επειδή σε κάποιες μηχανές προκαλείται κάποια εμπλοκή.
 
 SET FOREIGN_KEY_CHECKS = 0;
 
-\! echo "creating tables…"
+\! [ -z "__SILENT__" ] && echo "Creating tables…"
 
 -- Ο πίνακας "pektis" είναι ο σημαντικότερος πίνακας της εφαρμογής και περιέχει
 -- τους χρήστες του «Ταβλαδόρου».
@@ -576,9 +578,9 @@ COMMENT ='Πίνακας συνεδριών (αρχείο)'
 COMMIT WORK
 ;
 
-\! echo "tables created!"
+\! [ -z "__SILENT__" ] && echo "Tables created!"
 
-\! echo "creating relations…"
+\! [ -z "__SILENT__" ] && echo "Creating relations…"
 
 -- Στο παρόν παρατίθενται όλα τα foreign keys, δηλαδή οι συσχετίσεις
 -- μεταξύ των πινάκων τής database.
@@ -791,9 +793,9 @@ ALTER TABLE `sizitisi` ADD FOREIGN KEY (
 COMMIT WORK
 ;
 
-\! echo "database relations created!"
+\! [ -z "__SILENT__" ] && echo "Relations created!"
 
-\! echo "creating views…"
+\! [ -z "__SILENT__" ] && echo "Creating views…"
 
 -- Το view "partida" περιλαμβάνει τα ενεργά τραπέζια, δηλαδή τις παρτίδες
 -- που βρίσκονται σε εξέλιξη.
@@ -807,28 +809,32 @@ ORDER BY `kodikos` DESC
 COMMIT WORK
 ;
 
-\! echo "views created!"
+\! [ -z "__SILENT__" ] && echo "Views created!"
 
 -- Επαναφέρουμε την προσωρινή ακύρωση του foreign key check.
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-\! echo "creating users…" >/dev/tty
+\! [ -z "__SILENT__" ] && echo "[re]Creating users…"
 
-DROP USER IF EXISTS 'tavli'@'localhost'
+DROP USER IF EXISTS '__DBUSER__'@'localhost'
 ;
 
-CREATE USER 'tavli'@'localhost' IDENTIFIED BY 'xxx'
+CREATE USER '__DBUSER__'@'localhost' IDENTIFIED BY '__DBPASS__'
 ;
 
 COMMIT WORK
 ;
 
-\! echo "granting permissions…" >/dev/tty
+\! [ -z "__SILENT__" ] && echo "Users created…"
+
+\! [ -z "__SILENT__" ] && echo "Granting permissions…"
 
 GRANT SELECT, INSERT, UPDATE, DELETE
-ON `tavli`.* TO 'tavli'@'localhost'
+ON `__DATABASE__`.* TO '__DBUSER__'@'localhost'
 ;
 
 COMMIT WORK
 ;
+
+\! [ -z "__SILENT__" ] && echo "Permissions granted…"

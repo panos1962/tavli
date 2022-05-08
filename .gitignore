@@ -10,3 +10,4 @@
 *\.tab\.[ch]
 lex\.yy\.c
 local/*
+panos*

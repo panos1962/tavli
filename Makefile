@@ -12,3 +12,7 @@ commit:
 
 push:
 	git push
+
+test:
+	database/ddload.sh -L
+	@#misc/test_install.sh asda
