@@ -4,7 +4,7 @@ require_once(preg_replace("/\/lib\/selida\.php$/", "", __FILE__) . "/../common/l
 
 class Selida {
 	private static $init_ok = FALSE;
-	public static $www_dir;
+	public static $www;
 
 	public static function init() {
 		if (self::$init_ok)
@@ -15,10 +15,10 @@ class Selida {
 		$server_name = $_SERVER["SERVER_NAME"];
 		switch ($server_name) {
 		case "tavladoros.gr":
-			self::$www_dir = "http://" . $_SERVER["SERVER_NAME"];
+			self::$www = "http://" . $_SERVER["SERVER_NAME"];
 			break;
 		default:
-			self::$www_dir = "http://" . $_SERVER["SERVER_NAME"] . "/tavli";
+			self::$www = "http://" . $_SERVER["SERVER_NAME"] . "/tavli";
 			break;
 		}
 
@@ -38,6 +38,7 @@ class Selida {
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?php print Selida::www("lib/selida.css"); ?>">
 <?php
+		self::javascript("lib/selida");
 		return __CLASS__;
 	}
 
@@ -63,18 +64,35 @@ class Selida {
 <?php
 	}
 
-	public function javascript($js) {
+	public function javascript($script) {
+		$file = Globals::$base_dir . "/www/" . $script . ".js";
+
+		if (!file_exists($file))
+		return;
+
+		$mtime = filemtime($file);
+		$file1 = Globals::$base_dir . "/www/" . $script . ".min.js";
+
+		if (file_exists($file1)) {
+			$mtime1 = filemtime($file1);
+			if ($mtime1 > $mtime) {
+				$script .= ".min";
+				$mtime = $mtime1;
+			}
+		}
 ?>
-<script src="<?php print $js; ?>"></script>
+<script src="<?php
+print self::www($script); ?>.js?mt=<?php
+print $mtime; ?>"></script>
 <?php
 		return __CLASS__;
 	}
 
 	public function www($file) {
 		if (substr($file, 0, 1) === "/")
-		return self::$www_dir . $file;
+		return self::$www . $file;
 
-		return self::$www_dir . "/" . $file;
+		return self::$www . "/" . $file;
 	}
 }
 

@@ -9,5 +9,6 @@
 *\.swp
 *\.tab\.[ch]
 lex\.yy\.c
+*\.min\.js
 local/*
 panos*
