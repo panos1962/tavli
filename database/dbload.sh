@@ -3,15 +3,30 @@
 progname="$(basename $0)"
 
 usage() {
-	echo "usage: ${progname}" >&2
+	echo "usage: ${progname} [-m]" >&2
 	exit 1
+}
+
+monmsg() {
+	[ -n "${monitor}" ] || return 0
+	[ -w "/dev/tty" ] || return 0
+	echo "$@" >"/dev/tty"
 }
 
 errs=
 
-while getopts ":sL" opt
+if [ -w "/dev/tty" ]; then
+	monitor="yes"
+else
+	monitor=
+fi
+
+while getopts ":m" opt
 do
 	case "${opt}" in
+	m)
+		monitor=
+		;;
 	\:)
 		echo "${progname}: -${OPTARG}: option rquires an argument" >&2
 		errs=1
@@ -63,7 +78,7 @@ datadir="${TAVLI_BASEDIR}/database/sample"
 	exit 2
 }
 
-for table in pektis
+for table in pektis trapezi
 do
 	datafile="${datadir}/${table}.sql"
 
@@ -77,5 +92,7 @@ do
 		continue
 	}
 
-	mysql -u "${dbuser}" "${dbname}" <"${datafile}"
+	monmsg "Loading \"${table}\" data…"
+	mysql -u "${dbuser}" "${dbname}" <"${datafile}" || exit 2
+	monmsg "\"${table}\" data has been loaded successfully!"
 done
