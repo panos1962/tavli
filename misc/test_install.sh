@@ -2,6 +2,19 @@
 
 progname="$(basename $0)"
 
+[ -z "${TAVLI_BASEDIR}" ] &&
+TAVLI_BASEDIR="/var/opt/tavli"
+
+[ -d "${TAVLI_BASEDIR}" ] || {
+	echo "${progname}: ${TAVLI_BASEDIR}: directory not found" >&2
+	exit 2
+}
+
+[ -r "${TAVLI_BASEDIR}" ] || {
+	echo "${progname}: ${TAVLI_BASEDIR}: npo permission" >&2
+	exit 2
+}
+
 usage() {
 	echo "usage: ${progname}" >&2
 	exit 1
@@ -28,4 +41,5 @@ done
 shift $(expr $OPTIND - 1)
 [ $# -ne 0 ] && usage
 
-echo ok
+"${TAVLI_BASEDIR}/database/ddload.sh" -L
+"${TAVLI_BASEDIR}/database/dbload.sh"

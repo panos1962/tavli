@@ -1,4 +1,5 @@
 <?php
+if (!class_exists('Globals'))
 require_once(preg_replace("/\/lib\/selida\.php$/", "", __FILE__) . "/../common/lib/standard.php");
 
 class Selida {
