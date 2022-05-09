@@ -19,11 +19,16 @@ class Selida {
 			self::$base_url = "http://" . $server_name;
 			break;
 		default:
-			self::$base_url = "http://" . $_server_name . "/tavli";
+			self::$base_url = "http://" . $server_name . "/tavli";
 			break;
 		}
 
-		self::$www_dir = self::$base_dir . "/www";
+		if (isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
+			header("Location: " . self::$base_url);
+			exit(0);
+		}
+
+		self::$www_dir = Globals::$base_dir . "/www";
 
 		return __CLASS__;
 	}
@@ -32,14 +37,17 @@ class Selida {
 ?>
 <html>
 <head>
-<link rel="icon" type="image/svg+xml" href="<?php print self::url("ikona/tavli.svg"); ?>">
+<link rel="icon" type="image/svg+xml" href="<?php print self::$base_url; ?>/ikona/tavli.svg">
 <title><?php print $titlos; ?></title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <?php
-		self::css("lib/selida");
-		self::javascript("lib/selida");
+		self::stylesheet("/lib/selida");
+		self::javascript("/lib/selida");
 
 		return __CLASS__;
 	}
@@ -61,25 +69,42 @@ class Selida {
 	}
 
 	public function stylesheet($css) {
-		$file = self::$www_dir . "/" . $script . ".js";
+		$css = preg_replace("/\.css$/", "", $css);
+		$file = $css . ".css";
+
+		if (substr($css, 0, 1) === "/") {
+			$file = self::$www_dir . $file;
+			$css = self::$base_url . $css;
+		}
+
+		if (!file_exists($file))
+		Globals::fatal($file . ": stylesheet not found");
+
+		$mtime = filemtime($file);
 ?>
-<link rel="stylesheet" href="<?php print $css; ?>.css">
+<link rel="stylesheet" href="<?php print $css; ?>.css?mt=<?php print $mtime; ?>">
 <?php
 	}
 
 	public function javascript($script) {
-		if (substr($script, 0, 1) !== "/")
-		$file = self::$www_dir . "/" . $script . ".js";
+		$script = preg_replace("/(\.min)?\.js$/", "", $script);
+		$file = $script . ".js";
+		$filemin = $script . ".min.js";
+
+		if (substr($script, 0, 1) === "/") {
+			$file = self::$www_dir . $file;
+			$filemin = self::$www_dir . $filemin;
+			$script = self::$base_url . $script;
+		}
 
 		if (!file_exists($file))
-		return;
+		Globals::fatal($file . ": script not found");
 
 		$mtime = filemtime($file);
 
-		$filemin = self::$www_dir . "/" . $script . ".min.js";
-
 		if (file_exists($filemin)) {
 			$mtimemin = filemtime($filemin);
+
 			if ($mtimemin > $mtime) {
 				$script .= ".min";
 				$mtime = $mtimemin;
@@ -89,13 +114,6 @@ class Selida {
 <script src="<?php print $script; ?>.js?mt=<?php print $mtime; ?>"></script>
 <?php
 		return __CLASS__;
-	}
-
-	public function url($file) {
-		if (substr($file, 0, 1) !== "/")
-		$file = "/" . $file;
-
-		return self::$base_url . $file;
 	}
 }
 

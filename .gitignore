@@ -12,3 +12,5 @@ lex\.yy\.c
 *\.min\.js
 local/*
 panos*
+!www/test_root.min.js
+!www/test/test_test.min.js

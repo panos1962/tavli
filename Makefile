@@ -1,6 +1,9 @@
 status:
 	git status
 
+add:
+	git add .
+
 diff:
 	git diff
 

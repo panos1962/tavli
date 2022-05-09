@@ -1,11 +1,10 @@
 <?php
 require_once("../lib/selida.php");
 
-print ">>" . getcwd() . "<<";
-
-Selida::
-head()::
-body();
+Selida::head();
+Selida::stylesheet("test_test");
+Selida::javascript("test_test");
+Selida::body();
 ?>
 Hello test/tavli!
 <?php
