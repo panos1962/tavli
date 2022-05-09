@@ -1,6 +1,0 @@
-body:before {
-	display: block;
-	content: 'test_root.css';
-	color: yellow;
-	background-color: midnightblue;
-}

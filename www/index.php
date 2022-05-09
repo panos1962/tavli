@@ -2,12 +2,11 @@
 require_once("lib/selida.php");
 
 Selida::head();
-Selida::stylesheet("test_root");
-Selida::javascript("test_root");
 Selida::body();
+Selida::toolbar();
 ?>
 Hello tavli!
 <?php
-Selida::
-klisimo();
+Selida::ribbon();
+Selida::klisimo();
 ?>

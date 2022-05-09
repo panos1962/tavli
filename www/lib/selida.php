@@ -46,8 +46,11 @@ class Selida {
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <?php
+		self::javascript("/lib/commonStandard");
 		self::stylesheet("/lib/selida");
 		self::javascript("/lib/selida");
+		self::stylesheet("selida");
+		self::javascript("selida");
 
 		return __CLASS__;
 	}
@@ -78,7 +81,7 @@ class Selida {
 		}
 
 		if (!file_exists($file))
-		Globals::fatal($file . ": stylesheet not found");
+		return;
 
 		$mtime = filemtime($file);
 ?>
@@ -98,7 +101,7 @@ class Selida {
 		}
 
 		if (!file_exists($file))
-		Globals::fatal($file . ": script not found");
+		return;
 
 		$mtime = filemtime($file);
 
@@ -112,6 +115,29 @@ class Selida {
 		}
 ?>
 <script src="<?php print $script; ?>.js?mt=<?php print $mtime; ?>"></script>
+<?php
+		return __CLASS__;
+	}
+
+	public static function toolbar() {
+?>
+<div id="toolbar">
+TOOLBAR
+</div>
+<div id="fyi">
+FYI
+</div>
+<div id="ofelimo">
+<?php
+		return __CLASS__;
+	}
+
+	public static function ribbon() {
+?>
+</div>
+<div id="ribbon">
+RIBBON
+</div>
 <?php
 		return __CLASS__;
 	}

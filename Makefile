@@ -17,5 +17,6 @@ push:
 	git push
 
 test:
-	database/ddload.sh -L
+	@#database/ddload.sh -L
 	@#misc/test_install.sh asda
+	bash local/test.sh
