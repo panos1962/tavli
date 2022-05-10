@@ -147,7 +147,7 @@ FYI
 ?>
 <div style="display: inline-block;">
 <img src="<?php print Selida::$base_url; ?>/ikona/zari<?php
-	print $zari; ?>.png" style="width: 2.5ch;">
+	print $zari; ?>.png" style="height: 100%;">
 </div>
 <?php
 	}
