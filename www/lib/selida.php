@@ -122,7 +122,18 @@ class Selida {
 	public static function toolbar() {
 ?>
 <div id="toolbar">
-TOOLBAR
+<div id="toolbarLeft">
+TOOLBAR LEFT
+</div>
+<div id="toolbarCenter">
+<?php
+		self::toolbarCenterZari(0);
+		self::toolbarCenterZari(1);
+?>
+</div>
+<div id="toolbarRight">
+TOOLBAR RIGHT
+</div>
 </div>
 <div id="fyi">
 FYI
@@ -130,6 +141,15 @@ FYI
 <div id="ofelimo">
 <?php
 		return __CLASS__;
+	}
+
+	private static function toolbarCenterZari($zari) {
+?>
+<div style="display: inline-block;">
+<img src="<?php print Selida::$base_url; ?>/ikona/zari<?php
+	print $zari; ?>.png" style="width: 2.5ch;">
+</div>
+<?php
 	}
 
 	public static function ribbon() {

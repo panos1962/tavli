@@ -20,6 +20,25 @@ body {
 	background-color: gold;
 }
 
+#toolbarLeft {
+	display: inline-block;
+	flex-basis: 49.99%;
+	text-align: left;
+}
+
+#toolbarCenter {
+	display: inline-block;
+	flex-basis: 0.02%;
+	text-align: center;
+	white-space: nowrap;
+}
+
+#toolbarRight {
+	display: inline-block;
+	flex-basis: 49.99%;
+	text-align: right;
+}
+
 #ribbon {
 	display: flex;
 	justify-content: space-between;
