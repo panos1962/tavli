@@ -18,6 +18,7 @@ selida.ready = function() {
 	selida.ofelimoDOM = $('#ofelimo');
 
 	selida.windowDOM.on('resize', selida.onResize);
+	selida.toolbarDOM.on('resize', selida.onResize);
 
 	if (selida.init)
 	selida.init();
