@@ -4,34 +4,35 @@ var selida = {};
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-selida.readyCount = 2;
-
-selida.ready = function() {
-	selida.readyCount--;
-
-	if (selida.readyCount)
-	return;
+$(function() {
+	selida.windowDOM = $(window);
+	selida.bodyDOM = $(document.body);
 
 	selida.toolbarDOM = $('#toolbar');
 	selida.ribbonDOM = $('#ribbon');
 	selida.fyiDOM = $('#fyi');
 	selida.ofelimoDOM = $('#ofelimo');
 
-	selida.windowDOM.on('resize', selida.onResize);
-
 	if (selida.init)
 	selida.init();
 
+	selida.windowDOM.on('resize', selida.fixHeight);
 	selida.windowDOM.trigger('resize');
 
+	setTimeout(selida.fixHeight, 100);
+
 	return selida;
-};
+});
 
-selida.windowDOM = $(window).ready(selida.ready);
-selida.bodyDOM = $(document.body).ready(selida.ready);
+selida.fixHeight = function() {
+	let h;
+	let o;
 
-selida.onResize = function() {
-	let h = selida.windowDOM.innerHeight();
+	selida.ofelimoDOM.css('height', '');
+
+	h = selida.windowDOM.innerHeight();
+	o = selida.ofelimoDOM.innerHeight();
+
 
 	h -= selida.toolbarDOM.outerHeight(true);
 	h -= selida.ribbonDOM.outerHeight(true);
@@ -40,7 +41,14 @@ selida.onResize = function() {
 	selida.ofelimoDOM.height(0);
 	h -= selida.ofelimoDOM.outerHeight(true);
 
+	if (selida.bodyDOM.css('overflow') === 'hidden')
 	selida.ofelimoDOM.height(h);
+
+	else if (o < h)
+	selida.ofelimoDOM.height(h);
+
+	else
+	selida.ofelimoDOM.css('height', '');
 
 	return selida;
 };
