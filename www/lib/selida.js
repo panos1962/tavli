@@ -23,7 +23,6 @@ selida.ready = function() {
 	selida.init();
 
 	selida.windowDOM.trigger('resize');
-	selida.fyiClear();
 
 	return selida;
 };
