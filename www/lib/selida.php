@@ -15,6 +15,7 @@ class Selida {
 
 		$server_name = $_SERVER["SERVER_NAME"];
 		switch ($server_name) {
+		case "tavladoros.site":
 		case "tavladoros.gr":
 			self::$base_url = "http://" . $server_name;
 			break;
