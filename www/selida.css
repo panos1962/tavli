@@ -1,0 +1,14 @@
+#welcome {
+	padding: 20px;
+	max-width: 50em;
+}
+
+#welcome div {
+	margin: 20px;
+	text-align: justify;
+}
+
+#prosoxi {
+	font-style: italic;
+	text-decoration: underline;
+}
