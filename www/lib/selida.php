@@ -136,7 +136,6 @@ TOOLBAR RIGHT
 </div>
 </div>
 <div id="fyi">
-FYI
 </div>
 <div id="ofelimo">
 <?php
