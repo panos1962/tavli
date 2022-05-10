@@ -11,6 +11,7 @@ body {
 
 	font-family: 'Roboto Condensed', sans-serif;
 	font-size: 20px;
+	background-color: beige;
 
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -25,6 +26,13 @@ body {
 	height: 24px;
 
 	background-color: gold;
+	border-style: none none solid none;
+	border-width: 2px;
+	border-color: grey;
+}
+
+#toolbar div {
+	height: 100%;
 }
 
 #toolbarLeft {
@@ -36,7 +44,6 @@ body {
 #toolbarCenter {
 	display: inline-block;
 	flex-basis: 0.02%;
-	height: 100%;
 	text-align: center;
 	white-space: nowrap;
 }
@@ -54,17 +61,32 @@ body {
 
 	padding: 4px;
 	background-color: salmon;
+
+	border-style: solid none none none;
+	border-width: 2px;
+	border-color: grey;
+}
+
+#ribbon div {
+	height: 100%;
 }
 
 #ribbonLeft {
 	display: inline-block;
-	flex-basis: 50%;
+	flex-basis: 49.99%;
 	text-align: left;
+}
+
+#ribbonCenter {
+	display: inline-block;
+	flex-basis: 0.02%;
+	text-align: center;
+	white-space: nowrap;
 }
 
 #ribbonRight {
 	display: inline-block;
-	flex-basis: 50%;
+	flex-basis: 49.99%;
 	text-align: right;
 }
 
@@ -75,19 +97,16 @@ body {
 	white-space: nowrap;
 	overflow: hidden;
 	font-style: italic;
-
-	background-color: #ffffb3;
-	border-style: solid;
-	border-width: 2px 0px 0px 0px;
-	border-color: grey;
 }
 
 .fyiMessage {
 	color: #003399;
+	background-color: #ffff9a !important;
 }
 
 .fyiError {
 	color: #ab1c1c;
+	background-color: #ffff9a !important;
 }
 
 .fyiLeft {
@@ -103,9 +122,4 @@ body {
 
 	padding: 0px;
 	overflow: hidden;
-
-	background-color: beige;
-	border-style: solid;
-	border-width: 2px 0px;
-	border-color: grey;
 }

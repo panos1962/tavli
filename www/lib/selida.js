@@ -36,6 +36,7 @@ selida.fixHeight = function() {
 
 	h -= selida.toolbarDOM.outerHeight(true);
 	h -= selida.ribbonDOM.outerHeight(true);
+console.log(selida.fyiDOM.outerHeight(true));
 	h -= selida.fyiDOM.outerHeight(true);
 
 	selida.ofelimoDOM.height(0);
@@ -82,7 +83,8 @@ selida.fyiPrint = function(msg, opts) {
 	selida.fyiDOM.addClass(cls);
 
 	selida.fyiDOM.text(msg);
-	selida.fyiTimer = setTimeout(selida.fyiClear, selida.fyiDuration);
+	selida.fyiTimer = setTimeout(selida.fyiClear,
+		opts.duration ? opts.duration : selida.fyiDuration);
 
 	return selida;
 }

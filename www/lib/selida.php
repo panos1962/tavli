@@ -160,6 +160,9 @@ TOOLBAR RIGHT
 <div id="ribbonLeft">
 RIBBON LEFT
 </div>
+<div id="ribbonCenter">
+RIBBON CENTER
+</div>
 <div id="ribbonRight">
 RIBBON RIGHT
 </div>
