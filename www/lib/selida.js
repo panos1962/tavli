@@ -2,6 +2,8 @@
 
 var selida = {};
 
+///////////////////////////////////////////////////////////////////////////////@
+
 selida.readyCount = 2;
 
 selida.ready = function() {
@@ -21,6 +23,8 @@ selida.ready = function() {
 	selida.init();
 
 	selida.windowDOM.trigger('resize');
+	selida.fyiClear();
+
 	return selida;
 };
 
@@ -41,3 +45,86 @@ selida.onResize = function() {
 
 	return selida;
 };
+
+///////////////////////////////////////////////////////////////////////////////@
+
+selida.fyiTimer = undefined;
+selida.fyiDuration = 5000;
+
+selida.fyiPrint = function(msg, opts) {
+	let cls = '';
+
+	if (selida.fyiTimer)
+	clearTimeout(selida.fyiTimer);
+
+	if (msg === undefined)
+	msg = 'Unknown error';
+
+	if (opts === undefined)
+	opts = {};
+
+	if (opts.idos)
+	cls = cls + ' fyi' + opts.idos;
+
+	if (opts.stixisi)
+	cls = cls + ' fyi' + opts.stixisi;
+
+	selida.fyiDOM.removeClass();
+
+	if (cls)
+	selida.fyiDOM.addClass(cls);
+
+	selida.fyiDOM.text(msg);
+	selida.fyiTimer = setTimeout(selida.fyiClear, selida.fyiDuration);
+
+	return selida;
+}
+
+selida.fyiMessageLeft = function(msg) {
+	selida.fyiPrint(msg, {
+		"idos": "Message",
+		"stixisi": "Left",
+	});
+
+	return selida;
+};
+
+selida.fyiMessageRight = function(msg) {
+	selida.fyiPrint(msg, {
+		"idos": "Message",
+		"stixisi": "Right",
+	});
+
+	return selida;
+};
+
+selida.fyiMessage = selida.fyiMessageLeft;
+
+selida.fyiErrorLeft = function(msg) {
+	selida.fyiPrint(msg, {
+		"idos": "Error",
+		"stixisi": "Left",
+	});
+
+	return selida;
+};
+
+selida.fyiErrorRight = function(msg) {
+	selida.fyiPrint(msg, {
+		"idos": "Error",
+		"stixisi": "Right",
+	});
+
+	return selida;
+};
+
+selida.fyiError = selida.fyiErrorLeft;
+
+selida.fyiClear = function() {
+	selida.fyiTimer = undefined;
+	selida.fyiDOM.removeClass().html('&#8203;');
+
+	return selida;
+};
+
+///////////////////////////////////////////////////////////////////////////////@

@@ -46,7 +46,7 @@ class Selida {
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <?php
-		self::javascript("/lib/commonStandard");
+		self::javascript("/lib/standardCommon");
 		self::stylesheet("/lib/selida");
 		self::javascript("/lib/selida");
 		self::stylesheet("selida");
@@ -127,8 +127,8 @@ TOOLBAR LEFT
 </div>
 <div id="toolbarCenter">
 <?php
-		self::toolbarCenterZari(0);
-		self::toolbarCenterZari(1);
+self::toolbarCenterZari(0);
+self::toolbarCenterZari(1);
 ?>
 </div>
 <div id="toolbarRight">
@@ -156,7 +156,12 @@ FYI
 ?>
 </div>
 <div id="ribbon">
-RIBBON
+<div id="ribbonLeft">
+RIBBON LEFT
+</div>
+<div id="ribbonRight">
+RIBBON RIGHT
+</div>
 </div>
 <?php
 		return __CLASS__;
