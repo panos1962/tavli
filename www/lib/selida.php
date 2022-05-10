@@ -145,7 +145,7 @@ FYI
 
 	private static function toolbarCenterZari($zari) {
 ?>
-<div style="display: inline-block;">
+<div style="display: inline-block; height: 100%;">
 <img src="<?php print Selida::$base_url; ?>/ikona/zari<?php
 	print $zari; ?>.png" style="height: 100%;">
 </div>

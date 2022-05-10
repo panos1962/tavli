@@ -30,6 +30,7 @@ body {
 #toolbarCenter {
 	display: inline-block;
 	flex-basis: 0.02%;
+	height: 100%;
 	text-align: center;
 	white-space: nowrap;
 }
