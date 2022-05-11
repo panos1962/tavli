@@ -1,1 +1,1 @@
-var globals = {};
+var Globals = {};

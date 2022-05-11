@@ -1,69 +1,94 @@
 "use strict";
 
-var selida = {};
-
 ///////////////////////////////////////////////////////////////////////////////@
 
 $(function() {
-	selida.windowDOM = $(window);
-	selida.bodyDOM = $(document.body);
+	Selida.windowDOM = $(window);
+	Selida.bodyDOM = $(document.body);
 
-	selida.toolbarDOM = $('#toolbar');
-	selida.ribbonDOM = $('#ribbon');
-	selida.fyiDOM = $('#fyi');
-	selida.ofelimoDOM = $('#ofelimo');
+	Selida.toolbarDOM = $('#toolbar');
+	Selida.ribbonDOM = $('#ribbon');
+	Selida.ribbonCenterDOM = $('#ribbonCenter');
+	Selida.fyiDOM = $('#fyi');
+	Selida.ofelimoDOM = $('#ofelimo');
 
-	if (selida.init)
-	selida.init();
+	Selida.ribbonSetup();
 
-	selida.windowDOM.on('resize', selida.fixHeight);
-	selida.windowDOM.trigger('resize');
+	if (Selida.init)
+	Selida.init();
 
-	setTimeout(selida.fixHeight, 100);
+	Selida.windowDOM.on('resize', Selida.fixHeight);
+	Selida.windowDOM.trigger('resize');
 
-	return selida;
+	setTimeout(Selida.fixHeight, 100);
+
+	return Selida;
 });
 
-selida.fixHeight = function() {
+Selida.fixHeight = function() {
 	let h;
 	let o;
 
-	selida.ofelimoDOM.css('height', '');
+	Selida.ofelimoDOM.css('height', '');
 
-	h = selida.windowDOM.innerHeight();
-	o = selida.ofelimoDOM.innerHeight();
+	h = Selida.windowDOM.innerHeight();
+	o = Selida.ofelimoDOM.innerHeight();
 
 
-	h -= selida.toolbarDOM.outerHeight(true);
-	h -= selida.ribbonDOM.outerHeight(true);
-console.log(selida.fyiDOM.outerHeight(true));
-	h -= selida.fyiDOM.outerHeight(true);
+	h -= Selida.toolbarDOM.outerHeight(true);
+	h -= Selida.ribbonDOM.outerHeight(true);
+	h -= Selida.fyiDOM.outerHeight(true);
 
-	selida.ofelimoDOM.height(0);
-	h -= selida.ofelimoDOM.outerHeight(true);
+	Selida.ofelimoDOM.height(0);
+	h -= Selida.ofelimoDOM.outerHeight(true);
 
-	if (selida.bodyDOM.css('overflow') === 'hidden')
-	selida.ofelimoDOM.height(h);
+	if (Selida.bodyDOM.css('overflow') === 'hidden')
+	Selida.ofelimoDOM.height(h);
 
 	else if (o < h)
-	selida.ofelimoDOM.height(h);
+	Selida.ofelimoDOM.height(h);
 
 	else
-	selida.ofelimoDOM.css('height', '');
+	Selida.ofelimoDOM.css('height', '');
 
-	return selida;
+	return Selida;
+};
+
+Selida.url = function(s) {
+	if (s.substr(0, 1) !== '/')
+	s = '/' + s;
+
+	return Selida.base_url + s;
+}
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.ribbonSetup = function() {
+	Selida.ribbonCenterDOM.
+	append(Selida.tab('<a href="' + Selida.url('xrisi') +
+		'" target="_blank">Όροι χρήσης</a>'));
+
+	return Selida;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-selida.fyiTimer = undefined;
-selida.fyiDuration = 5000;
+Selida.tab = function(html) {
+	return $('<div>').
+	addClass('tab').
+	html(html);
+}
 
-selida.fyiPrint = function(msg, opts) {
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.fyiTimer = undefined;
+Selida.fyiDuration = 5000;
+
+Selida.fyiPrint = function(msg, opts) {
 	let cls = '';
 
-	if (selida.fyiTimer)
-	clearTimeout(selida.fyiTimer);
+	if (Selida.fyiTimer)
+	clearTimeout(Selida.fyiTimer);
 
 	if (msg === undefined)
 	msg = 'Unknown error';
@@ -77,63 +102,63 @@ selida.fyiPrint = function(msg, opts) {
 	if (opts.stixisi)
 	cls = cls + ' fyi' + opts.stixisi;
 
-	selida.fyiDOM.removeClass();
+	Selida.fyiDOM.removeClass();
 
 	if (cls)
-	selida.fyiDOM.addClass(cls);
+	Selida.fyiDOM.addClass(cls);
 
-	selida.fyiDOM.text(msg);
-	selida.fyiTimer = setTimeout(selida.fyiClear,
-		opts.duration ? opts.duration : selida.fyiDuration);
+	Selida.fyiDOM.text(msg);
+	Selida.fyiTimer = setTimeout(Selida.fyiClear,
+		opts.duration ? opts.duration : Selida.fyiDuration);
 
-	return selida;
+	return Selida;
 }
 
-selida.fyiMessageLeft = function(msg) {
-	selida.fyiPrint(msg, {
+Selida.fyiMessageLeft = function(msg) {
+	Selida.fyiPrint(msg, {
 		"idos": "Message",
 		"stixisi": "Left",
 	});
 
-	return selida;
+	return Selida;
 };
 
-selida.fyiMessageRight = function(msg) {
-	selida.fyiPrint(msg, {
+Selida.fyiMessageRight = function(msg) {
+	Selida.fyiPrint(msg, {
 		"idos": "Message",
 		"stixisi": "Right",
 	});
 
-	return selida;
+	return Selida;
 };
 
-selida.fyiMessage = selida.fyiMessageLeft;
+Selida.fyiMessage = Selida.fyiMessageLeft;
 
-selida.fyiErrorLeft = function(msg) {
-	selida.fyiPrint(msg, {
+Selida.fyiErrorLeft = function(msg) {
+	Selida.fyiPrint(msg, {
 		"idos": "Error",
 		"stixisi": "Left",
 	});
 
-	return selida;
+	return Selida;
 };
 
-selida.fyiErrorRight = function(msg) {
-	selida.fyiPrint(msg, {
+Selida.fyiErrorRight = function(msg) {
+	Selida.fyiPrint(msg, {
 		"idos": "Error",
 		"stixisi": "Right",
 	});
 
-	return selida;
+	return Selida;
 };
 
-selida.fyiError = selida.fyiErrorLeft;
+Selida.fyiError = Selida.fyiErrorLeft;
 
-selida.fyiClear = function() {
-	selida.fyiTimer = undefined;
-	selida.fyiDOM.removeClass().html('&#8203;');
+Selida.fyiClear = function() {
+	Selida.fyiTimer = undefined;
+	Selida.fyiDOM.removeClass().html('&#8203;');
 
-	return selida;
+	return Selida;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

@@ -1,16 +1,16 @@
 "use strict";
 
-selida.init = function() {
+Selida.init = function() {
 	setTimeout(function() {
-		selida.fyiMessage('LEFT');
+		Selida.fyiMessage('LEFT');
 	}, 1000);
 	setTimeout(function() {
-		selida.fyiMessageRight('RIGHT');
+		Selida.fyiMessageRight('RIGHT');
 	}, 2000);
 	setTimeout(function() {
-		selida.fyiError('ERROR');
+		Selida.fyiError('ERROR');
 	}, 3000);
 	setTimeout(function() {
-		selida.fyiErrorRight('ERROR RIGHT');
+		Selida.fyiErrorRight('ERROR RIGHT');
 	}, 4000);
 };

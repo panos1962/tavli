@@ -1,7 +1,7 @@
 "use strict";
 
-selida.init = function() {
-	selida.fyiPrint(
+Selida.init = function() {
+	Selida.fyiPrint(
 		'Εγγραφείτε, ή εισέλθετε στον «Ταβλαδόρο» για να παίξετε τάβλι!',
 		{
 			"idos": "Message",

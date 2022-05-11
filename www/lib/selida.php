@@ -36,6 +36,7 @@ class Selida {
 
 	public static function head($titlos = "Τάβλι") {
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 <link rel="icon" type="image/svg+xml" href="<?php print self::$base_url; ?>/ikona/tavli.svg">
@@ -47,11 +48,8 @@ class Selida {
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <?php
-		self::javascript("/lib/standardCommon");
 		self::stylesheet("/lib/selida");
-		self::javascript("/lib/selida");
 		self::stylesheet("selida");
-		self::javascript("selida");
 
 		return __CLASS__;
 	}
@@ -65,6 +63,18 @@ class Selida {
 	}
 
 	public static function klisimo() {
+?>
+<script type="text/javascript">
+//<![CDATA[
+"use strict";
+var Selida = {};
+Selida.base_url = '<?php print self::$base_url; ?>';
+//]]>
+</script>
+<?php
+		self::javascript("/lib/standardCommon");
+		self::javascript("/lib/selida");
+		self::javascript("selida");
 ?>
 </body>
 </html>
@@ -161,7 +171,6 @@ TOOLBAR RIGHT
 RIBBON LEFT
 </div>
 <div id="ribbonCenter">
-RIBBON CENTER
 </div>
 <div id="ribbonRight">
 RIBBON RIGHT

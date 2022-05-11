@@ -1,0 +1,19 @@
+body {
+	overflow-y: scroll;
+}
+
+#xrisi {
+	padding: 20px;
+	max-width: 50em;
+}
+
+.xrisiParagrafos {
+	margin: 20px;
+	text-align: justify;
+}
+
+.xrisiTitlos {
+	font-size: 120%;
+	font-weight: bold;
+	text-decoration: underline;
+}

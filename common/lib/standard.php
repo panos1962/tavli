@@ -1,4 +1,6 @@
 <?php
+define("ILIKIA_MINIMUM", 18);
+
 class Globals {
 	private static $init_ok = FALSE;
 	public static $base_dir;
