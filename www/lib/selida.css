@@ -133,12 +133,12 @@ body {
 
 .tab:before {
 	content: '[';
-	padding-right: 2px;
+	padding-right: 4px;
 	color: #303030;
 }
 
 .tab:after {
 	content: ']';
-	padding-left: 2px;
+	padding-left: 4px;
 	color: #303030;
 }

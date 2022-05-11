@@ -63,6 +63,7 @@ class Selida {
 	}
 
 	public static function klisimo() {
+		self::javascript("/lib/standardCommon");
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -72,7 +73,6 @@ Selida.base_url = '<?php print self::$base_url; ?>';
 //]]>
 </script>
 <?php
-		self::javascript("/lib/standardCommon");
 		self::javascript("/lib/selida");
 		self::javascript("selida");
 ?>
