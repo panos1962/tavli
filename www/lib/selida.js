@@ -5,7 +5,6 @@
 $(function() {
 	Selida.windowDOM = $(window);
 	Selida.bodyDOM = $(document.body);
-
 	Selida.toolbarDOM = $('#toolbar');
 	Selida.toolbarLeftDOM = $('#toolbarLeft');
 	Selida.ribbonDOM = $('#ribbon');

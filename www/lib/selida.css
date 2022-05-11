@@ -18,6 +18,10 @@ body {
 	overflow-y: hidden;
 }
 
+input {
+	font-size: 16px;
+}
+
 #toolbar {
 	display: flex;
 	justify-content: space-between;
@@ -126,6 +130,7 @@ body {
 
 #ofelimo {
 	display: block;
+	position: relative;
 
 	padding: 0px;
 	overflow: hidden;
@@ -154,4 +159,48 @@ body {
 	color: darkblue;
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+.forma {
+	display: inline-block;
+	padding: 10px;
+	background-color: #f3f3c0;
+	border-style:solid;
+	border-width: 1px;
+	border-color: black;
+	border-radius: 5px;
+	box-shadow: 2px 2px 4px #888888;
+}
+
+.inputLine {
+	display: block;
+	white-space: nowrap;
+	font-style: italic;
+}
+
+.pedioPrompt {
+	display: inline-block;
+	padding: 4px 8px;
+	text-align: right;
+}
+
+.pedioPedio {
+	display: inline-block;
+	padding: 4px 8px;
+}
+
+.formaPanel {
+	display: inline-block;
+	padding-top: 8px;
+	white-space: nowrap;
+}
+
+.formaPliktro {
+	display: inline-block;
+	margin: 8px;
+	cursor: pointer;
+}
+
+.formaPliktro:hover {
+	text-shadow: 1px 0px 1px;
 }
