@@ -1,7 +1,7 @@
 <?php
 require_once("../lib/selida.php");
 
-Selida::head();
+Selida::head('Τάβλι - Όροι χρήσης');
 Selida::body();
 Selida::toolbar();
 ?>

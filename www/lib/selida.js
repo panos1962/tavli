@@ -7,19 +7,23 @@ $(function() {
 	Selida.bodyDOM = $(document.body);
 
 	Selida.toolbarDOM = $('#toolbar');
+	Selida.toolbarLeftDOM = $('#toolbarLeft');
 	Selida.ribbonDOM = $('#ribbon');
 	Selida.ribbonCenterDOM = $('#ribbonCenter');
+	Selida.ribbonRightDOM = $('#ribbonRight');
 	Selida.fyiDOM = $('#fyi');
 	Selida.ofelimoDOM = $('#ofelimo');
-
-	Selida.ribbonSetup();
 
 	if (Selida.init)
 	Selida.init();
 
-	Selida.windowDOM.on('resize', Selida.fixHeight);
-	Selida.windowDOM.trigger('resize');
+	Selida.bodySetup();
+	Selida.toolbarSetup();
+	Selida.ribbonSetup();
 
+	Selida.windowDOM.
+	on('resize', Selida.fixHeight);
+	Selida.windowDOM.trigger('resize');
 	setTimeout(Selida.fixHeight, 100);
 
 	return Selida;
@@ -54,29 +58,70 @@ Selida.fixHeight = function() {
 	return Selida;
 };
 
-Selida.url = function(s) {
-	if (s.substr(0, 1) !== '/')
-	s = '/' + s;
-
-	return Selida.base_url + s;
-}
-
 ///////////////////////////////////////////////////////////////////////////////@
 
-Selida.ribbonSetup = function() {
-	Selida.ribbonCenterDOM.
-	append(Selida.tab('<a href="' + Selida.url('xrisi') +
-		'" target="_blank">Όροι χρήσης</a>'));
+Selida.bodySetup = function() {
+	Selida.bodyDOM.on('click', '.linkTab', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		if ($(this).data('klisimo'))
+		return window.close();
+
+		let link = $(this).data('link');
+
+		if (!link)
+		return;
+
+		window.open(link);
+	});
 
 	return Selida;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Selida.tab = function(html) {
-	return $('<div>').
-	addClass('tab').
-	html(html);
+Selida.toolbarSetup = function() {
+	if (window.location.pathname !== '/tavli/')
+	Selida.toolbarLeftDOM.
+	prepend(Selida.tab({
+		'html': 'Κλείσιμο',
+		'klisimo': true,
+	}));
+
+	return Selida;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.ribbonSetup = function() {
+	Selida.ribbonCenterDOM.
+	prepend(Selida.tab({
+		'html': 'Όροι χρήσης',
+		'link': 'xrisi',
+	}));
+
+	return Selida;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.tab = function(opts) {
+	if (!opts.hasOwnProperty('html'))
+	throw new Error('undefined tab html');
+
+	let dom = $('<div>').addClass('tab').html(opts.html);
+
+	if (opts.title)
+	dom.prop('title', opts.title)
+
+	if (opts.klisimo)
+	dom.data('klisimo', true).addClass('linkTab');
+
+	else if (opts.link)
+	dom.data('link', Selida.url(opts.link)).addClass('linkTab');
+
+	return dom;
 }
 
 ///////////////////////////////////////////////////////////////////////////////@
@@ -160,5 +205,17 @@ Selida.fyiClear = function() {
 
 	return Selida;
 };
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.url = function(s) {
+	if (s.match(/https?:\/\//))
+	return s;
+
+	if (s.substr(0, 1) !== '/')
+	s = '/' + s;
+
+	return Selida.baseUrl + s;
+}
 
 ///////////////////////////////////////////////////////////////////////////////@

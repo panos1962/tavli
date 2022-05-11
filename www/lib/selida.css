@@ -91,6 +91,12 @@ body {
 	text-align: right;
 }
 
+#ribbonCopyright {
+	display: inline-block;
+	white-space: nowrap;
+	font-style: italic;
+}
+
 #fyi {
 	display: block;
 
@@ -141,4 +147,11 @@ body {
 	content: ']';
 	padding-left: 4px;
 	color: #303030;
+}
+
+.linkTab {
+	display: inline-block;
+	color: darkblue;
+	text-decoration: underline;
+	cursor: pointer;
 }

@@ -69,7 +69,7 @@ class Selida {
 //<![CDATA[
 "use strict";
 var Selida = {};
-Selida.base_url = '<?php print self::$base_url; ?>';
+Selida.baseUrl = '<?php print self::$base_url; ?>';
 //]]>
 </script>
 <?php
@@ -134,7 +134,6 @@ Selida.base_url = '<?php print self::$base_url; ?>';
 ?>
 <div id="toolbar">
 <div id="toolbarLeft">
-TOOLBAR LEFT
 </div>
 <div id="toolbarCenter">
 <?php
@@ -168,12 +167,12 @@ TOOLBAR RIGHT
 </div>
 <div id="ribbon">
 <div id="ribbonLeft">
-RIBBON LEFT
 </div>
 <div id="ribbonCenter">
 </div>
 <div id="ribbonRight">
-RIBBON RIGHT
+<div id="ribbonCopyright">
+&copy;Panos Papadopoulos 2022-
 </div>
 </div>
 <?php
