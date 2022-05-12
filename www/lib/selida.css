@@ -172,7 +172,7 @@ input {
 	box-shadow: 2px 2px 4px #888888;
 }
 
-.inputLine {
+.inputEnotita {
 	display: block;
 	white-space: nowrap;
 	font-style: italic;
@@ -182,6 +182,9 @@ input {
 	display: inline-block;
 	padding: 4px 8px;
 	text-align: right;
+}
+
+.promptAlign {
 }
 
 .pedioPedio {

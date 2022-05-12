@@ -2,11 +2,12 @@
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Selida.kickstart = function() {
+$(function() {
 	Selida.windowDOM = $(window);
 	Selida.bodyDOM = $(document.body);
 	Selida.toolbarDOM = $('#toolbar');
 	Selida.toolbarLeftDOM = $('#toolbarLeft');
+	Selida.toolbarRightDOM = $('#toolbarRight');
 	Selida.ribbonDOM = $('#ribbon');
 	Selida.ribbonCenterDOM = $('#ribbonCenter');
 	Selida.ribbonRightDOM = $('#ribbonRight');
@@ -26,7 +27,7 @@ Selida.kickstart = function() {
 	setTimeout(Selida.fixHeight, 100);
 
 	return Selida;
-};
+});
 
 Selida.fixHeight = function() {
 	let h;
@@ -72,7 +73,12 @@ Selida.bodySetup = function() {
 		if (!link)
 		return;
 
-		window.open(link);
+		let target = $(this).data('target');
+
+		if (!target)
+		target = Selida.tabTargetDefault;
+
+		window.open(link, target);
 	});
 
 	return Selida;
@@ -81,11 +87,17 @@ Selida.bodySetup = function() {
 ///////////////////////////////////////////////////////////////////////////////@
 
 Selida.toolbarSetup = function() {
-	if (window.location.pathname !== '/tavli/')
+	return Selida;
+};
+
+Selida.arxikiTab = function() {
 	Selida.toolbarLeftDOM.
-	prepend(Selida.tab({
+	prepend(Selida.tab(self.opener ? {
 		'html': 'Κλείσιμο',
 		'klisimo': true,
+	} : {
+		'html': 'Αρχική',
+		'link': Selida.baseUrl,
 	}));
 
 	return Selida;
@@ -98,12 +110,16 @@ Selida.ribbonSetup = function() {
 	prepend(Selida.tab({
 		'html': 'Όροι χρήσης',
 		'link': 'xrisi',
+		'target': self.location.pathname === '/tavli/xrisi/' ?
+			'_self' : '_blank',
 	}));
 
 	return Selida;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
+
+Selida.tabTargetDefault = '_self';
 
 Selida.tab = function(opts) {
 	if (!opts.hasOwnProperty('html'))
@@ -115,10 +131,18 @@ Selida.tab = function(opts) {
 	dom.prop('title', opts.title)
 
 	if (opts.klisimo)
-	dom.data('klisimo', true).addClass('linkTab');
+	return dom.data('klisimo', true).addClass('linkTab');
 
-	else if (opts.link)
-	dom.data('link', Selida.url(opts.link)).addClass('linkTab');
+	if (!opts.link)
+	return dom;
+
+	if (!opts.target)
+	opts.target = Selida.tabTargetDefault;
+
+	dom.
+	data('link', Selida.url(opts.link)).
+	data('target', opts.target).
+	addClass('linkTab');
 
 	return dom;
 }
@@ -219,6 +243,19 @@ Selida.url = function(s) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Selida.kickstart();
+Selida.promptAlign = function(flist) {
+	let w = 0;
 
-///////////////////////////////////////////////////////////////////////////////@
+	flist.each(function() {
+		let d = $(this).width();
+
+		if (d > w)
+		w = d;
+	});
+
+	flist.each(function() {
+		$(this).width(w);
+	});
+
+	return Selida;
+};
