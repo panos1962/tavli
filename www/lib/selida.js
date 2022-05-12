@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////@
 
 $(function() {
+console.log(self.location.pathname);
 	Selida.windowDOM = $(window);
 	Selida.bodyDOM = $(document.body);
 	Selida.toolbarDOM = $('#toolbar');

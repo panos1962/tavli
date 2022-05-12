@@ -178,7 +178,4 @@ self::toolbarCenterZari(1);
 }
 
 Selida::init();
-print ">>>>" . __FILE__ . "<<<<";
-print ">>>>" . Globals::$base_dir . "<<<<";
-print ">>>>" . Selida::$www_dir . "<<<<";
 ?>
