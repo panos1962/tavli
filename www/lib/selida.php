@@ -18,14 +18,14 @@ class Selida {
 		switch ($server_name) {
 		case "tavladoros.site":
 		case "tavladoros.gr":
-			self::$base_url = "http://" . $server_name;
-			self::$path_root = "/";
+			self::$path_root = "";
 			break;
 		default:
-			self::$base_url = "http://" . $server_name . "/tavli";
-			self::$path_root = "/tavli/";
+			self::$path_root = "/tavli";
 			break;
 		}
+
+		self::$base_url = "http://" . $server_name . self::$path_root;
 
 		if (isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
 			header("Location: " . self::$base_url);

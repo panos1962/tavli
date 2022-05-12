@@ -259,7 +259,12 @@ Selida.isSelida = function(selida) {
 	if (!self.location.hasOwnProperty('pathname'))
 	return false;
 
-	return (self.location.pathname === Selida.pathRoot + selida + '/');
+	if (selida.substr(0, 1) !== '/')
+	selida = '/' + selida;
+
+	selida = Selida.pathRoot + selida + '/';
+
+	return (self.location.pathname === selida);
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
