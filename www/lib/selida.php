@@ -6,6 +6,7 @@ class Selida {
 	private static $init_ok = FALSE;
 	public static $base_url;
 	public static $www_dir;
+	public static $path_root;
 
 	public static function init() {
 		if (self::$init_ok)
@@ -18,9 +19,11 @@ class Selida {
 		case "tavladoros.site":
 		case "tavladoros.gr":
 			self::$base_url = "http://" . $server_name;
+			self::$path_root = "/";
 			break;
 		default:
 			self::$base_url = "http://" . $server_name . "/tavli";
+			self::$path_root = "/tavli/";
 			break;
 		}
 
@@ -68,6 +71,7 @@ class Selida {
 "use strict";
 var Selida = {};
 Selida.baseUrl = '<?php print self::$base_url; ?>';
+Selida.pathRoot = '<?php print self::$path_root; ?>';
 //]]>
 </script>
 <?php

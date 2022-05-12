@@ -111,8 +111,7 @@ Selida.ribbonSetup = function() {
 	prepend(Selida.tab({
 		'html': 'Όροι χρήσης',
 		'link': 'xrisi',
-		'target': self.location.pathname === '/tavli/xrisi/' ?
-			'_self' : '_blank',
+		'target': Selida.isSelida('xrisi') ? '_self' : '_blank',
 	}));
 
 	return Selida;
@@ -241,6 +240,27 @@ Selida.url = function(s) {
 
 	return Selida.baseUrl + s;
 }
+
+Selida.isSelida = function(selida) {
+	// Για έλεγχο της αρχικής σελίδας δίνουμε:
+	//
+	//	Selida.isSelida('')
+	//
+	// ή καλύτερα:
+	//
+	//	Selida.isSelida()
+
+	if (selida === undefined)
+	selida = '';
+
+	if (!self.hasOwnProperty('location'))
+	return false;
+
+	if (!self.location.hasOwnProperty('pathname'))
+	return false;
+
+	return (self.location.pathname === Selida.pathRoot + selida + '/');
+};
 
 ///////////////////////////////////////////////////////////////////////////////@
 
