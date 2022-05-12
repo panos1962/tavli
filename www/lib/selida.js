@@ -3,7 +3,6 @@
 ///////////////////////////////////////////////////////////////////////////////@
 
 $(function() {
-console.log(self.location.pathname);
 	Selida.windowDOM = $(window);
 	Selida.bodyDOM = $(document.body);
 	Selida.toolbarDOM = $('#toolbar');
@@ -242,16 +241,8 @@ Selida.url = function(s) {
 }
 
 Selida.isSelida = function(selida) {
-	// Για έλεγχο της αρχικής σελίδας δίνουμε:
-	//
-	//	Selida.isSelida('')
-	//
-	// ή καλύτερα:
-	//
-	//	Selida.isSelida()
-
 	if (selida === undefined)
-	selida = '';
+	return false;
 
 	if (!self.hasOwnProperty('location'))
 	return false;
@@ -265,6 +256,10 @@ Selida.isSelida = function(selida) {
 	selida = Selida.pathRoot + selida + '/';
 
 	return (self.location.pathname === selida);
+};
+
+Selida.isArxiki = function() {
+	return Selida.isSelida('/');
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
