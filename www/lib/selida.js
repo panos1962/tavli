@@ -2,7 +2,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-$(function() {
+Selida.kickstart = function() {
 	Selida.windowDOM = $(window);
 	Selida.bodyDOM = $(document.body);
 	Selida.toolbarDOM = $('#toolbar');
@@ -26,7 +26,7 @@ $(function() {
 	setTimeout(Selida.fixHeight, 100);
 
 	return Selida;
-});
+};
 
 Selida.fixHeight = function() {
 	let h;
@@ -216,5 +216,9 @@ Selida.url = function(s) {
 
 	return Selida.baseUrl + s;
 }
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.kickstart();
 
 ///////////////////////////////////////////////////////////////////////////////@
