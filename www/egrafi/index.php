@@ -6,6 +6,10 @@ Selida::body();
 Selida::toolbar();
 ?>
 <form id="egrafiForma" class="forma">
+	<div class="formaTitlos">
+		Φόρμα εγγραφής
+	</div>
+
 	<div>
 		<div class="inputEnotita">
 			<div class="pedioPrompt promptAlign">Login</div>
@@ -18,6 +22,22 @@ Selida::toolbar();
 		<div class="inputEnotita">
 			<div class="pedioPrompt promptAlign">Email</div>
 			<input id="egrafiEmail" class="pedioInput">
+		</div>
+		<div class="inputEnotita">
+			<div class="pedioPrompt promptAlign">Ηλικία</div>
+			<input type="checkbox" id="egrafiIlikia" class="pedioInput">
+			<label for="egrafiIlikia">είμαι άνω των 18 ετών</label>
+		</div>
+		<div class="inputEnotita">
+			<div class="pedioPrompt promptAlign">
+				Όροι χρήσης
+			</div>
+			<div>
+				<input type="checkbox" id="egrafiXrisiDiavasa" class="pedioInput">
+				<label for="egrafiXrisiDiavasa">τους έχω διαβάσει</label><br>
+				<input type="checkbox" id="egrafiXrisiKatanoisa" class="pedioInput">
+				<label for="egrafiXrisiKatanoisa">τους έχω κατανοήσει</label>
+			</div>
 		</div>
 		<div class="inputEnotita">
 			<div class="pedioPrompt promptAlign">Κωδικός</div>

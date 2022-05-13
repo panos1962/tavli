@@ -87,12 +87,17 @@ Selida.bodySetup = function() {
 ///////////////////////////////////////////////////////////////////////////////@
 
 Selida.toolbarSetup = function() {
+	Selida.arxikiTab();
+
 	return Selida;
 };
 
 Selida.arxikiTab = function() {
+	if (Selida.isArxiki())
+	return Selida;
+
 	Selida.toolbarLeftDOM.
-	prepend(Selida.tab(self.opener ? {
+	prepend(Selida.tab(self.opener && (self.opener !== self.window) ? {
 		'html': 'Κλείσιμο',
 		'klisimo': true,
 	} : {
@@ -241,6 +246,7 @@ Selida.url = function(s) {
 }
 
 Selida.isSelida = function(selida) {
+console.log('>>' + selida + '<<');
 	if (selida === undefined)
 	return false;
 
@@ -253,12 +259,17 @@ Selida.isSelida = function(selida) {
 	if (selida.substr(0, 1) !== '/')
 	selida = '/' + selida;
 
-	selida = Selida.pathRoot + selida + '/';
+	if (selida.substr(-1, 1) !== '/')
+	selida += '/';
 
+	selida = Selida.pathRoot + selida;
+
+console.log(self.location.pathname, selida);
 	return (self.location.pathname === selida);
 };
 
 Selida.isArxiki = function() {
+console.log('@@@');
 	return Selida.isSelida('/');
 };
 
@@ -279,4 +290,29 @@ Selida.promptAlign = function(flist) {
 	});
 
 	return Selida;
+};
+
+Selida.formaAkiro = function(e, url) {
+	e.stopPropagation();
+	e.preventDefault();
+
+	if (self.opener && (self.opener !== self.window))
+	return self.close();
+
+	if (url === undefined)
+	url = Selida.baseUrl;
+
+	self.location = url;
+};
+
+Selida.formaSpotFocus = function() {
+	Selida.bodyDOM.on('focus', '.pedioInput', function(e) {
+		$(this).closest('.inputEnotita').
+		addClass('inputEnotitaFocus');
+	});
+
+	Selida.bodyDOM.on('blur', '.pedioInput', function(e) {
+		$(this).closest('.inputEnotita').
+		removeClass('inputEnotitaFocus');
+	});
 };

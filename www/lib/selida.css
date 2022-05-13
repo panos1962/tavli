@@ -22,6 +22,18 @@ input {
 	font-size: 16px;
 }
 
+/******************************************************************************/
+
+#ofelimo {
+	display: block;
+	position: relative;
+
+	padding: 0px;
+	overflow: hidden;
+}
+
+/******************************************************************************/
+
 #toolbar {
 	display: flex;
 	justify-content: space-between;
@@ -58,6 +70,8 @@ input {
 	flex-basis: 49.99%;
 	text-align: right;
 }
+
+/******************************************************************************/
 
 #ribbon {
 	display: flex;
@@ -101,6 +115,8 @@ input {
 	font-style: italic;
 }
 
+/******************************************************************************/
+
 #fyi {
 	display: block;
 
@@ -128,13 +144,7 @@ input {
 	text-align: right;
 }
 
-#ofelimo {
-	display: block;
-	position: relative;
-
-	padding: 0px;
-	overflow: hidden;
-}
+/******************************************************************************/
 
 .tab {
 	display: inline-block;
@@ -161,9 +171,11 @@ input {
 	cursor: pointer;
 }
 
+/******************************************************************************/
+
 .forma {
 	display: inline-block;
-	padding: 10px;
+	padding: 4px;
 	background-color: #f3f3c0;
 	border-style:solid;
 	border-width: 1px;
@@ -172,16 +184,42 @@ input {
 	box-shadow: 2px 2px 4px #888888;
 }
 
+.formaTitlos {
+	text-align: center;
+	padding-bottom: 8px;
+	font-size: 120%;
+	font-weight: bold;
+}
+
 .inputEnotita {
 	display: block;
+	padding: 2px 4px;
 	white-space: nowrap;
 	font-style: italic;
+	border-style: dotted;
+	border-width: 1px;
+	border-color: transparent;
+	border-radius: 4px;
+}
+
+.inputEnotita:hover {
+	border-color: #d7c982;
+}
+
+.inputEnotita > div {
+	display: inline-block;
+}
+
+.inputEnotitaFocus {
+	background-color: #fcffc9;
+	border-color: #d7c982;
 }
 
 .pedioPrompt {
 	display: inline-block;
-	padding: 4px 8px;
+	padding-right: 4px;
 	text-align: right;
+	vertical-align: top;
 }
 
 .promptAlign {
@@ -207,3 +245,5 @@ input {
 .formaPliktro:hover {
 	text-shadow: 1px 0px 1px;
 }
+
+/******************************************************************************/

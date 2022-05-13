@@ -3,6 +3,7 @@
 var Egrafi = {};
 
 Selida.init = function() {
+	Selida.formaSpotFocus();
 	Egrafi.formaDOM = $('#egrafiForma');
 	Egrafi.loginDOM = $('#egrafiLogin');
 	Egrafi.onomaDOM = $('#egrafiOnoma');
@@ -19,7 +20,6 @@ Selida.init = function() {
 
 	Egrafi.submitDOM.on('click', function(e) {
 		e.stopPropagation();
-		e.preventDefault();
 	});
 
 	Egrafi.resetDOM.on('click', function(e) {
@@ -28,15 +28,12 @@ Selida.init = function() {
 	});
 
 	Egrafi.cancelDOM.on('click', function(e) {
-		e.stopPropagation();
-
-		if (self.opener)
-		return self.close();
-
-		else
-		self.location = Selida.baseUrl;
+		Selida.formaAkiro(e);
 	});
 
-	Selida.arxikiTab();
+	Egrafi.formaDOM.on('submit', function(e) {
+		return false;
+	});
+
 	return Egrafi;
 };
