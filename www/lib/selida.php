@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if (!class_exists('Globals'))
 require_once(preg_replace("/\/lib\/selida\.php$/", "", __FILE__) . "/../common/lib/standard.php");
 
@@ -178,6 +180,19 @@ self::toolbarCenterZari(1);
 </div>
 <?php
 		return __CLASS__;
+	}
+
+	public static function is_xristis() {
+		if (!isset($_SESSION))
+		return FALSE;
+
+		if (!is_array($_SESSION))
+		return FALSE;
+
+		if (!array_key_exists("xristis", $_SESSION))
+		return FALSE;
+
+		return TRUE;
 	}
 }
 

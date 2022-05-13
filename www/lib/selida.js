@@ -246,7 +246,6 @@ Selida.url = function(s) {
 }
 
 Selida.isSelida = function(selida) {
-console.log('>>' + selida + '<<');
 	if (selida === undefined)
 	return false;
 
@@ -264,12 +263,10 @@ console.log('>>' + selida + '<<');
 
 	selida = Selida.pathRoot + selida;
 
-console.log(self.location.pathname, selida);
 	return (self.location.pathname === selida);
 };
 
 Selida.isArxiki = function() {
-console.log('@@@');
 	return Selida.isSelida('/');
 };
 
@@ -316,3 +313,14 @@ Selida.formaSpotFocus = function() {
 		removeClass('inputEnotitaFocus');
 	});
 };
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Selida.isXristis = function() {
+	if (Selida.hasOwnProperty('xristis'))
+	return false;
+
+	return Selida.xristis;
+};
+
+///////////////////////////////////////////////////////////////////////////////@

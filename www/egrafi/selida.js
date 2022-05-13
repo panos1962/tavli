@@ -20,6 +20,9 @@ Selida.init = function() {
 
 	Egrafi.submitDOM.on('click', function(e) {
 		e.stopPropagation();
+		e.preventDefault();
+
+		Egrafi.submit();
 	});
 
 	Egrafi.resetDOM.on('click', function(e) {
@@ -36,4 +39,39 @@ Selida.init = function() {
 	});
 
 	return Egrafi;
+};
+
+Egrafi.submit = function() {
+	if (Selida.isXristis())
+	Egrafi.enimerosi();
+
+	else
+	Egrafi.egrafi();
+
+	return Egrafi;
+};
+
+Egrafi.enimerosi = function() {
+	console.error('Δεν υπάρχει πρόγραμμα ενημέρωσης');
+
+	return Egrafi;
+};
+
+Egrafi.egrafi = function() {
+	$.post({
+		'url': 'egrafi.php',
+		'data': {
+			'login': 'xxx',
+			'onoma': 'dsfkjshdfhshkfhkshkf',
+		},
+		'datatype': 'json',
+		'success': function(rsp) {
+			self.location = Selida.baseUrl;
+		},
+		'error': function(err) {
+			Selida.fyiErrorRight('Απέτυχε η εγγραφή νέου παίκτη');
+		},
+	});
+
+
 };
