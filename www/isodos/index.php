@@ -8,7 +8,7 @@ Selida::toolbar();
 ?>
 <form id="isodosForma" class="forma">
 	<div class="formaTitlos">
-		Φόρμα εγγραφής
+		Φόρμα εισόδου
 	</div>
 
 	<div>
@@ -23,7 +23,7 @@ Selida::toolbar();
 	</div>
 
 	<div class="formaPanel">
-		<input id="isodosSubmit" type="submit" class="formaPliktro" value="Εγγραφή">
+		<input id="isodosSubmit" type="submit" class="formaPliktro" value="Είσοδος">
 		<input id="isodosReset" type="reset" class="formaPliktro" value="Καθαρισμός">
 		<input id="isodosCancel" type="button" class="formaPliktro" value="'Ακυρο">
 	</div>
