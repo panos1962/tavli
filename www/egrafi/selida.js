@@ -96,6 +96,7 @@ Egrafi.egrafi = function() {
 		},
 		'error': function(err) {
 			Selida.fyiErrorRight('Απέτυχε η εγγραφή νέου παίκτη');
+			console.error(err);
 		},
 	});
 };

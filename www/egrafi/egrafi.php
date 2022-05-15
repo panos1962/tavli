@@ -1,8 +1,7 @@
 <?php
 require_once("../lib/selida.php");
+Selida::unset_xristis();
 Selida::header_json();
-
-unset($_SESSION[SESSION_XRISTIS]);
 
 if ($error = Egrafi::invalid_data())
 Egrafi::return_error($error);

@@ -1,0 +1,25 @@
+#isodosForma {
+	position: absolute;
+	right: 40px;
+	top: 10px;
+}
+
+#isodosLogin {
+	width: 12em;
+}
+
+#isodosOnoma {
+	width: 16em;
+}
+
+#isodosEmail {
+	width: 16em;
+}
+
+#isodosKodikos1 {
+	width: 12em;
+}
+
+#isodosKodikos2 {
+	width: 12em;
+}

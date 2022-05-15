@@ -42,20 +42,24 @@ class Selida {
 		return __CLASS__;
 	}
 
+	public static function unset_xristis() {
+		self::$pektis = NULL;
+		unset($_SESSION[SESSION_XRISTIS]);
+		return __CLASS__;
+	}
+
 	private static function check_xristis() {
 		if (!isset($_SESSION))
-		return;
+		return __CLASS__;
 
 		if (!is_array($_SESSION))
-		return;
+		return __CLASS__;
 
 		if (!array_key_exists(SESSION_XRISTIS, $_SESSION))
-		return;
+		return __CLASS__;
 
-		if (!$_SESSION[SESSION_XRISTIS]) {
-			unset($_SESSION[SESSION_XRISTIS]);
-			return;
-		}
+		if (!$_SESSION[SESSION_XRISTIS])
+		return self::unset_xristis();
 
 		$query = "SELECT * FROM `pektis` WHERE `login` = " .
 			Globals::sql_string($_SESSION[SESSION_XRISTIS]);
@@ -64,10 +68,9 @@ class Selida {
 		$result->close();
 
 		if (self::$pektis)
-		return;
+		return __CLASS__;
 
-		self::$pektis = NULL;
-		unset($_SESSION[SESSION_XRISTIS]);
+		return self::unset_xristis();
 	}
 
 	public static function head($titlos = "Τάβλι") {
