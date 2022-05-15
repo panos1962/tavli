@@ -10,6 +10,7 @@ Globals.gramataMask = 'a-zA-Z' +
 Globals.akindinaMask = '!@#$%*._+=-';
 Globals.loginMask = '^[a-zA-Z][a-zA-Z0-9' + Globals.akindinaMask + ']*$';
 Globals.onomaMask = '^[' + Globals.gramataMask + '][0-9 ' + Globals.gramataMask + Globals.akindinaMask + ']*$';
+Globals.ilikiaMinimum = 18;
 
 Globals.validLogin = function(login) {
 	if (login === undefined)

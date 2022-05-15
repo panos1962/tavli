@@ -10,18 +10,37 @@ Selida.init = function() {
 		'target': '_blank',
 	});
 
-	Selida.tab({
-		'html': 'Εγγραφή',
-		'link': 'egrafi',
-		'target': '_self',
-	}).appendTo(Selida.toolbarRightDOM);
+	if (Selida.isXristis()) {
+		Selida.tab({
+			'html': Selida.xristis,
+			'link': 'egrafi',
+			'target': '_self',
+		}).appendTo(Selida.toolbarRightDOM);
+		Selida.tab({
+			'html': 'Έξοδος',
+			'link': '/lib/exodos.php',
+			'target': '_self',
+		}).appendTo(Selida.toolbarRightDOM);
+	}
 
-	Selida.fyiPrint(
-		'Εγγραφείτε, ή εισέλθετε στον «Ταβλαδόρο» για να παίξετε τάβλι!',
-		{
-			'idos': 'Message',
-			'stixisi': 'Right',
-			'duration': 10000
-		}
-	);
+	else {
+		Selida.tab({
+			'html': 'Εγγραφή',
+			'link': 'egrafi',
+			'target': '_self',
+		}).appendTo(Selida.toolbarRightDOM);
+		Selida.tab({
+			'html': 'Είσοδος',
+			'link': 'isodos',
+			'target': '_self',
+		}).appendTo(Selida.toolbarRightDOM);
+		Selida.fyiPrint(
+			'Εγγραφείτε, ή εισέλθετε στον «Ταβλαδόρο» για να παίξετε τάβλι!',
+			{
+				'idos': 'Message',
+				'stixisi': 'Right',
+				'duration': 10000
+			}
+		);
+	}
 };

@@ -317,10 +317,11 @@ Selida.formaSpotFocus = function() {
 ///////////////////////////////////////////////////////////////////////////////@
 
 Selida.isXristis = function() {
-	if (Selida.hasOwnProperty('xristis'))
-	return false;
-
 	return Selida.xristis;
+};
+
+Selida.oxiXristis = function() {
+	return !Selida.isXristis();
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

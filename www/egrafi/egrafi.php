@@ -7,15 +7,14 @@ unset($_SESSION[SESSION_XRISTIS]);
 if ($error = Egrafi::invalid_data())
 Egrafi::return_error($error);
 
-if (!Egrafi::insert_xristis())
-Egrafi::return_error();
+if ($error = Egrafi::xristis_exists())
+Egrafi::return_error($error);
+
+if ($error = Egrafi::insert_xristis_failed())
+Egrafi::return_error($error);
 
 $_SESSION[SESSION_XRISTIS] = $_POST["login"];
-
-print Globals::json_encode(array(
-	"login" => $_POST["login"],
-	"onoma"=> $_POST["onoma"]
-));
+print Globals::json_encode(array("login" => $_POST["login"]));
 
 class Egrafi {
 	public static function invalid_data() {
@@ -67,9 +66,33 @@ class Egrafi {
 			"pedio" => "kodikos2",
 			"minima" => "Οι δύο κωδικοί είναι διαφορετικοί"
 		);
+
+		return FALSE;
 	}
 
-	public static function insert_xristis() {
+	public static function xristis_exists() {
+		$found = FALSE;
+
+		$query = "SELECT 1 FROM `pektis` WHERE `login` = " .
+			Globals::sql_string($_POST["login"]);
+		$result = Globals::query($query);
+
+		while ($result->fetch_row())
+		$found = TRUE;
+
+		$result->close();
+
+		if ($found)
+		return array(
+			"pedio" => "login",
+			"minima" => "Υπάρχει ήδη χρήστης με το όνομα '" .
+				$_POST["login"] . "'"
+		);
+
+		return FALSE;
+	}
+
+	public static function insert_xristis_failed() {
 		$query = "INSERT INTO `pektis` (" .
 			"`login`, " .
 			"`onoma`, " .
@@ -84,15 +107,18 @@ class Egrafi {
 
 		Globals::query($query);
 
-		return (Globals::affected_rows() === 1);
+		if (Globals::affected_rows() === 1)
+		return FALSE;
+
+		return array(
+			"pedio" => "login",
+			"minima" => "Απέτυχε η εγγραφή του χρήστη '" .
+				Globals::sql_string($_POST["login"]) .
+				"' στην database"
+		);
 	}
 
-	public static function return_error($error = NULL) {
-		if (!isset($error))
-		$error = array(
-				"minima" => "Παρουσιάστηκε σφάλμα κατά την εισαγωγή χρήστη στην database"
-		);
-
+	public static function return_error($error) {
 		$error["error"] = 1;
 		print Globals::json_encode($error);
 		exit(0);

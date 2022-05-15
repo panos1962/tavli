@@ -10,6 +10,7 @@ class Selida {
 	public static $base_url;
 	public static $www_dir;
 	public static $path_root;
+	public static $pektis = NULL;
 
 	public static function init() {
 		if (self::$init_ok)
@@ -36,8 +37,37 @@ class Selida {
 		}
 
 		self::$www_dir = Globals::$base_dir . "/www";
+		self::check_xristis();
 
 		return __CLASS__;
+	}
+
+	private static function check_xristis() {
+		if (!isset($_SESSION))
+		return;
+
+		if (!is_array($_SESSION))
+		return;
+
+		if (!array_key_exists(SESSION_XRISTIS, $_SESSION))
+		return;
+
+		if (!$_SESSION[SESSION_XRISTIS]) {
+			unset($_SESSION[SESSION_XRISTIS]);
+			return;
+		}
+
+		$query = "SELECT * FROM `pektis` WHERE `login` = " .
+			Globals::sql_string($_SESSION[SESSION_XRISTIS]);
+		$result = Globals::query($query);
+		self::$pektis = $result->fetch_object();
+		$result->close();
+
+		if (self::$pektis)
+		return;
+
+		self::$pektis = NULL;
+		unset($_SESSION[SESSION_XRISTIS]);
 	}
 
 	public static function head($titlos = "Τάβλι") {
@@ -82,12 +112,20 @@ throw new Error('Globals.akindinaMask !== AKINDINA_MASK');
 if (Globals.loginMask !== '<?php print LOGIN_MASK; ?>')
 throw new Error('Globals.loginMask !== LOGIN_MASK');
 
-if (Globals.akindinaMask !== '<?php print AKINDINA_MASK ?>')
-throw new Error('Globals.akindinaMask !== AKINDINA_MASK');
+if (Globals.onomaMask !== '<?php print ONOMA_MASK ?>')
+throw new Error('Globals.onomaMask !== ONOMA_MASK');
 
 var Selida = {};
+
 Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
+Selida.xristis = <?php
+	if (self::is_xristis())
+	print "'" . self::$pektis->login . "'";
+
+	else
+	print "undefined";
+?>
 //]]>
 </script>
 <?php
@@ -221,16 +259,11 @@ self::toolbarCenterZari(1);
 	}
 
 	public static function is_xristis() {
-		if (!isset($_SESSION))
-		return FALSE;
+		return isset(self::$pektis);
+	}
 
-		if (!is_array($_SESSION))
-		return FALSE;
-
-		if (!array_key_exists(SESSION_XRISTIS, $_SESSION))
-		return FALSE;
-
-		return TRUE;
+	public static function oxi_xristis() {
+		return !self::is_xristis();
 	}
 }
 

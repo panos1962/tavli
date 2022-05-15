@@ -10,6 +10,9 @@ Selida.init = function() {
 	Egrafi.emailDOM = $('#egrafiEmail');
 	Egrafi.kodikos1DOM = $('#egrafiKodikos1');
 	Egrafi.kodikos2DOM = $('#egrafiKodikos2');
+	Egrafi.ilikiaDOM = $('#egrafiIlikia');
+	Egrafi.xrisiDiavasaDOM = $('#egrafiXrisiDiavasa');
+	Egrafi.xrisiKatanoisaDOM = $('#egrafiXrisiKatanoisa');
 
 	Egrafi.submitDOM = $('#egrafiSubmit');
 	Egrafi.resetDOM = $('#egrafiReset');
@@ -37,6 +40,14 @@ Selida.init = function() {
 	Egrafi.formaDOM.on('submit', function(e) {
 		return false;
 	});
+Egrafi.loginDOM.val('panos');
+Egrafi.onomaDOM.val('Panos Papadopoulos');
+Egrafi.emailDOM.val('xxx@xxx.xxx');
+Egrafi.kodikos1DOM.val('xxx');
+Egrafi.kodikos2DOM.val('xxx');
+Egrafi.ilikiaDOM.prop('checked', true);
+Egrafi.xrisiDiavasaDOM.prop('checked', true);
+Egrafi.xrisiKatanoisaDOM.prop('checked', true);
 
 	return Egrafi;
 };
@@ -78,6 +89,9 @@ Egrafi.egrafi = function() {
 			if (rsp.hasOwnProperty('pedio'))
 			Egrafi[rsp.pedio + 'DOM'].select();
 
+			if (!rsp.hasOwnProperty('minima'))
+			rsp.minima = 'Προέκυψε σφάλμα κατά την εγγραφή του χρήστη';
+
 			Selida.fyiErrorRight(rsp.minima);
 		},
 		'error': function(err) {
@@ -114,6 +128,25 @@ Egrafi.invalidData = function() {
 	if (Egrafi.kodikos1DOM.val() !== Egrafi.kodikos2DOM.val()) {
 		Selida.fyiErrorRight('Οι δύο κωδικοί διαφέρουν');
 		Egrafi.kodikos1DOM.select();
+		return true;
+	}
+
+	if (!Egrafi.ilikiaDOM.prop('checked')) {
+		Selida.fyiErrorRight('Πρέπει να είστε άνω των ' +
+			Globals.ilikiaMinimum + ' ετών');
+		Egrafi.ilikiaDOM.focus();
+		return true;
+	}
+
+	if (!Egrafi.xrisiDiavasaDOM.prop('checked')) {
+		Selida.fyiErrorRight('Πρέπει να έχετε διαβάσει τους όρους χρήσης');
+		Egrafi.xrisiDiavasaDOM.focus();
+		return true;
+	}
+
+	if (!Egrafi.xrisiKatanoisaDOM.prop('checked')) {
+		Selida.fyiErrorRight('Πρέπει να έχετε κατανοήσει τους όρους χρήσης');
+		Egrafi.xrisiKatanoisaDOM.focus();
 		return true;
 	}
 

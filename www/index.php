@@ -6,10 +6,10 @@ Selida::body();
 Selida::toolbar();
 
 if (Selida::is_xristis())
-print "SJDGJSHGDJS";
+require_once("eponimo.php");
 
 else
-require_once('anonimo.html');
+require_once("anonimo.html");
 
 Selida::ribbon();
 Selida::klisimo();
