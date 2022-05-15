@@ -1,4 +1,5 @@
 <?php
+define("SESSION_XRISTIS", "xristis");
 session_start();
 
 if (!class_exists('Globals'))
@@ -71,6 +72,19 @@ class Selida {
 <script type="text/javascript">
 //<![CDATA[
 "use strict";
+
+if (Globals.gramataMask !== '<?php print GRAMATA_MASK; ?>')
+throw new Error('Globals.gramataMask !== GRAMATA_MASK');
+
+if (Globals.akindinaMask !== '<?php print AKINDINA_MASK ?>')
+throw new Error('Globals.akindinaMask !== AKINDINA_MASK');
+
+if (Globals.loginMask !== '<?php print LOGIN_MASK; ?>')
+throw new Error('Globals.loginMask !== LOGIN_MASK');
+
+if (Globals.akindinaMask !== '<?php print AKINDINA_MASK ?>')
+throw new Error('Globals.akindinaMask !== AKINDINA_MASK');
+
 var Selida = {};
 Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
@@ -182,6 +196,30 @@ self::toolbarCenterZari(1);
 		return __CLASS__;
 	}
 
+	public static function header_json() {
+		header('Content-Type: application/json; charset=utf-8');
+	}
+
+	public static function is_post($param) {
+		if (!isset($param))
+		return FALSE;
+
+		if (!isset($_POST))
+		return FALSE;
+
+		if (!is_array($_POST))
+		return FALSE;
+
+		if (!array_key_exists($param, $_POST))
+		return FALSE;
+
+		return TRUE;
+	}
+
+	public static function oxi_post($param) {
+		return !self::is_post($param, $_POST);
+	}
+
 	public static function is_xristis() {
 		if (!isset($_SESSION))
 		return FALSE;
@@ -189,7 +227,7 @@ self::toolbarCenterZari(1);
 		if (!is_array($_SESSION))
 		return FALSE;
 
-		if (!array_key_exists("xristis", $_SESSION))
+		if (!array_key_exists(SESSION_XRISTIS, $_SESSION))
 		return FALSE;
 
 		return TRUE;
