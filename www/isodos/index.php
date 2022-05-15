@@ -17,22 +17,6 @@ Selida::toolbar();
 			<input id="isodosLogin" class="pedioInput">
 		</div>
 		<div class="inputEnotita">
-			<div class="pedioPrompt promptAlign">Ηλικία</div>
-			<input type="checkbox" id="isodosIlikia" class="pedioInput" checked="yes">
-			<label for="isodosIlikia">είμαι άνω των 18 ετών</label>
-		</div>
-		<div class="inputEnotita">
-			<div class="pedioPrompt promptAlign">
-				Όροι χρήσης
-			</div>
-			<div>
-				<input type="checkbox" id="isodosXrisiDiavasa" class="pedioInput" checked="yes">
-				<label for="isodosXrisiDiavasa">τους έχω διαβάσει</label><br>
-				<input type="checkbox" id="isodosXrisiKatanoisa" class="pedioInput" checked="yes">
-				<label for="isodosXrisiKatanoisa">τους έχω κατανοήσει</label>
-			</div>
-		</div>
-		<div class="inputEnotita">
 			<div class="pedioPrompt promptAlign">Κωδικός</div>
 			<input id="isodosKodikos" class="pedioInput" type="password">
 		</div>

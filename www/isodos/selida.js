@@ -7,9 +7,6 @@ Selida.init = function() {
 	Isodos.formaDOM = $('#isodosForma');
 	Isodos.loginDOM = $('#isodosLogin');
 	Isodos.kodikosDOM = $('#isodosKodikos');
-	Isodos.ilikiaDOM = $('#isodosIlikia');
-	Isodos.xrisiDiavasaDOM = $('#isodosXrisiDiavasa');
-	Isodos.xrisiKatanoisaDOM = $('#isodosXrisiKatanoisa');
 
 	Isodos.submitDOM = $('#isodosSubmit');
 	Isodos.resetDOM = $('#isodosReset');
@@ -86,25 +83,6 @@ Isodos.invalidData = function() {
 	if (Isodos.kodikosDOM.val() === '') {
 		Selida.fyiErrorRight('Μη αποδεκτός κωδικός');
 		Isodos.kodikosDOM.select();
-		return true;
-	}
-
-	if (!Isodos.ilikiaDOM.prop('checked')) {
-		Selida.fyiErrorRight('Πρέπει να είστε άνω των ' +
-			Globals.ilikiaMinimum + ' ετών');
-		Isodos.ilikiaDOM.focus();
-		return true;
-	}
-
-	if (!Isodos.xrisiDiavasaDOM.prop('checked')) {
-		Selida.fyiErrorRight('Πρέπει να έχετε διαβάσει τους όρους χρήσης');
-		Isodos.xrisiDiavasaDOM.focus();
-		return true;
-	}
-
-	if (!Isodos.xrisiKatanoisaDOM.prop('checked')) {
-		Selida.fyiErrorRight('Πρέπει να έχετε κατανοήσει τους όρους χρήσης');
-		Isodos.xrisiKatanoisaDOM.focus();
 		return true;
 	}
 

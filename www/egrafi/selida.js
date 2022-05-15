@@ -40,14 +40,6 @@ Selida.init = function() {
 	Egrafi.formaDOM.on('submit', function(e) {
 		return false;
 	});
-Egrafi.loginDOM.val('panos');
-Egrafi.onomaDOM.val('Panos Papadopoulos');
-Egrafi.emailDOM.val('xxx@xxx.xxx');
-Egrafi.kodikos1DOM.val('xxx');
-Egrafi.kodikos2DOM.val('xxx');
-Egrafi.ilikiaDOM.prop('checked', true);
-Egrafi.xrisiDiavasaDOM.prop('checked', true);
-Egrafi.xrisiKatanoisaDOM.prop('checked', true);
 
 	return Egrafi;
 };
