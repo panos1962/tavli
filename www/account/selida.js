@@ -107,8 +107,12 @@ Account.enimerosi = function() {
 		},
 		'datatype': 'json',
 		'success': function(rsp) {
-			if (!rsp.hasOwnProperty('error'))
-			return (self.location = Selida.baseUrl);
+			if (!rsp.hasOwnProperty('error')) {
+				Selida.fyiMessageRight('Ενημέρωση στοιχείων χρήστη επιτυχής!');
+				self.close();
+				self.location = Selida.baseUrl;
+				return;
+			}
 
 			if (rsp.hasOwnProperty('pedio'))
 			Account[rsp.pedio + 'DOM'].select();

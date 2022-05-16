@@ -14,7 +14,7 @@ Selida.init = function() {
 		Selida.tab({
 			'html': Selida.xristis,
 			'link': 'account',
-			'target': '_self',
+			'target': '_blank',
 		}).appendTo(Selida.toolbarRightDOM);
 		Selida.tab({
 			'html': 'Έξοδος',
