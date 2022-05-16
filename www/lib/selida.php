@@ -118,13 +118,16 @@ throw new Error('Globals.loginMask !== LOGIN_MASK');
 if (Globals.onomaMask !== '<?php print ONOMA_MASK ?>')
 throw new Error('Globals.onomaMask !== ONOMA_MASK');
 
+if (Globals.emailMask !== '<?php print EMAIL_MASK ?>')
+throw new Error('Globals.emailMask !== EMAIL_MASK');
+
 var Selida = {};
 
 Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
 Selida.xristis = <?php
 	if (self::is_xristis())
-	print "'" . self::$pektis->login . "'";
+	print "'" . self::$pektis->login . "';";
 
 	else
 	print "undefined";

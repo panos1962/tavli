@@ -13,7 +13,7 @@ Selida.init = function() {
 	if (Selida.isXristis()) {
 		Selida.tab({
 			'html': Selida.xristis,
-			'link': 'egrafi',
+			'link': 'account',
 			'target': '_self',
 		}).appendTo(Selida.toolbarRightDOM);
 		Selida.tab({
@@ -26,7 +26,7 @@ Selida.init = function() {
 	else {
 		Selida.tab({
 			'html': 'Εγγραφή',
-			'link': 'egrafi',
+			'link': 'account',
 			'target': '_self',
 		}).appendTo(Selida.toolbarRightDOM);
 		Selida.tab({

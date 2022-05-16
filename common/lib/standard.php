@@ -9,6 +9,7 @@ define("GRAMATA_MASK", "a-zA-Z" .
 define("AKINDINA_MASK", "!@#$%*._+=-");
 define("LOGIN_MASK", "^[a-zA-Z][a-zA-Z0-9" . AKINDINA_MASK . "]*$");
 define("ONOMA_MASK", "^[" . GRAMATA_MASK . "][0-9 " . GRAMATA_MASK . AKINDINA_MASK . "]*$");
+define("EMAIL_MASK", "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$");
 
 class Globals {
 	private static $init_ok = FALSE;
@@ -96,7 +97,7 @@ class Globals {
 		if (!isset($email))
 		return FALSE;
 
-		return filter_var($email, FILTER_VALIDATE_EMAIL);
+		return preg_match("/" . EMAIL_MASK . "/", $email);
 	}
 
 	public static function invalid_email($email) {

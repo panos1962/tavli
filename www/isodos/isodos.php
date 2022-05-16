@@ -38,8 +38,9 @@ class Isodos {
 	public static function oxi_xristis() {
 		$found = FALSE;
 
-		$query = "SELECT 1 FROM `pektis` WHERE `login` = " .
-			Globals::sql_string($_POST["login"]);
+		$query = "SELECT 1 FROM `pektis` WHERE " .
+			"(`login` = " . Globals::sql_string($_POST["login"]) . ") AND " .
+			"(`kodikos` = " . Globals::sql_string(sha1($_POST["kodikos"])) . ")";
 		$result = Globals::query($query);
 
 		while ($result->fetch_row())

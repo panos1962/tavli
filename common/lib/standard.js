@@ -10,6 +10,7 @@ Globals.gramataMask = 'a-zA-Z' +
 Globals.akindinaMask = '!@#$%*._+=-';
 Globals.loginMask = '^[a-zA-Z][a-zA-Z0-9' + Globals.akindinaMask + ']*$';
 Globals.onomaMask = '^[' + Globals.gramataMask + '][0-9 ' + Globals.gramataMask + Globals.akindinaMask + ']*$';
+Globals.emailMask = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$';
 Globals.ilikiaMinimum = 18;
 
 Globals.validLogin = function(login) {
@@ -47,7 +48,7 @@ Globals.validEmail = function(email) {
 	if (typeof(email) !== 'string')
 	return false;
 
-	return email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+	return email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/);
 };
 
 Globals.invalidEmail = function(email) {
