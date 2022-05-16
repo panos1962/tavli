@@ -55,6 +55,7 @@ Selida.fixHeight = function() {
 	else
 	Selida.ofelimoDOM.css('height', '');
 
+	Selida.ribbonDOM.css('visibility', 'visible');
 	return Selida;
 };
 
