@@ -1,6 +1,20 @@
 <?php
-define("SESSION_XRISTIS", "xristis");
+// Το παρίν αρχείο ορίζει το singleton "Selida" που χρησιμοποιείται σε όλα τα
+// PHP προγράμματα που καλούνται από τον web server (apache, nginx κλπ).
+
+// Χρησιμοποιούμε cookies για την αποθήκευση κυρίως του login name του χρήστη,
+// επομένως ενεργοποιούμε το PHP session cookie.
+
 session_start();
+
+// Το login name του χρήστη που εκτελεί τα προγράμματα κρατείται στο session
+// item με tag "xristis", οπότε ορίζουμε το εν λόγω tag ως συμβολική σταθερά.
+
+define("SESSION_XRISTIS", "xristis");
+
+// Στα προγράμματα που συμπεριλαμβάνουμε το ανά χείρας αρχείο, δεν χρειάζεται
+// να συμπεριλαμβάνουμε χωριστά τη βασική βιβλιοθήκη (common/lib/standard.php)
+// καθώς τη συμπεριλαμβάνουμε εμμέσως σε αυτό το σημείο.
 
 if (!class_exists('Globals'))
 require_once(preg_replace("/\/lib\/selida\.php$/", "", __FILE__) . "/../common/lib/standard.php");

@@ -113,15 +113,26 @@ class Globals {
 		self::fatal($dbconf_file . ": configuration error");
 
 		// Επιχειρούμε τώρα τη σύνδεση με την database της εφαρμογής.
-// XXX
+
 		self::$db = new mysqli("localhost", $dbconf->dbuser,
 			$dbconf->dbpass, $dbconf->dbname);
 
-		$charset = "utf8mb4";
+		if (self::$db->connect_errno)
+		self::fatal("database connection error");
 
-		if (!self::$db->set_charset($charset))
-		self::fatal($charset . ": cannot set character set");
+		// Θέτουμε το database character set (encoding).
+
+		$charset = "utf8mb4";
+		self::$db->set_charset($charset);
+
+		if (self::$db->errno)
+		self::fatal($charset . ": cannot set database character set");
 	}
+
+	// Η function "query" δέχεται ως παράμετρο ένα SQL query και
+	// επιχειρεί να το εκτελέσει. Επιστρέφει το αποτέλεσμα το οποίο
+	// μπορούμε να το διαχειρστούμε αργότερα. Σε περίπτωση αδυναμίας
+	// εκτέλεσης του query το πρόγραμμα σταματά.
 
 	public static function query($query) {
 		$result = self::$db->query($query, MYSQLI_USE_RESULT);
@@ -132,13 +143,29 @@ class Globals {
 		return $result;
 	}
 
+	// Η function "affected_rows" επιστρέφει το πλήθος των affected
+	// rows μετά την εκτέλεση κάποιου query.
+
 	public static function affected_rows() {
 		return self::$db->affected_rows;
 	}
 
+	// Η function "sql_string" δέχεται ένα string και το επιστρέφει
+	// έτσι ώστε να μπορεί να ενταχθεί σε SQL script. Ως δεύτερη
+	// παράμετρο μπορούμε να περάσουμε το quote character το οποίο
+	// by default είναι το single quote. Αν επιθυμούμε να επιστραφεί
+	// το string χωρίς τα εξωτερικά quotes, μπορούμε να περάσουμε
+	// ως δεύτερη παράμετρο FALSE ή το κενό string.
+
 	public static function sql_string($s, $quote = "'") {
+		if ($quote === FALSE)
+		$quote = "";
+
 		return $quote . self::$db->real_escape_string($s) . $quote;
 	}
+
+	// Ακολουθούν function ελέγχου ορθότητας διαφόρων πραγμάτων, π.χ.
+	// login names, emails κλπ.
 
 	public static function valid_login($login) {
 		if (!isset($login))
@@ -173,9 +200,15 @@ class Globals {
 		return (!self::valid_email($email));
 	}
 
+	// Η function "json_encode" δέχεται ως παράμετρο ένα string και
+	// το επιστρέφει έτσι ώστε να μπορεί να ενταχθεί σε json objects.
+
 	public static function json_encode($x) {
 		return json_encode($x, JSON_UNESCAPED_UNICODE);
 	}
+
+	// Η function "fatal" δέχεται ως παράμετρο ένα μήνυμα λάθους το
+	// οποίο εκτυπώνει και διακόπτει το πρόγραμμα με exit status 2.
 
 	public static function fatal($msg) {
 		if (!$msg)
@@ -185,6 +218,10 @@ class Globals {
 		exit(2);
 	}
 }
+
+// Στο σημείο αυτό εκτελούμε την "init" function και αυτό συμβαίνει σε όλα
+// τα προγράμματα εφόσον έχει συμπεριληφθεί, άμεσα ή έμμεσα, το ανά χείρας
+// αρχείο.
 
 Globals::init();
 ?>
