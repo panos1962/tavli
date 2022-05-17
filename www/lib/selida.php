@@ -69,10 +69,10 @@ class Selida {
 
 	public static $www_dir;
 
-	// Η μεταβλητή "pektis" περιέχει τον παίκτη που τρέχει το πρόγραμμα
-	// εφόσον ο παίκτης έχει εισέλθει στην εφαρμογή.
+	// Η μεταβλητή "xristis" περιέχει το login name του παίκτη που τρέχει
+	// το πρόγραμμα, εφόσον ο χρήστης έχει εισέλθει στην εφαρμογή.
 
-	public static $pektis = NULL;
+	public static $xristis = NULL;
 
 	public static function init() {
 		if (self::$init_ok)
@@ -99,37 +99,33 @@ class Selida {
 		}
 
 		self::$www_dir = Globals::$base_dir . "/www";
-		self::check_xristis();
+		self::xristis_check();
 
 		return __CLASS__;
 	}
 
-	private static function check_xristis() {
+	private static function xristis_check() {
 		if (!isset($_SESSION))
 		fatal("no session");
 
 		if (!is_array($_SESSION))
 		fatal("_SESSION: not an array");
 
-		if (!array_key_exists(SESSION_XRISTIS, $_SESSION)) {
-			self::$pektis = NULL;
-			return __CLASS__;
-		}
+		if (!array_key_exists(SESSION_XRISTIS, $_SESSION))
+		return self::xristis_unset();
 
 		if (!$_SESSION[SESSION_XRISTIS])
-		return self::unset_xristis();
+		return self::xristis_unset();
 
-		self::$pektis = new Pektis($_SESSION[SESSION_XRISTIS]);
+		self::$xristis = $_SESSION[SESSION_XRISTIS];
 
-		if (self::$pektis->is_pektis())
 		return __CLASS__;
-
-		return self::unset_xristis();
 	}
 
-	public static function unset_xristis() {
-		self::$pektis = NULL;
+	public static function xristis_unset() {
+		self::$xristis = NULL;
 		unset($_SESSION[SESSION_XRISTIS]);
+
 		return __CLASS__;
 	}
 
@@ -187,7 +183,7 @@ Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
 Selida.xristis = <?php
 	if (self::is_xristis())
-	print "'" . self::$pektis->login . "';";
+	print "'" . self::$xristis . "';";
 
 	else
 	print "undefined";
@@ -325,7 +321,7 @@ self::toolbarCenterZari(1);
 	}
 
 	public static function is_xristis() {
-		return isset(self::$pektis);
+		return isset(self::$xristis);
 	}
 
 	public static function oxi_xristis() {

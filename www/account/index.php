@@ -4,6 +4,7 @@ require_once("../lib/selida.php");
 Selida::head();
 Selida::body();
 Selida::toolbar();
+Account::xristis_check();
 ?>
 <form id="accountForma" class="forma">
 	<div class="formaTitlos">
@@ -17,19 +18,19 @@ print (Selida::is_xristis() ? "Ενημέρωση στοιχείων" : "Φόρ�
 			<div class="pedioPrompt promptAlign">Login</div>
 			<input id="accountLogin" class="pedioInput" value="<?php
 if (Selida::is_xristis())
-print Selida::$pektis->login; ?>">
+print Account::$pektis->login; ?>">
 		</div>
 		<div class="inputEnotita">
 			<div class="pedioPrompt promptAlign">Ονοματεπώνυμο</div>
 			<input id="accountOnoma" class="pedioInput" value="<?php
 if (Selida::is_xristis())
-print Selida::$pektis->onoma; ?>">
+print Account::$pektis->onoma; ?>">
 		</div>
 		<div class="inputEnotita">
 			<div class="pedioPrompt promptAlign">Email</div>
 			<input id="accountEmail" class="pedioInput" value="<?php
 if (Selida::is_xristis())
-print Selida::$pektis->email; ?>">
+print Account::$pektis->email; ?>">
 		</div>
 <?php
 if (Selida::is_xristis()) {
@@ -87,4 +88,21 @@ print (Selida::is_xristis() ? "Ενημέρωση" : "Εγγραφή");
 <?php
 Selida::ribbon();
 Selida::klisimo();
+
+class Account {
+	public static $pektis = NULL;
+
+	public static function xristis_check() {
+		if (Selida::oxi_xristis())
+		return __CLASS__;
+
+		self::$pektis = new Pektis(Selida::$xristis);
+
+		if (self::$pektis->is_pektis())
+		return __CLASS__;
+
+		self::$pektis = NULL;
+		Selida::xristis_unset();
+	}
+}
 ?>

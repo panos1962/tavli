@@ -1,41 +1,43 @@
 <?php
 require_once("../lib/selida.php");
-Selida::unset_xristis();
+Selida::xristis_unset();
 Selida::header_json();
 
-if ($error = Isodos::invalid_data())
-Isodos::return_error($error);
+Isodos::data_check();
+Isodos::error_check();
 
-if ($error = Isodos::oxi_xristis())
-Isodos::return_error($error);
+Isodos::xristis_check();
+Isodos::error_check();
 
 $_SESSION[SESSION_XRISTIS] = $_POST["login"];
 print Globals::json_encode(array("login" => $_POST["login"]));
 
 class Isodos {
-	public static function invalid_data() {
+	public static $error = NULL;
+
+	public static function data_check() {
 		if (Selida::oxi_post("login"))
-		return array(
+		return self::error_set([
 			"pedio" => "login",
 			"minima" => "Δεν περάστηκε login name χρήστη"
-		);
+		]);
 
 		if (Globals::invalid_login($_POST["login"]))
-		return array(
+		return self::error_set([
 			"pedio" => "login",
 			"minima" => "Μη αποδεκτό login name χρήστη"
-		);
+		]);
 
 		if (Selida::oxi_post("kodikos"))
-		return array(
+		return self::error_set([
 			"pedio" => "kodikos",
 			"minima" => "Δεν περάστηκε κωδικός χρήστη"
-		);
+		]);
 
-		return FALSE;
+		return __CLASS__;
 	}
 
-	public static function oxi_xristis() {
+	public static function xristis_check() {
 		$found = FALSE;
 
 		$query = "SELECT 1 FROM `pektis` WHERE " .
@@ -49,17 +51,26 @@ class Isodos {
 		$result->close();
 
 		if ($found)
-		return FALSE;
+		return __CLASS__;
 
-		return array(
+		return self::error_set([
 			"pedio" => "login",
 			"minima" => "Login failed",
-		);
+		]);
 	}
 
-	public static function return_error($error) {
+	public static function error_set($error) {
 		$error["error"] = 1;
-		print Globals::json_encode($error);
+		self::$error = $error;
+
+		return __CLASS__;
+	}
+
+	public static function error_check() {
+		if (!isset(self::$error))
+		return;
+
+		print Globals::json_encode(self::$error);
 		exit(0);
 	}
 }

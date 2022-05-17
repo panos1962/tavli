@@ -1,7 +1,7 @@
 <?php
 require_once("../lib/selida.php");
 
-Selida::unset_xristis();
+Selida::xristis_unset();
 Selida::head();
 Selida::body();
 Selida::toolbar();
