@@ -1,6 +1,6 @@
 <?php
 require_once("../lib/selida.php");
-Selida::header_json();
+Selida::content_json();
 
 Account::data_check();
 Account::error_check();

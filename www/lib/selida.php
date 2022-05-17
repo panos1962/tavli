@@ -296,10 +296,6 @@ self::toolbarCenterZari(1);
 		return __CLASS__;
 	}
 
-	public static function header_json() {
-		header('Content-Type: application/json; charset=utf-8');
-	}
-
 	public static function is_post($param) {
 		if (!isset($param))
 		return FALSE;
@@ -326,6 +322,14 @@ self::toolbarCenterZari(1);
 
 	public static function oxi_xristis() {
 		return !self::is_xristis();
+	}
+
+	public static function content_text() {
+		header('Content-Type: text/html; charset=utf-8');
+	}
+
+	public static function content_json() {
+		header('Content-Type: application/json; charset=utf-8');
 	}
 }
 

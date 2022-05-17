@@ -48,8 +48,17 @@ Selida.init = function() {
 		Selida.formaAkiro(e);
 	});
 
+	// Κατά την πληκτρολόγηση του login name δείχνουμε με κόκκινο χρώμα
+	// login names που ήδη είναι καταχωρημένα.
+
+	Account.loginDOM.on('keyup', function(e) {
+		Account.loginCheck(e);
+	});
+
 	return Account;
 };
+
+///////////////////////////////////////////////////////////////////////////////@
 
 Account.submit = function() {
 	if (Account.invalidData())
@@ -190,4 +199,47 @@ Account.invalidData = function() {
 	}
 
 	return false;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Account.loginCheckTimer = undefined;
+
+Account.loginCheck = function(e) {
+	e.stopPropagation();
+
+	if (Account.loginCheckTimer)
+	clearTimeout(Account.loginCheckTimer);
+
+	let login = Account.loginDOM.val();
+
+	if (login === '') {
+		Account.loginCheckTimer = undefined;
+		Account.loginDOM.removeClass('kokino');
+		return;
+	}
+
+	Account.loginCheckTimer = setTimeout(function() {
+		Account.loginCheckExec(login);
+	}, 200);
+};
+
+Account.loginCheckExec = function(login) {
+	$.post({
+		'url': 'loginCheck.php',
+		'data': {
+			'login': login,
+		},
+		'dataType': 'text',
+		'success': function(rsp) {
+			if (rsp)
+			Account.loginDOM.addClass('kokino');
+
+			else
+			Account.loginDOM.removeClass('kokino');
+		},
+		'error': function(err) {
+			console.lerror(err);
+		}
+	});
 };

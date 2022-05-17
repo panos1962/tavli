@@ -1,7 +1,7 @@
 <?php
 require_once("../lib/selida.php");
+Selida::content_json();
 Selida::xristis_unset();
-Selida::header_json();
 
 Isodos::data_check();
 Isodos::error_check();
