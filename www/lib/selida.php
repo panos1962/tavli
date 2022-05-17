@@ -1,6 +1,10 @@
 <?php
-// Το παρίν αρχείο ορίζει το singleton "Selida" που χρησιμοποιείται σε όλα τα
+///////////////////////////////////////////////////////////////////////////////@
+//
+// Το παρόν αρχείο ορίζει το singleton "Selida" που χρησιμοποιείται σε όλα τα
 // PHP προγράμματα που καλούνται από τον web server (apache, nginx κλπ).
+//
+///////////////////////////////////////////////////////////////////////////////@
 
 // Χρησιμοποιούμε cookies για την αποθήκευση κυρίως του login name του χρήστη,
 // επομένως ενεργοποιούμε το PHP session cookie.
@@ -20,10 +24,54 @@ if (!class_exists('Globals'))
 require_once(preg_replace("/\/lib\/selida\.php$/", "", __FILE__) . "/../common/lib/standard.php");
 
 class Selida {
+	// Η flag "init_ok" δείχνει αν έχει τρέξει  function "init". Θυμίζουμε
+	// ότι η function "init" πρέπει να τρέχει κατά την έναρξη των PHP
+	// προγραμμάτων που εκκινούν από τόν web server.
+
 	private static $init_ok = FALSE;
-	public static $base_url;
-	public static $www_dir;
+
+	// Η μεταβλητή "path_root" δείχνει το pathname της εφαρμογής σε
+	// σχέση με το domain, π.χ.
+	//
+	// Αν η εφαρμογή είναι στο "opasopa.net" στο directory "tavli",
+	// το "path_root" είναι:
+	//
+	//	/tavli
+	//
+	// Αν η εφαρμογή είναι απευθείας στο "tavli.site", το "path_root"
+	// είναι το κενό string.
+
 	public static $path_root;
+
+	// Η μεταβλητή "base_url" δείχνει το url της τοποθεσίας της αρχικής
+	// σελίδας της εφαρμογής, π.χ.
+	//
+	// Αν η εφαρμογή φιλοξενείται στο "opasopa.net" στο directory "tavli",
+	// το "base_url" είναι:
+	//
+	//	http://opasopa.net/tavli
+	//
+	// Αν η εφαρμογή είναι απευθείας στο "tavladoros.site", το "base_url"
+	// είναι:
+	//
+	//	http://tavladoros.site
+	//
+	// Με άλλα λόγια, το "base_url" είναι το όνομα του domain συνοδευόμενο
+	// από το "path_root".
+
+
+	public static $base_url;
+
+	// Η μεταβλητή "www_dir" δείχνει το full pathname των αρχείων της
+	// εφαρμογής που είναι προσβάσιμα στον έξω κόσμο, π.χ.
+	//
+	//	/var/opt/tavli/www
+
+	public static $www_dir;
+
+	// Η μεταβλητή "pektis" περιέχει τον παίκτη που τρέχει το πρόγραμμα
+	// εφόσον ο παίκτης έχει εισέλθει στην εφαρμογή.
+
 	public static $pektis = NULL;
 
 	public static function init() {
@@ -56,35 +104,33 @@ class Selida {
 		return __CLASS__;
 	}
 
-	public static function unset_xristis() {
-		self::$pektis = NULL;
-		unset($_SESSION[SESSION_XRISTIS]);
-		return __CLASS__;
-	}
-
 	private static function check_xristis() {
 		if (!isset($_SESSION))
-		return __CLASS__;
+		fatal("no session");
 
 		if (!is_array($_SESSION))
-		return __CLASS__;
+		fatal("_SESSION: not an array");
 
-		if (!array_key_exists(SESSION_XRISTIS, $_SESSION))
-		return __CLASS__;
+		if (!array_key_exists(SESSION_XRISTIS, $_SESSION)) {
+			self::$pektis = NULL;
+			return __CLASS__;
+		}
 
 		if (!$_SESSION[SESSION_XRISTIS])
 		return self::unset_xristis();
 
-		$query = "SELECT * FROM `pektis` WHERE `login` = " .
-			Globals::sql_string($_SESSION[SESSION_XRISTIS]);
-		$result = Globals::query($query);
-		self::$pektis = $result->fetch_object();
-		$result->close();
+		self::$pektis = new Pektis($_SESSION[SESSION_XRISTIS]);
 
-		if (self::$pektis)
+		if (self::$pektis->is_pektis())
 		return __CLASS__;
 
 		return self::unset_xristis();
+	}
+
+	public static function unset_xristis() {
+		self::$pektis = NULL;
+		unset($_SESSION[SESSION_XRISTIS]);
+		return __CLASS__;
 	}
 
 	public static function head($titlos = "Τάβλι") {

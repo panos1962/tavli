@@ -224,4 +224,81 @@ class Globals {
 // αρχείο.
 
 Globals::init();
+
+class Pektis {
+	public $login;
+	public $egrafi;
+	public $onoma;
+	public $email;
+	public $kodikos;
+	public $poll;
+	public $peparam;
+
+	public function __construct($login = NULL) {
+		$this->clear();
+
+		if (isset($login))
+		$this->fetch($login);
+	}
+
+	public function clear() {
+		$this->login = NULL;
+		$this->egrafi = NULL;
+		$this->onoma = NULL;
+		$this->email = NULL;
+		$this->kodikos = NULL;
+		$this->poll = NULL;
+		$this->peparam = NULL;
+
+		return $this;
+	}
+
+	public function is_pektis() {
+		return isset($this->login);
+	}
+
+	public function oxi_pektis() {
+		return !$this->is_pektis();
+	}
+
+	public function fetch($login) {
+		$query = "SELECT * FROM `pektis` WHERE `login` = " .
+			Globals::sql_string($login);
+
+		$result = Globals::query($query);
+		$pektis = $result->fetch_assoc();
+		$result->close();
+
+		if (!$pektis)
+		return $this->clear();
+
+		foreach ($pektis as $key => $val)
+		$this->$key = $val;
+
+		return $this;
+	}
+
+	public function fetch_peparam() {
+		if ($this->oxi_pektis()) {
+			$this->peparam = NULL;
+			return $this;
+		}
+
+		$this->peparam = [];
+
+		$query = "SELECT `param`, `timi` FROM `peparam` " .
+			"WHERE `pektis` = " . Globals::sql_string($this->login);
+
+		$result = Globals::query($query);
+
+		while ($peparam = $result->fetch_assoc()) {
+			foreach ($peparam as $key => $val)
+			$this->peparam[$key] = $val;
+		}
+
+		$result->close();
+
+		return $this;
+	}
+}
 ?>
