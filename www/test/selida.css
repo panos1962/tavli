@@ -1,8 +1,30 @@
 #tavli {
+	display: inline-block;
+	width: 1000px;
+	position: relative;
 	height: 100%;
 	text-align: center;
 }
 
 #tavliBoard {
-	height: 100%;
+	width: 100%;
+}
+
+.zari {
+	position: absolute;
+	top: 500px;
+	right: 300px;
+	max-width: 50px;
+}
+
+.zari0 {
+	right: 300px;
+}
+
+.zari1 {
+	right: 240px;
+}
+
+.zariImage {
+	width: 100%;
 }
