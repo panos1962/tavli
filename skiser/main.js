@@ -1,3 +1,5 @@
+"use strict";
+
 // Εμπλουτίζουμε με απλές δομές και μεθόδους που θα μας βοηθήσουν στην
 // εκτύπωση μηνυμάτων προόδου των εργασιών του παρόντος κλπ.
 
@@ -13,42 +15,42 @@ Log.level.push('reading node system modules');
 // παραμέτρους του λειτουργικού συστήματος.
 
 Log.print('reading operating system module');
-OS = require('os');
+global.OS = require('os');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που θα μας επιτρέψουν να προσπελάσουμε
 // το file system προκειμένου να διαβάσουμε αρχεία ή να γράψουμε σε αυτά.
 
 Log.print('reading file system module');
-FS = require('fs');
+global.FS = require('fs');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που θα μας επιτρέψουν να επικοινωνήσουμε
 // με την MySQL database που αποτελεί τον πυρήνα της εφαρμογής.
 
 Log.print('reading MySQL module');
 try {
-	MYSQL = require('mysql');
+	global.MYSQL = require('mysql');
 } catch (e) {
-	MYSQL = require('/usr/local/lib/node_modules/mysql');
+	global.MYSQL = require('/usr/local/lib/node_modules/mysql');
 }
 
 // Εμπλουτίζουμε με δομές και μεθόδους που επιτρέπουν στον node server να
 // ακούει και να απαντά σε HTTP requests.
 
 Log.print('reading http module');
-HTTP = require('http');
+global.HTTP = require('http');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που μας επιτρέπουν να διαπασπάσουμε ένα
 // url και να προσπελάσουμε τα δομικά του στοιχεία, π.χ. pathname, παράμετροι
 // κλπ.
 
 Log.print('reading url module');
-URL = require('url');
+global.URL = require('url');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που μας επιτρέπουν να κρυπτογραφούμε
 // τους κωδικούς εισόδου των χρηστών.
 
 Log.print('reading crypto module');
-CRYPTO = require('crypto');
+global.CRYPTO = require('crypto');
 
 Log.level.pop();
 
@@ -56,7 +58,7 @@ Log.level.pop();
 // και αφορούν σε JavaScript functions γενικής χρήσης.
 
 Log.print('reading common "globals" module');
-require('../client/common/globals');
+require('../common/lib/standard');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν σε JavaScript functions
 // γενικής χρήσης του skiser.
