@@ -1,41 +1,41 @@
 "use strict";
 
-var tavli = {};
+var Tavladoros = {};
 
-tavli.peparamAxioma = 'ΑΞΙΩΜΑ';
-tavli.peparamKatastasi = 'ΚΑΤΑΣΤΑΣΗ';
-tavli.peparamPoulia = 'ΠΟΥΛΙΑ';
-tavli.peparamApodosi = 'ΑΠΟΔΟΣΗ';
+Tavladoros.peparamAxioma = 'ΑΞΙΩΜΑ';
+Tavladoros.peparamKatastasi = 'ΚΑΤΑΣΤΑΣΗ';
+Tavladoros.peparamPoulia = 'ΠΟΥΛΙΑ';
+Tavladoros.peparamApodosi = 'ΑΠΟΔΟΣΗ';
 
-tavli.peparamValid = {};
-tavli.peparamValid[tavli.peparamAxioma] = 1;
-tavli.peparamValid[tavli.peparamKatastasi] = 1;
-tavli.peparamValid[tavli.peparamPoulia] = 1;
-tavli.peparamValid[tavli.peparamApodosi] = 1;
+Tavladoros.peparamValid = {};
+Tavladoros.peparamValid[Tavladoros.peparamAxioma] = 1;
+Tavladoros.peparamValid[Tavladoros.peparamKatastasi] = 1;
+Tavladoros.peparamValid[Tavladoros.peparamPoulia] = 1;
+Tavladoros.peparamValid[Tavladoros.peparamApodosi] = 1;
 
-tavli.axiomaThamonas = 'ΘΑΜΩΝΑΣ';
-tavli.axiomaVip = 'VIP';
-tavli.axiomaEpoptis = 'ΕΠΟΠΤΗΣ';
-tavli.axiomaDiaxiristis = 'ΔΙΑΧΕΙΡΙΣΤΗΣ';
-tavli.axiomaAdministrator = 'ADMINISTRATOR';
-tavli.axiomaProedros = 'ΠΡΟΕΔΡΟΣ';
+Tavladoros.axiomaThamonas = 'ΘΑΜΩΝΑΣ';
+Tavladoros.axiomaVip = 'VIP';
+Tavladoros.axiomaEpoptis = 'ΕΠΟΠΤΗΣ';
+Tavladoros.axiomaDiaxiristis = 'ΔΙΑΧΕΙΡΙΣΤΗΣ';
+Tavladoros.axiomaAdministrator = 'ADMINISTRATOR';
+Tavladoros.axiomaProedros = 'ΠΡΟΕΔΡΟΣ';
 
-tavli.katastasiEleftheros = 'ΕΛΕΥΘΕΡΟΣ';
-tavli.katastasiApasxolimenos = 'ΑΠΑΣΧΟΛΗΜΕΝΟΣ';
+Tavladoros.katastasiEleftheros = 'ΕΛΕΥΘΕΡΟΣ';
+Tavladoros.katastasiApasxolimenos = 'ΑΠΑΣΧΟΛΗΜΕΝΟΣ';
 
-tavli.pouliaAspra = 'ΑΣΠΡΑ';
-tavli.pouliaMavra = 'ΜΑΥΡΑ';
+Tavladoros.pouliaAspra = 'ΑΣΠΡΑ';
+Tavladoros.pouliaMavra = 'ΜΑΥΡΑ';
 
-tavli.axiomaRank = {};
-tavli.axiomaRank[tavli.axiomaThamonas] = 0;
-tavli.axiomaRank[tavli.axiomaVip] = 10;
-tavli.axiomaRank[tavli.axiomaEpoptis] = 20;
-tavli.axiomaRank[tavli.axiomaDiaxiristis] = 30;
-tavli.axiomaRank[tavli.axiomaAdministrator] = 40;
-tavli.axiomaRank[tavli.axiomaProedros] = 50;
+Tavladoros.axiomaRank = {};
+Tavladoros.axiomaRank[Tavladoros.axiomaThamonas] = 0;
+Tavladoros.axiomaRank[Tavladoros.axiomaVip] = 10;
+Tavladoros.axiomaRank[Tavladoros.axiomaEpoptis] = 20;
+Tavladoros.axiomaRank[Tavladoros.axiomaDiaxiristis] = 30;
+Tavladoros.axiomaRank[Tavladoros.axiomaAdministrator] = 40;
+Tavladoros.axiomaRank[Tavladoros.axiomaProedros] = 50;
 
-tavli.peparamDefault = {};
-tavli.peparamDefault[tavli.peparamAxioma] = tavli.axiomaThamonas;
-tavli.peparamDefault[tavli.peparamKatastasi] = tavli.katastasiEleftheros;
-tavli.peparamDefault[tavli.peparamPoulia] = tavli.pouliaAspra;
-tavli.peparamDefault[tavli.peparamApodosi] = '';
+Tavladoros.peparamDefault = {};
+Tavladoros.peparamDefault[Tavladoros.peparamAxioma] = Tavladoros.axiomaThamonas;
+Tavladoros.peparamDefault[Tavladoros.peparamKatastasi] = Tavladoros.katastasiEleftheros;
+Tavladoros.peparamDefault[Tavladoros.peparamPoulia] = Tavladoros.pouliaAspra;
+Tavladoros.peparamDefault[Tavladoros.peparamApodosi] = '';

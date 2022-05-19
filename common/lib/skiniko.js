@@ -12,7 +12,7 @@ var Pektis = function(props) {
 }
 
 Pektis.prototype.pektisParamSet = function(param, timi) {
-	if (!tavli.peparamValid.hasOwnProperty(param))
+	if (!Tavladoros.peparamValid.hasOwnProperty(param))
 	throw param + ': invalid parameter';
 
 	this.param[param] = timi;
@@ -24,73 +24,125 @@ Pektis.prototype.pektisParamGet = function(param) {
 }
 
 Pektis.prototype.pektisAxiomaSet = function(axioma) {
-	if (!tavli.axiomaRank.hasOwnProperty(axioma))
+	if (!Tavladoros.axiomaRank.hasOwnProperty(axioma))
 	throw axioma + ': μη αποδεκτό αξίωμα';
 
-	this.pektisParamSet(tavli.peparamAxioma, axioma);
+	this.pektisParamSet(Tavladoros.peparamAxioma, axioma);
 	return this;
 }
 
 Pektis.prototype.pektisAxiomaGet = function() {
-	let axioma = this.pektisParamGet(tavli.peparamAxioma);
+	let axioma = this.pektisParamGet(Tavladoros.peparamAxioma);
 
-	if (tavli.axiomaRank.hasOwnProperty(axioma))
+	if (Tavladoros.axiomaRank.hasOwnProperty(axioma))
 	return axioma;
 
-	this.pektisAxiomaSet(tavli.axiomaThamonas);
-	return tavli.axiomaThamonas;
+	this.pektisAxiomaSet(Tavladoros.axiomaThamonas);
+	return Tavladoros.axiomaThamonas;
 }
 
 Pektis.prototype.pektisIsThamonas = function(strict) {
 	let axioma = this.pektisAxiomaGet();
 
 	if (strict)
-	return (axioma === tavli.axiomaThamonas);
+	return (axioma === Tavladoros.axiomaThamonas);
 
-	return (tavli.axiomaRank[axioma] >= tavli.axiomaRank[tavli.axiomaThamonas]);
+	return (Tavladoros.axiomaRank[axioma] >= Tavladoros.axiomaRank[Tavladoros.axiomaThamonas]);
 }
 
 Pektis.prototype.pektisIsVip = function(strict) {
 	let axioma = this.pektisAxiomaGet();
 
 	if (strict)
-	return (axioma === tavli.axiomaVip);
+	return (axioma === Tavladoros.axiomaVip);
 
-	return (tavli.axiomaRank[axioma] >= tavli.axiomaRank[tavli.axiomaVip]);
+	return (Tavladoros.axiomaRank[axioma] >= Tavladoros.axiomaRank[Tavladoros.axiomaVip]);
 }
 
 Pektis.prototype.pektisIsEpoptis = function(strict) {
 	let axioma = this.pektisAxiomaGet();
 
 	if (strict)
-	return (axioma === tavli.axiomaEpoptis);
+	return (axioma === Tavladoros.axiomaEpoptis);
 
-	return (tavli.axiomaRank[axioma] >= tavli.axiomaRank[tavli.axiomaEpoptis]);
+	return (Tavladoros.axiomaRank[axioma] >= Tavladoros.axiomaRank[Tavladoros.axiomaEpoptis]);
 }
 
 Pektis.prototype.pektisIsDiaxiristis = function(strict) {
 	let axioma = this.pektisAxiomaGet();
 
 	if (strict)
-	return (axioma === tavli.axiomaDiaxiristis);
+	return (axioma === Tavladoros.axiomaDiaxiristis);
 
-	return (tavli.axiomaRank[axioma] >= tavli.axiomaRank[tavli.axiomaDiaxiristis]);
+	return (Tavladoros.axiomaRank[axioma] >= Tavladoros.axiomaRank[Tavladoros.axiomaDiaxiristis]);
 }
 
 Pektis.prototype.pektisIsAdministrator = function(strict) {
 	let axioma = this.pektisAxiomaGet();
 
 	if (strict)
-	return (axioma === tavli.axiomaAdministrator);
+	return (axioma === Tavladoros.axiomaAdministrator);
 
-	return (tavli.axiomaRank[axioma] >= tavli.axiomaRank[tavli.axiomaAdministrator]);
+	return (Tavladoros.axiomaRank[axioma] >= Tavladoros.axiomaRank[Tavladoros.axiomaAdministrator]);
 }
 
 Pektis.prototype.pektisIsProedros = function(strict) {
 	let axioma = this.pektisAxiomaGet();
 
 	if (strict)
-	return (axioma === tavli.axiomaProedros);
+	return (axioma === Tavladoros.axiomaProedros);
 
-	return (tavli.axiomaRank[axioma] >= tavli.axiomaRank[tavli.axiomaProedros]);
+	return (Tavladoros.axiomaRank[axioma] >= Tavladoros.axiomaRank[Tavladoros.axiomaProedros]);
 }
+
+///////////////////////////////////////////////////////////////////////////////@
+
+// Το τάβλι έχει τέσσερις (4) περιοχές που αριθμούνται από 0 έως 3 ως εξής:
+//
+//	0: κάτω αριστερά
+//	1: κάτω δεξία
+//	2: πάνω δεξιά
+//	3: πάνω αριστερά
+
+Perioxi = function(id) {
+	if (id !== undefined)
+	this.idSet(id);
+};
+
+Perioxi.prototype.perioxiIdSet = function(id) {
+	this.id = id;
+	return this;
+};
+
+Perioxi.prototype.perioxiIdGet = function() {
+	return this.id;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Thesi = function(id) {
+	if (id !== undefined)
+	this.idSet(id);
+};
+
+Thesi.prototype.thesiIdSet = function(id) {
+	this.id = id;
+	this.thesiPerioxiSet(parseInt(this.thesIIdGet() / 6));
+
+	return this;
+};
+
+Thesi.prototype.thesiIdGet = function() {
+	return this.id;
+};
+
+Thesi.prototype.thesiPerioxiSet = function(perioxi) {
+	this.perioxi = perioxi;
+	return this;
+};
+
+Thesi.prototype.thesiPerioxiGet = function() {
+	return this.perioxi;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
