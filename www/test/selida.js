@@ -1,6 +1,12 @@
 "use strict";
 
 Selida.init = function() {
+	let x = new Thesi(0);
+
+	Selida.ofelimoDOM.
+	append(x.thesiDomGet());
+return;
+	
 	let tavliDOM = $('<div>').
 	attr('id', 'tavli').
 	append($('<img>').
