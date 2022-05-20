@@ -1,0 +1,109 @@
+.tavli {
+	display: inline-block;
+	font-size: 0px;
+}
+
+.tavliPartida {
+	width: 500px;
+	height: 600px;
+}
+
+.tavliEpiskopisi {
+	width: 200px;
+}
+
+.pektisArea {
+	display: inline-block;
+	height: 15%;
+	width: 100%;
+	background-color: teal;
+}
+
+.boardArea {
+	position: relative;
+	display: inline-block;
+	height: 70%;
+	width: 100%;
+	background-color: #F4DEB3;
+}
+
+.thikiArea {
+	position: absolute;
+	display: inline-block;
+	background-color: red;
+	width: 10%;
+	height: 50%;
+}
+
+.thiki0Area {
+	bottom: 0px;
+	left: 0px;
+}
+
+.thiki1Area {
+	top: 0px;
+	left: 0px;
+	transform: rotate(180deg);
+	
+}
+
+.thiki {
+	display: inline-block;
+	width: calc(100% - 4px);
+	height: calc(100% - 2px);
+	font-size: 18px;
+	background-color: yellow;
+
+	border-style: none solid solid solid;
+	border-width: 2px;
+	border-color: black;
+}
+
+.perioxiArea {
+	position: absolute;
+	display: inline-block;
+	width: 45%;
+	height: 50%;
+	background-color: blue;
+}
+
+.perioxi0Area {
+	bottom: 0px;
+	left: 10%;
+}
+
+.perioxi1Area {
+	bottom: 0px;
+	right: 0px;
+}
+
+.perioxi2Area {
+	top: 0px;
+	right: 0px;
+	transform: rotate(180deg);
+}
+
+.perioxi3Area {
+	top: 0px;
+	left: 10%;
+	transform: rotate(180deg);
+}
+
+.perioxi {
+	display: inline-block;
+	width: calc(100% - 16px);
+	height: calc(100% - 8px);
+	font-size: 10px;
+	background-color: yellow;
+
+	border-style: none solid solid solid;
+	border-width: 8px;
+	border-color: brown;
+}
+
+.thesiArea {
+	display: inline-block;
+	width: 100px;
+	height: 400px;
+background-color: teal;
+}

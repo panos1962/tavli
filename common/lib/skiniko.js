@@ -97,6 +97,13 @@ Pektis.prototype.pektisIsProedros = function(strict) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+var Tavli = function(props) {
+	for (let i in props)
+	this[i] = props[i];
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
 // Το τάβλι έχει τέσσερις (4) περιοχές που αριθμούνται από 0 έως 3 ως εξής:
 //
 //	0: κάτω αριστερά
@@ -104,7 +111,7 @@ Pektis.prototype.pektisIsProedros = function(strict) {
 //	2: πάνω δεξιά
 //	3: πάνω αριστερά
 
-Perioxi = function(id) {
+var Perioxi = function(id) {
 	if (id !== undefined)
 	this.idSet(id);
 };
@@ -120,14 +127,14 @@ Perioxi.prototype.perioxiIdGet = function() {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Thesi = function(id) {
+var Thesi = function(id) {
 	if (id !== undefined)
-	this.idSet(id);
+	this.thesiIdSet(id);
 };
 
 Thesi.prototype.thesiIdSet = function(id) {
 	this.id = id;
-	this.thesiPerioxiSet(parseInt(this.thesIIdGet() / 6));
+	this.thesiPerioxiSet(parseInt(this.thesiIdGet() / 6));
 
 	return this;
 };

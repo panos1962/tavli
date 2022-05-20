@@ -1,10 +1,9 @@
 "use strict";
 
 Selida.init = function() {
-	let x = new Thesi(0);
+	var t = new Tavli();
 
-	Selida.ofelimoDOM.
-	append(x.thesiDomGet());
+	t.tavliDomGet('tavliPartida').appendTo(Selida.ofelimoDOM);
 return;
 	
 	let tavliDOM = $('<div>').

@@ -141,22 +141,11 @@ class Selida {
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <?php
-		self::stylesheet("/lib/selida");
-		self::stylesheet("selida");
-
-		return __CLASS__;
-	}
-
-	public static function body() {
-?>
-</head>
-<body>
-<?php
-		return __CLASS__;
-	}
-
-	public static function klisimo() {
 		self::javascript("/lib/standardCommon");
+		self::stylesheet("/lib/selida");
+		self::javascript("/lib/selida");
+		self::stylesheet("selida");
+		self::javascript("selida");
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -177,8 +166,6 @@ throw new Error('Globals.onomaMask !== ONOMA_MASK');
 if (Globals.emailMask !== '<?php print EMAIL_MASK ?>')
 throw new Error('Globals.emailMask !== EMAIL_MASK');
 
-var Selida = {};
-
 Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
 Selida.xristis = <?php
@@ -191,8 +178,19 @@ Selida.xristis = <?php
 //]]>
 </script>
 <?php
-		self::javascript("/lib/selida");
-		self::javascript("selida");
+
+		return __CLASS__;
+	}
+
+	public static function body() {
+?>
+</head>
+<body>
+<?php
+		return __CLASS__;
+	}
+
+	public static function klisimo() {
 ?>
 </body>
 </html>
