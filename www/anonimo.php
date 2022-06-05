@@ -1,3 +1,13 @@
+<?php
+require_once("lib/selida.php");
+
+Selida::head();
+Selida::stylesheet("anonimo");
+Selida::javascript("anonimo");
+
+Selida::body();
+Selida::toolbar();
+?>
 <div id="welcome">
 <div>
 Καλώς ορίσατε στον «Ταβλαδόρο».
@@ -41,3 +51,8 @@
 (στοιχήματα, διαφημίσεις κλπ).
 </div>
 </div>
+<?php
+
+Selida::ribbon();
+Selida::klisimo();
+?>

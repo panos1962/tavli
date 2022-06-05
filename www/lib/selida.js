@@ -24,14 +24,14 @@ $(function() {
 	Selida.ribbonSetup();
 
 	Selida.windowDOM.
-	on('resize', Selida.fixHeight);
-	Selida.windowDOM.trigger('resize');
-	setTimeout(Selida.fixHeight, 100);
+	on('resize', Selida.resizeInit);
+
+	Selida.resizeInit();
 
 	return Selida;
 });
 
-Selida.fixHeight = function() {
+Selida.resizeInit = function() {
 	let h;
 	let o;
 
@@ -44,11 +44,10 @@ Selida.fixHeight = function() {
 	h -= Selida.toolbarDOM.outerHeight(true);
 	h -= Selida.ribbonDOM.outerHeight(true);
 	h -= Selida.fyiDOM.outerHeight(true);
-
-	Selida.ofelimoDOM.height(0);
 	h -= Selida.ofelimoDOM.outerHeight(true);
+	h += Selida.ofelimoDOM.innerHeight();
 
-	if (Selida.bodyDOM.css('overflow') === 'hidden')
+	if (Selida.bodyOverflow === 'hidden')
 	Selida.ofelimoDOM.height(h);
 
 	else if (o < h)
@@ -58,6 +57,10 @@ Selida.fixHeight = function() {
 	Selida.ofelimoDOM.css('height', '');
 
 	Selida.ribbonDOM.css('visibility', 'visible');
+
+	if (Selida.hasOwnProperty('resize'))
+	Selida.resize();
+
 	return Selida;
 };
 
