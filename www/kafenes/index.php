@@ -1,12 +1,10 @@
 <?php
-require_once("lib/selida.php");
-
 if (Selida::oxi_xristis())
 exit(0);
 
 Selida::head();
-Selida::stylesheet("eponimo");
-Selida::javascript("eponimo");
+Selida::stylesheet("kafenes/selida.css");
+Selida::javascript("kafenes/selida.js");
 
 Selida::body();
 Selida::toolbar();
@@ -23,7 +21,7 @@ Selida::toolbar();
 <div id="pexnidiArea"></div>
 </div>
 
-<div id="toolkitMain" class="toolkitVertical"></div>
+<div id="panelMain"></div>
 
 <div id="pasArea">
 <div id="prosklisiArea"></div>
@@ -31,7 +29,7 @@ Selida::toolbar();
 <div id="sizitisiArea"></div>
 </div>
 
-<div id="toolkitPas" class="toolkitVertical"></div>
+<div id="panelPas"></div>
 <?php
 Selida::ribbon();
 Selida::klisimo();

@@ -1,9 +1,7 @@
 <?php
-require_once("lib/selida.php");
-
 Selida::head();
-Selida::stylesheet("anonimo");
-Selida::javascript("anonimo");
+Selida::stylesheet("welcome/selida.css");
+Selida::javascript("welcome/selida.js");
 
 Selida::body();
 Selida::toolbar();

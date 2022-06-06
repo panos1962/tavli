@@ -3,13 +3,36 @@
 	white-space: nowrap;
 }
 
-.toolkitVertical {
+.panel {
 	display: inline-block;
+}
+
+.panelVertical {
 	width: 40px;
 	height: 100%;
-	border-style: 0 2px;
+	text-align: center;
+	vertical-align: top;
+	border-style: none solid;
 	border-color: grey;
 	border-width: 2px;
+}
+
+.panelItem {
+	display: inline-block;
+	width: 80%;
+	border-style: outset;
+	border-width: 2px;
+	border-color: #c7c7c7;
+	border-radius: 4px;
+}
+
+.panelItem:hover {
+	border-color: grey;
+	cursor: pointer;
+}
+
+.panelItem img {
+	width: 100%;
 }
 
 #pektisArea {
