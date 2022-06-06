@@ -27,7 +27,6 @@ $(function() {
 	on('resize', Selida.resizeInit);
 
 	Selida.resizeInit();
-
 	return Selida;
 });
 

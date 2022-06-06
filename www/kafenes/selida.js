@@ -26,86 +26,85 @@ Selida.init = function() {
 	Kafenes.partidaAreaDOM = $('#partidaArea');
 	Kafenes.panelMainDOM = $('#panelMain');
 	Kafenes.pasAreaDOM = $('#pasArea');
+	Kafenes.panelProsklisiDOM = $('#panelProsklisi');
+	Kafenes.prosklisiAreaDOM = $('#prosklisiArea');
+	Kafenes.panelAnazitisiDOM = $('#panelAnazitisi');
+	Kafenes.anazitisiAreaDOM = $('#anazitisiArea');
+	Kafenes.panelSizitisiDOM = $('#panelSizitisi');
+	Kafenes.sizitisiAreaDOM = $('#sizitisiArea');
 	Kafenes.panelPasDOM = $('#panelPas');
 
 	Kafenes.panelMainSetup();
 	Kafenes.panelPasSetup();
+	Kafenes.panelProsklisiSetup();
+	Kafenes.panelAnazitisiSetup();
+	Kafenes.panelSizitisiSetup();
+
+	Selida.bodyDOM.
+	on('mousemove', function(e) {
+		Kafenes.mousemove(e);
+	}).
+	on('mouseup', function(e) {
+		Kafenes.mouseup(e);
+	});
 };
 
 Selida.resize = function() {
-	let w = Selida.ofelimoDOM.innerWidth();
+	let x = Selida.ofelimoDOM.innerWidth();
 
-	w -= Kafenes.pektisAreaDOM.outerWidth(true);
-	w -= Kafenes.kafenioAreaDOM.outerWidth(true);
-	w -= Kafenes.partidaAreaDOM.outerWidth(true);
-	w -= Kafenes.panelMainDOM.outerWidth(true);
-	w -= Kafenes.panelPasDOM.outerWidth(true);
+	x -= Kafenes.pektisAreaDOM.outerWidth(true);
+	x -= Kafenes.kafenioAreaDOM.outerWidth(true);
+	x -= Kafenes.partidaAreaDOM.outerWidth(true);
+	x -= Kafenes.panelMainDOM.outerWidth(true);
+	x -= Kafenes.panelPasDOM.outerWidth(true);
 
-	Kafenes.pasAreaDOM.css('width', w + 'px');
+	Kafenes.pasAreaDOM.css('width', x + 'px');
+
+	x = Selida.ofelimoDOM.innerHeight();
+
+	x -= Kafenes.panelProsklisiDOM.outerHeight(true);
+	x -= Kafenes.prosklisiAreaDOM.outerHeight(true);
+	x -= Kafenes.panelAnazitisiDOM.outerHeight(true);
+	x -= Kafenes.anazitisiAreaDOM.outerHeight(true);
+	x -= Kafenes.panelSizitisiDOM.outerHeight(true);
+
+	Kafenes.sizitisiAreaDOM.css('height', x + 'px');
 };
 
-///////////////////////////////////////////////////////////////////////////////@
-
-Kafenes.panelItem = function(props) {
-	for (let i in props)
-	this[i] = props[i];
+Kafenes.mousemove =
+Kafenes.mousemoveDefault = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
 };
 
-Kafenes.panelItem.prototype.domGet = function() {
-	if (!this.hasOwnProperty('DOM'))
-	this.domCreate();
-
-	return this.DOM;
-};
-
-Kafenes.panelItem.prototype.domCreate = function() {
-	let dom = $('<div>').addClass('panelItem');
-
-	$('<img>').
-	attr('src', this.icon).
-	appendTo(dom);
-
-	this.DOM = dom;
-	return this;
-};
-
-Kafenes.panel = function(props) {
-	for (let i in props)
-	this[i] = props[i];
-};
-
-Kafenes.panel.prototype.domGet = function() {
-	if (!this.hasOwnProperty('DOM'))
-	this.domCreate();
-
-	return this.DOM;
-};
-
-Kafenes.panel.prototype.domCreate = function() {
-	let dom = $('<div>').addClass('panel');
-
-	if (this.prosanatolismos === 'vertical')
-	dom.addClass('panelVertical');
-
-	else
-	dom.addClass('panelHorizontal');
-
-	this.tlist.forEach(function(x) {
-		x.domGet().
-		appendTo(dom);
-	});
-
-	this.DOM = dom;
-	return this;
+Kafenes.mouseup =
+Kafenes.mouseupDefault = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
 
 Kafenes.panelMainSetup = function() {
-	Kafenes.panelMain = new Kafenes.panel({
-		'prosanatolismos': 'vertical',
-		'tlist': [
-			new Kafenes.panelItem({
+	Kafenes.panelMain = new Panel.panel({
+		'vh': 'V',
+		'ilist': [
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
 		],
@@ -119,10 +118,10 @@ Kafenes.panelMainSetup = function() {
 };
 
 Kafenes.panelPasSetup = function() {
-	Kafenes.panelPas = new Kafenes.panel({
-		'prosanatolismos': 'vertical',
-		'tlist': [
-			new Kafenes.panelItem({
+	Kafenes.panelPas = new Panel.panel({
+		'vh': 'V',
+		'ilist': [
+			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
 		],
@@ -134,3 +133,138 @@ Kafenes.panelPasSetup = function() {
 
 	return Kafenes;
 };
+
+Kafenes.panelProsklisiSetup = function() {
+	Kafenes.panelProsklisi = new Panel.panel({
+		'vh': 'H',
+		'ilist': [
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+		],
+	});
+
+	let dom = Kafenes.panelProsklisi.domGet();
+	Kafenes.panelProsklisiDOM.replaceWith(dom);
+	Kafenes.panelProsklisiDOM = dom;
+
+	return Kafenes;
+};
+
+Kafenes.panelAnazitisiSetup = function() {
+	Kafenes.panelAnazitisi = new Panel.panel({
+		'vh': 'H',
+		'ilist': [
+			new Panel.panelItem({
+
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+		],
+	});
+
+	let dom = Kafenes.panelAnazitisi.domGet();
+	Kafenes.panelAnazitisiDOM.replaceWith(dom);
+	Kafenes.panelAnazitisiDOM = dom;
+
+	return Kafenes;
+
+};
+
+Kafenes.panelSizitisiSetup = function() {
+	Kafenes.panelSizitisi = new Panel.panel({
+		'vh': 'H',
+		'ilist': [
+			new Panel.panelItem({
+				'icon': 'ikona/misc/bara.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+		],
+	});
+
+	let dom = Kafenes.panelSizitisi.domGet();
+	Kafenes.panelSizitisiDOM.replaceWith(dom);
+	Kafenes.panelSizitisiDOM = dom;
+
+	dom.on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dom.
+		data('prosklisiAreaH', Kafenes.prosklisiAreaDOM.height()).
+		data('anazitisiAreaH', Kafenes.anazitisiAreaDOM.height()).
+		data('sizitisiAreaH', Kafenes.sizitisiAreaDOM.height()).
+		data('mousedownY', e.pageY);
+
+		Kafenes.mousemove = Kafenes.panelSizitisiResize;
+		Kafenes.mouseup = function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			Kafenes.mousemove = Kafenes.mousemoveDefault;
+		};
+	});
+
+	return Kafenes;
+};
+
+Kafenes.panelSizitisiResize = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	let dy = Kafenes.panelSizitisiDOM.data('mousedownY') - e.pageY;
+
+	let h1 = Kafenes.panelSizitisiDOM.data('sizitisiAreaH');
+	let h2 = h1 + dy;
+
+	if (h2 < 0) {
+		h2 = 0;
+		dy = h2 - h1;
+	}
+
+	Kafenes.sizitisiAreaDOM.css('height', h2 + 'px');
+
+	h1 = Kafenes.panelSizitisiDOM.data('anazitisiAreaH');
+	h2 = h1 - dy;
+
+	if (h2 >= 0)
+	return Kafenes.anazitisiAreaDOM.css('height', h2 + 'px');
+
+	Kafenes.anazitisiAreaDOM.css('height', '0px');
+
+	h1 = Kafenes.panelSizitisiDOM.data('prosklisiAreaH');
+	h2 = h1 - dy;
+
+	if (h2 < 0)
+	h2 = 0;
+
+	return Kafenes.prosklisiAreaDOM.css('height', h2 + 'px');
+};
+
+///////////////////////////////////////////////////////////////////////////////@

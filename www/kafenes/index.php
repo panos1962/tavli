@@ -3,6 +3,8 @@ if (Selida::oxi_xristis())
 exit(0);
 
 Selida::head();
+Selida::stylesheet("lib/panel.css");
+Selida::javascript("lib/panel.js");
 Selida::stylesheet("kafenes/selida.css");
 Selida::javascript("kafenes/selida.js");
 
@@ -24,8 +26,11 @@ Selida::toolbar();
 <div id="panelMain"></div>
 
 <div id="pasArea">
+<div id="panelProsklisi"></div>
 <div id="prosklisiArea"></div>
+<div id="panelAnazitisi"></div>
 <div id="anazitisiArea"></div>
+<div id="panelSizitisi"></div>
 <div id="sizitisiArea"></div>
 </div>
 

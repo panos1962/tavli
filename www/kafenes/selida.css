@@ -3,63 +3,55 @@
 	white-space: nowrap;
 }
 
-.panel {
-	display: inline-block;
-}
-
-.panelVertical {
-	width: 40px;
-	height: 100%;
-	text-align: center;
-	vertical-align: top;
-	border-style: none solid;
-	border-color: grey;
-	border-width: 2px;
-}
-
-.panelItem {
-	display: inline-block;
-	width: 80%;
-	border-style: outset;
-	border-width: 2px;
-	border-color: #c7c7c7;
-	border-radius: 4px;
-}
-
-.panelItem:hover {
-	border-color: grey;
-	cursor: pointer;
-}
-
-.panelItem img {
-	width: 100%;
-}
-
 #pektisArea {
 	display: inline-block;
 	width: 150px;
 	height: 100%;
-	background-color: teal;
 	overflow-y: scroll;
+background-color: teal;
 }
 
 #kafenioArea {
 	display: inline-block;
 	width: 280px;
 	height: 100%;
-	background-color: #919157;
 	overflow-y: scroll;
+background-color: #919157;
 }
 
 #partidaArea {
 	display: inline-block;
 	width: 500px;
 	height: 100%;
-	background-color: #7f9b9b;
+background-color: #7f9b9b;
 }
 
 #pasArea {
 	display: inline-block;
 	height: 100%;
-	background-color: #a4d3b6;
+	vertical-align: top;
+background-color: #a4d3b6;
+}
+
+#prosklisiArea {
+	height: 20%;
+	border-style: solid;
+	border-color: grey;
+	border-width: 2px;
+background-color: cyan;
+}
+
+#anazitisiArea {
+	height: 20%;
+	border-style: solid;
+	border-color: grey;
+	border-width: 2px;
+background-color: magenta;
+}
+
+#sizitisiArea {
+	border-style: solid solid none solid;
+	border-color: grey;
+	border-width: 2px;
+background-color: yellow;
 }
