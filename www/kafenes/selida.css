@@ -35,23 +35,23 @@ background-color: #a4d3b6;
 
 #prosklisiArea {
 	height: 20%;
-	border-style: solid;
+	border-style: solid none none solid;
 	border-color: grey;
-	border-width: 2px;
+	border-width: 1px;
 background-color: cyan;
 }
 
 #anazitisiArea {
 	height: 20%;
-	border-style: solid;
+	border-style: solid none none solid;
 	border-color: grey;
-	border-width: 2px;
+	border-width: 1px;
 background-color: magenta;
 }
 
 #sizitisiArea {
-	border-style: solid solid none solid;
+	border-style: solid none none solid;
 	border-color: grey;
-	border-width: 2px;
+	border-width: 1px;
 background-color: yellow;
 }

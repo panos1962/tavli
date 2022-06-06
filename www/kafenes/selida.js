@@ -240,31 +240,42 @@ Kafenes.panelSizitisiResize = function(e) {
 
 	let dy = Kafenes.panelSizitisiDOM.data('mousedownY') - e.pageY;
 
-	let h1 = Kafenes.panelSizitisiDOM.data('sizitisiAreaH');
-	let h2 = h1 + dy;
+	let prosklisiH = Kafenes.panelSizitisiDOM.data('prosklisiAreaH');
+	Kafenes.prosklisiAreaDOM.height(prosklisiH);
 
-	if (h2 < 0) {
-		h2 = 0;
-		dy = h2 - h1;
+	let anazitisiH = Kafenes.panelSizitisiDOM.data('anazitisiAreaH');
+	Kafenes.anazitisiAreaDOM.height(anazitisiH);
+
+	let sizitisiH = Kafenes.panelSizitisiDOM.data('sizitisiAreaH');
+	Kafenes.sizitisiAreaDOM.height(sizitisiH);
+
+	let totalH = 0;
+	totalH += prosklisiH;
+	totalH += anazitisiH;
+	totalH += sizitisiH;
+
+	let h = sizitisiH + dy;
+
+	if (h <= 0) {
+		Kafenes.sizitisiAreaDOM.height(0);
+		Kafenes.anazitisiAreaDOM.height(anazitisiH + sizitisiH);
+		return;
 	}
 
-	Kafenes.sizitisiAreaDOM.css('height', h2 + 'px');
+	Kafenes.sizitisiAreaDOM.height(h);
+	h = anazitisiH - dy;
 
-	h1 = Kafenes.panelSizitisiDOM.data('anazitisiAreaH');
-	h2 = h1 - dy;
+	if (h >= 0)
+	return Kafenes.anazitisiAreaDOM.height(h);
 
-	if (h2 >= 0)
-	return Kafenes.anazitisiAreaDOM.css('height', h2 + 'px');
+	Kafenes.anazitisiAreaDOM.height(0);
 
-	Kafenes.anazitisiAreaDOM.css('height', '0px');
+	h = prosklisiH + anazitisiH - dy;
 
-	h1 = Kafenes.panelSizitisiDOM.data('prosklisiAreaH');
-	h2 = h1 - dy;
+	if (h < 0)
+	h = 0;
 
-	if (h2 < 0)
-	h2 = 0;
-
-	return Kafenes.prosklisiAreaDOM.css('height', h2 + 'px');
+	return Kafenes.prosklisiAreaDOM.height(h);
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
