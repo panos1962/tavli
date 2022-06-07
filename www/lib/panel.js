@@ -50,6 +50,9 @@ Panel.panelItem.prototype.domCreate = function() {
 	data('panelItem', this).
 	addClass('panelItem');
 
+	if (this.title)
+	dom.attr('title', this.title);
+
 	$('<img>').
 	attr('src', this.icon).
 	appendTo(dom);

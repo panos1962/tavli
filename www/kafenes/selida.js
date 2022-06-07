@@ -50,25 +50,39 @@ Selida.init = function() {
 };
 
 Selida.resize = function() {
-	let x = Selida.ofelimoDOM.innerWidth();
+	let w = Selida.ofelimoDOM.innerWidth();
 
-	x -= Kafenes.pektisAreaDOM.outerWidth(true);
-	x -= Kafenes.kafenioAreaDOM.outerWidth(true);
-	x -= Kafenes.partidaAreaDOM.outerWidth(true);
-	x -= Kafenes.panelMainDOM.outerWidth(true);
-	x -= Kafenes.panelPasDOM.outerWidth(true);
+	w -= Kafenes.pektisAreaDOM.outerWidth(true);
+	w -= Kafenes.kafenioAreaDOM.outerWidth(true);
+	w -= Kafenes.partidaAreaDOM.outerWidth(true);
+	w -= Kafenes.panelMainDOM.outerWidth(true);
+	w -= Kafenes.panelPasDOM.outerWidth(true);
 
-	Kafenes.pasAreaDOM.css('width', x + 'px');
+	Kafenes.pasSizeReset();
+	Kafenes.pasAreaDOM.width(w);
+	Kafenes.pasResize();
+};
 
-	x = Selida.ofelimoDOM.innerHeight();
+Kafenes.pasResize = function() {
+	let h = Selida.ofelimoDOM.innerHeight();
 
-	x -= Kafenes.panelProsklisiDOM.outerHeight(true);
-	x -= Kafenes.prosklisiAreaDOM.outerHeight(true);
-	x -= Kafenes.panelAnazitisiDOM.outerHeight(true);
-	x -= Kafenes.anazitisiAreaDOM.outerHeight(true);
-	x -= Kafenes.panelSizitisiDOM.outerHeight(true);
+	h -= Kafenes.panelProsklisiDOM.outerHeight(true);
+	h -= Kafenes.prosklisiAreaDOM.outerHeight(true);
+	h -= Kafenes.panelAnazitisiDOM.outerHeight(true);
+	h -= Kafenes.anazitisiAreaDOM.outerHeight(true);
+	h -= Kafenes.panelSizitisiDOM.outerHeight(true);
 
-	Kafenes.sizitisiAreaDOM.css('height', x + 'px');
+	Kafenes.sizitisiAreaDOM.css('height', h + 'px');
+
+	return Kafenes;
+};
+
+Kafenes.pasSizeReset = function() {
+	Kafenes.prosklisiAreaDOM.css('height', '');
+	Kafenes.anazitisiAreaDOM.css('height', '');
+	Kafenes.sizitisiAreaDOM.css('height', '');
+
+	return Kafenes;
 };
 
 Kafenes.mousemove =
@@ -139,6 +153,14 @@ Kafenes.panelProsklisiSetup = function() {
 		'vh': 'H',
 		'ilist': [
 			new Panel.panelItem({
+				'icon': 'ikona/panel/resize.gif',
+				'title': 'Επαναφορά περιοχών',
+				'action': function() {
+					Kafenes.pasSizeReset();
+					Kafenes.pasResize();
+				},
+			}),
+			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
 			new Panel.panelItem({
@@ -165,8 +187,8 @@ Kafenes.panelAnazitisiSetup = function() {
 		'vh': 'H',
 		'ilist': [
 			new Panel.panelItem({
-
-				'icon': 'ikona/panel/4Balls.png',
+				'icon': 'ikona/misc/bara.png',
+				'title': 'Αυξομείωση περιοχής',
 			}),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
@@ -247,6 +269,7 @@ Kafenes.panelSizitisiSetup = function() {
 		'ilist': [
 			new Panel.panelItem({
 				'icon': 'ikona/misc/bara.png',
+				'title': 'Αυξομείωση περιοχής',
 			}),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
