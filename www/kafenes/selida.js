@@ -184,8 +184,61 @@ Kafenes.panelAnazitisiSetup = function() {
 	Kafenes.panelAnazitisiDOM.replaceWith(dom);
 	Kafenes.panelAnazitisiDOM = dom;
 
+	dom.on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dom.
+		data('mousedownData', {
+			'pageY': e.pageY,
+			'prosklisiH': Kafenes.prosklisiAreaDOM.height(),
+			'anazitisiH': Kafenes.anazitisiAreaDOM.height(),
+			'sizitisiH': Kafenes.sizitisiAreaDOM.height(),
+		});
+
+		Kafenes.mousemove = Kafenes.anazitisiResize;
+		Kafenes.mouseup = function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			Kafenes.mousemove = Kafenes.mousemoveDefault;
+		};
+	});
+
 	return Kafenes;
 
+};
+
+Kafenes.anazitisiResize = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	let data = Kafenes.panelAnazitisiDOM.data('mousedownData');
+	let dy = data.pageY - e.pageY;
+	let ph = data.prosklisiH;
+	let ah = data.anazitisiH;
+	let sh = data.sizitisiH;
+
+	let dyMin = -(ah + sh);
+	let dyMax = ph;
+
+	if (dy < dyMin)
+	dy = dyMin;
+
+	else if (dy > dyMax)
+	dy = dyMax;
+
+	ah += dy;
+	ph -= dy;
+
+	if (ah < 0) {
+		sh += ah;
+		ah = 0;
+	}
+
+	Kafenes.sizitisiAreaDOM.height(sh);
+	Kafenes.anazitisiAreaDOM.height(ah);
+	Kafenes.prosklisiAreaDOM.height(ph);
 };
 
 Kafenes.panelSizitisiSetup = function() {
@@ -236,37 +289,6 @@ Kafenes.panelSizitisiSetup = function() {
 	return Kafenes;
 };
 
-Kafenes.anazitisiResize = function(e) {
-	e.preventDefault();
-	e.stopPropagation();
-
-	let data = Kafenes.panelAnazitisiDOM.data('mousedownData');
-	let dy = data.pageY - e.pageY;
-	let ph = data.prosklisiH;
-	let ah = data.anazitisiH;
-	let sh = data.sizitisiH;
-	let dyMin = -ph;
-	let dyMax = sh;
-
-	if (dy < dyMin)
-	dy = dyMin;
-
-	else if (dy > dyMax)
-	dy = dyMax;
-
-	ah += dy;
-	ph -= dy;
-
-	if (ah < 0) {
-		ph += ah;
-		ah = 0;
-	}
-
-	Kafenes.sizitisiAreaDOM.height(sh);
-	Kafenes.anazitisiAreaDOM.height(ah);
-	Kafenes.prosklisiAreaDOM.height(ph);
-};
-
 Kafenes.sizitisiResize = function(e) {
 	e.preventDefault();
 	e.stopPropagation();
@@ -276,6 +298,7 @@ Kafenes.sizitisiResize = function(e) {
 	let ph = data.prosklisiH;
 	let ah = data.anazitisiH;
 	let sh = data.sizitisiH;
+
 	let dyMin = -sh;
 	let dyMax = ah + ph;
 
