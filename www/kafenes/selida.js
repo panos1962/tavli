@@ -217,12 +217,14 @@ Kafenes.panelSizitisiSetup = function() {
 		e.stopPropagation();
 
 		dom.
-		data('prosklisiAreaH', Kafenes.prosklisiAreaDOM.height()).
-		data('anazitisiAreaH', Kafenes.anazitisiAreaDOM.height()).
-		data('sizitisiAreaH', Kafenes.sizitisiAreaDOM.height()).
-		data('mousedownY', e.pageY);
+		data('mousedownData', {
+			'pageY': e.pageY,
+			'prosklisiH': Kafenes.prosklisiAreaDOM.height(),
+			'anazitisiH': Kafenes.anazitisiAreaDOM.height(),
+			'sizitisiH': Kafenes.sizitisiAreaDOM.height(),
+		});
 
-		Kafenes.mousemove = Kafenes.panelSizitisiResize;
+		Kafenes.mousemove = Kafenes.sizitisiResize;
 		Kafenes.mouseup = function(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -234,48 +236,66 @@ Kafenes.panelSizitisiSetup = function() {
 	return Kafenes;
 };
 
-Kafenes.panelSizitisiResize = function(e) {
+Kafenes.anazitisiResize = function(e) {
 	e.preventDefault();
 	e.stopPropagation();
 
-	let dy = Kafenes.panelSizitisiDOM.data('mousedownY') - e.pageY;
+	let data = Kafenes.panelAnazitisiDOM.data('mousedownData');
+	let dy = data.pageY - e.pageY;
+	let ph = data.prosklisiH;
+	let ah = data.anazitisiH;
+	let sh = data.sizitisiH;
+	let dyMin = -ph;
+	let dyMax = sh;
 
-	let prosklisiH = Kafenes.panelSizitisiDOM.data('prosklisiAreaH');
-	Kafenes.prosklisiAreaDOM.height(prosklisiH);
+	if (dy < dyMin)
+	dy = dyMin;
 
-	let anazitisiH = Kafenes.panelSizitisiDOM.data('anazitisiAreaH');
-	Kafenes.anazitisiAreaDOM.height(anazitisiH);
+	else if (dy > dyMax)
+	dy = dyMax;
 
-	let sizitisiH = Kafenes.panelSizitisiDOM.data('sizitisiAreaH');
-	Kafenes.sizitisiAreaDOM.height(sizitisiH);
+	ah += dy;
+	ph -= dy;
 
-	let totalH = 0;
-	totalH += prosklisiH;
-	totalH += anazitisiH;
-	totalH += sizitisiH;
-
-	let h = sizitisiH + dy;
-
-	if (h <= 0) {
-		Kafenes.sizitisiAreaDOM.height(0);
-		Kafenes.anazitisiAreaDOM.height(anazitisiH + sizitisiH);
-		return;
+	if (ah < 0) {
+		ph += ah;
+		ah = 0;
 	}
 
-	Kafenes.sizitisiAreaDOM.height(h);
-	h = anazitisiH - dy;
+	Kafenes.sizitisiAreaDOM.height(sh);
+	Kafenes.anazitisiAreaDOM.height(ah);
+	Kafenes.prosklisiAreaDOM.height(ph);
+};
 
-	if (h >= 0)
-	return Kafenes.anazitisiAreaDOM.height(h);
+Kafenes.sizitisiResize = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
 
-	Kafenes.anazitisiAreaDOM.height(0);
+	let data = Kafenes.panelSizitisiDOM.data('mousedownData');
+	let dy = data.pageY - e.pageY;
+	let ph = data.prosklisiH;
+	let ah = data.anazitisiH;
+	let sh = data.sizitisiH;
+	let dyMin = -sh;
+	let dyMax = ah + ph;
 
-	h = prosklisiH + anazitisiH - dy;
+	if (dy < dyMin)
+	dy = dyMin;
 
-	if (h < 0)
-	h = 0;
+	else if (dy > dyMax)
+	dy = dyMax;
 
-	return Kafenes.prosklisiAreaDOM.height(h);
+	sh += dy;
+	ah -= dy;
+
+	if (ah < 0) {
+		ph += ah;
+		ah = 0;
+	}
+
+	Kafenes.sizitisiAreaDOM.height(sh);
+	Kafenes.anazitisiAreaDOM.height(ah);
+	Kafenes.prosklisiAreaDOM.height(ph);
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
