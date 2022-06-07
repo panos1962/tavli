@@ -121,6 +121,21 @@ Kafenes.panelMainSetup = function() {
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
 		],
 	});
 

@@ -2,6 +2,8 @@
 
 var Selida = {};
 
+Selida.resizeTimer = undefined;
+
 ///////////////////////////////////////////////////////////////////////////////@
 
 $(function() {
@@ -24,7 +26,12 @@ $(function() {
 	Selida.ribbonSetup();
 
 	Selida.windowDOM.
-	on('resize', Selida.resizeInit);
+	on('resize', function() {
+		if (Selida.resizeTimer)
+		clearTimeout(Selida.resizeTimer);
+
+		Selida.resizeTimer = setTimeout(Selida.resizeInit, 100);
+	});
 
 	Selida.resizeInit();
 	return Selida;
@@ -34,9 +41,11 @@ Selida.resizeInit = function() {
 	let h;
 	let o;
 
+	Selida.resizeTimer = undefined;
+
 	Selida.ofelimoDOM.css('height', '');
 
-	h = Selida.windowDOM.innerHeight();
+	h = Selida.bodyDOM.innerHeight();
 	o = Selida.ofelimoDOM.innerHeight();
 
 
@@ -46,7 +55,7 @@ Selida.resizeInit = function() {
 	h -= Selida.ofelimoDOM.outerHeight(true);
 	h += Selida.ofelimoDOM.innerHeight();
 
-	if (Selida.bodyOverflow === 'hidden')
+	if (Selida.bodyDOM.css('overflow') === 'hidden')
 	Selida.ofelimoDOM.height(h);
 
 	else if (o < h)
