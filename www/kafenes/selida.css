@@ -4,18 +4,34 @@
 }
 
 #pektisArea {
-	display: inline-block;
 	width: 150px;
-	white-space: normal;
-	vertical-align: top;
-	overflow-x: hidden;
+/*
 background-color: #cbeded;
+*/
 }
 
 #kafenioArea {
-	display: inline-block;
 	width: 400px;
-background-color: #919157;
+/*
+background-color: #d5d5af;
+*/
+}
+
+.panel {
+	background-color: #bec195;
+}
+
+.panelItem {
+	background-color: #e0e1c2;
+}
+
+#pektisArea,
+#kafenioArea {
+	display: inline-block;
+	font-size: 18px;
+	white-space: normal;
+	vertical-align: top;
+	overflow-x: hidden;
 }
 
 #partidaArea {
@@ -49,14 +65,46 @@ background-color: #f9f9a4;
 	display: inline-block;
 	margin: 4px;
 	padding: 2px;
-	font-size: 18px;
-	width: 12ex;
+	width: 114px;
 	text-align: center;
+	white-space: nowrap;
 	overflow: hidden;
 
 	border-style: solid;
-	border-color: green;
-	border-width: 2px;
-	border-radius: 4px;
-background-color: #6f9f56;
+	border-color: #488141;
+	border-width: 3px;
+	border-radius: 5px;
+background-color: #8AA886;
+}
+
+.trapezi {
+	display: inline-block;
+	margin: 4px;
+	padding: 2px;
+	width: 360px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+
+	border-style: solid;
+	border-color: #a38738;
+	border-width: 3px;
+	border-radius: 5px;
+background-color: #cfad79;
+}
+
+.trapezi div {
+	vertical-align: middle;
+}
+
+.trapeziKodikos {
+	display: inline-block;
+	width: 70px;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.trapeziPektis {
+	display: inline-block;
 }
