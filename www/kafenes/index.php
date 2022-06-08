@@ -13,7 +13,15 @@ Selida::toolbar();
 ?>
 <div id="panelMain"></div>
 
-<div id="pektisArea"></div>
+<div id="pektisArea">
+<?php
+for ($i = 0; $i < 50; $i++) {
+?>
+<div class="pektis">panos</div>
+<?php
+}
+?>
+</div>
 <div id="panelPektis"></div>
 
 <div id="kafenioArea">

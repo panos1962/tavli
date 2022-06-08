@@ -50,6 +50,13 @@ Panel.panelItem.prototype.domCreate = function() {
 	data('panelItem', this).
 	addClass('panelItem');
 
+	if (!this.siromeno)
+	dom.
+	on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+	});
+
 	if (this.title)
 	dom.attr('title', this.title);
 
