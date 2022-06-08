@@ -21,10 +21,17 @@ Selida.init = function() {
 		'target': '_self',
 	}).appendTo(Selida.toolbarRightDOM);
 
-	Kafenes.pektisAreaDOM = $('#pektisArea');
-	Kafenes.kafenioAreaDOM = $('#kafenioArea');
-	Kafenes.partidaAreaDOM = $('#partidaArea');
 	Kafenes.panelMainDOM = $('#panelMain');
+
+	Kafenes.pektisAreaDOM = $('#pektisArea');
+	Kafenes.panelPektisDOM = $('#panelPektis');
+
+	Kafenes.kafenioAreaDOM = $('#kafenioArea');
+	Kafenes.panelKafenioDOM = $('#panelKafenio');
+
+	Kafenes.partidaAreaDOM = $('#partidaArea');
+	Kafenes.panelPartidaDOM = $('#panelPartida');
+
 	Kafenes.pasAreaDOM = $('#pasArea');
 	Kafenes.panelProsklisiDOM = $('#panelProsklisi');
 	Kafenes.prosklisiAreaDOM = $('#prosklisiArea');
@@ -35,6 +42,9 @@ Selida.init = function() {
 	Kafenes.panelPasDOM = $('#panelPas');
 
 	Kafenes.panelMainSetup();
+	Kafenes.panelPektisSetup();
+	Kafenes.panelKafenioSetup();
+	Kafenes.panelPartidaSetup();
 	Kafenes.panelPasSetup();
 	Kafenes.panelProsklisiSetup();
 	Kafenes.panelAnazitisiSetup();
@@ -45,22 +55,45 @@ Selida.init = function() {
 		Kafenes.mousemove(e);
 	}).
 	on('mouseup', function(e) {
-		Kafenes.mouseup(e);
+		e.preventDefault();
+		e.stopPropagation();
+		Kafenes.mousemove = Kafenes.mousemoveDefault;
 	});
 };
 
 Selida.resize = function() {
+	let h = Selida.ofelimoDOM.height();
+
+	Kafenes.panelMainDOM.height(h);
+
+	Kafenes.pektisAreaDOM.height(h);
+	Kafenes.panelPektisDOM.height(h);
+
+	Kafenes.kafenioAreaDOM.height(h);
+	Kafenes.panelKafenioDOM.height(h);
+
+	Kafenes.partidaAreaDOM.height(h);
+	Kafenes.panelPartidaDOM.height(h);
+
+	Kafenes.pasAreaDOM.height(h);
+	Kafenes.panelPasDOM.height(h);
+	Kafenes.pasResize();
+
 	let w = Selida.ofelimoDOM.innerWidth();
 
-	w -= Kafenes.pektisAreaDOM.outerWidth(true);
-	w -= Kafenes.kafenioAreaDOM.outerWidth(true);
-	w -= Kafenes.partidaAreaDOM.outerWidth(true);
 	w -= Kafenes.panelMainDOM.outerWidth(true);
+	w -= Kafenes.pektisAreaDOM.outerWidth(true);
+	w -= Kafenes.panelPektisDOM.outerWidth(true);
+	w -= Kafenes.kafenioAreaDOM.outerWidth(true);
+	w -= Kafenes.panelKafenioDOM.outerWidth(true);
+	w -= Kafenes.partidaAreaDOM.outerWidth(true);
+	w -= Kafenes.panelPartidaDOM.outerWidth(true);
 	w -= Kafenes.panelPasDOM.outerWidth(true);
 
-	Kafenes.pasSizeReset();
+	if (w < 0)
+	w = 0;
+
 	Kafenes.pasAreaDOM.width(w);
-	Kafenes.pasResize();
 };
 
 Kafenes.pasResize = function() {
@@ -68,8 +101,10 @@ Kafenes.pasResize = function() {
 
 	h -= Kafenes.panelProsklisiDOM.outerHeight(true);
 	h -= Kafenes.prosklisiAreaDOM.outerHeight(true);
+
 	h -= Kafenes.panelAnazitisiDOM.outerHeight(true);
 	h -= Kafenes.anazitisiAreaDOM.outerHeight(true);
+
 	h -= Kafenes.panelSizitisiDOM.outerHeight(true);
 
 	Kafenes.sizitisiAreaDOM.css('height', h + 'px');
@@ -95,6 +130,8 @@ Kafenes.mouseup =
 Kafenes.mouseupDefault = function(e) {
 	e.preventDefault();
 	e.stopPropagation();
+
+	Kafenes.mousemove = Kafenes.mousemoveDeault;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
@@ -104,7 +141,15 @@ Kafenes.panelMainSetup = function() {
 		'vh': 'V',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/panel/4Balls.png',
+				'icon': 'ikona/panel/resize.gif',
+				'title': 'Επαναφορά περιοχών',
+				'action': function() {
+					Kafenes.pektisAreaDOM.css('width', '');
+					Kafenes.kafenioAreaDOM.css('width', '');
+					Kafenes.partidaAreaDOM.css('width', '');
+					Kafenes.pasAreaDOM.css('width', '');
+					Selida.resize();
+				},
 			}),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
@@ -144,6 +189,252 @@ Kafenes.panelMainSetup = function() {
 	Kafenes.panelMainDOM = dom;
 
 	return Kafenes;
+};
+
+Kafenes.panelPektisSetup = function() {
+	Kafenes.panelPektis = new Panel.panel({
+		'vh': 'V',
+		'ilist': [
+			new Panel.panelItem({
+				'icon': 'ikona/misc/baraH.png',
+				'title': 'Αυξομείωση περιοχής',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+		],
+	});
+
+	let dom = Kafenes.panelPektis.domGet();
+	Kafenes.panelPektisDOM.replaceWith(dom);
+	Kafenes.panelPektisDOM = dom;
+
+	dom.on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dom.
+		data('mousedownData', {
+			'pageX': e.pageX,
+			'pektisW': Kafenes.pektisAreaDOM.width(),
+			'kafenioW': Kafenes.kafenioAreaDOM.width(),
+			'partidaW': Kafenes.partidaAreaDOM.width(),
+			'pasW': Kafenes.pasAreaDOM.width(),
+		});
+
+		Kafenes.mousemove = Kafenes.pektisResize;
+	});
+
+	return Kafenes;
+};
+
+Kafenes.pektisResize = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	let data = Kafenes.panelPektisDOM.data('mousedownData');
+	let dx = data.pageX - e.pageX;
+	let pw = data.pektisW
+	let kw = data.kafenioW;
+	let rw = data.partidaW;
+	let sw = data.pasW;
+
+	let dxMin = -(kw + rw + sw);
+	let dxMax = pw;
+
+	if (dx < dxMin)
+	dx = dxMin;
+
+	else if (dx > dxMax)
+	dx = dxMax;
+
+	kw += dx;
+	pw -= dx;
+
+	if (kw < 0) {
+		rw += kw;
+		kw = 0;
+	}
+
+	if (rw < 0) {
+		sw += rw;
+		rw = 0;
+	}
+
+	if (pw < 0)
+	pw = 0;
+
+	Kafenes.pektisAreaDOM.width(pw);
+	Kafenes.kafenioAreaDOM.width(kw);
+	Kafenes.partidaAreaDOM.width(rw);
+	Kafenes.pasAreaDOM.width(sw);
+};
+
+Kafenes.panelKafenioSetup = function() {
+	Kafenes.panelKafenio = new Panel.panel({
+		'vh': 'V',
+		'ilist': [
+			new Panel.panelItem({
+				'icon': 'ikona/misc/baraH.png',
+				'title': 'Αυξομείωση περιοχής',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+		],
+	});
+
+	let dom = Kafenes.panelKafenio.domGet();
+	Kafenes.panelKafenioDOM.replaceWith(dom);
+	Kafenes.panelKafenioDOM = dom;
+
+	dom.on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dom.
+		data('mousedownData', {
+			'pageX': e.pageX,
+			'pektisW': Kafenes.pektisAreaDOM.width(),
+			'kafenioW': Kafenes.kafenioAreaDOM.width(),
+			'partidaW': Kafenes.partidaAreaDOM.width(),
+			'pasW': Kafenes.pasAreaDOM.width(),
+		});
+
+		Kafenes.mousemove = Kafenes.kafenioResize;
+	});
+
+	return Kafenes;
+};
+
+Kafenes.kafenioResize = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	let data = Kafenes.panelKafenioDOM.data('mousedownData');
+	let dx = data.pageX - e.pageX;
+	let pw = data.pektisW
+	let kw = data.kafenioW;
+	let rw = data.partidaW;
+	let sw = data.pasW;
+
+	let dxMin = -(rw + sw);
+	let dxMax = kw + pw;
+
+	if (dx < dxMin)
+	dx = dxMin;
+
+	else if (dx > dxMax)
+	dx = dxMax;
+
+	rw += dx;
+	kw -= dx;
+
+	if (rw < 0) {
+		sw += rw;
+		rw = 0;
+	}
+
+	if (kw < 0) {
+		pw += kw;
+		kw = 0;
+	}
+
+	if (pw < 0)
+	pw = 0;
+
+	Kafenes.pektisAreaDOM.width(pw);
+	Kafenes.kafenioAreaDOM.width(kw);
+	Kafenes.partidaAreaDOM.width(rw);
+	Kafenes.pasAreaDOM.width(sw);
+};
+
+Kafenes.panelPartidaSetup = function() {
+	Kafenes.panelPartida = new Panel.panel({
+		'vh': 'V',
+		'ilist': [
+			new Panel.panelItem({
+				'icon': 'ikona/misc/baraH.png',
+				'title': 'Αυξομείωση περιοχής',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+			new Panel.panelItem({
+				'icon': 'ikona/panel/4Balls.png',
+			}),
+		],
+	});
+
+	let dom = Kafenes.panelPartida.domGet();
+	Kafenes.panelPartidaDOM.replaceWith(dom);
+	Kafenes.panelPartidaDOM = dom;
+
+	dom.on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		dom.
+		data('mousedownData', {
+			'pageX': e.pageX,
+			'pektisW': Kafenes.pektisAreaDOM.width(),
+			'kafenioW': Kafenes.kafenioAreaDOM.width(),
+			'partidaW': Kafenes.partidaAreaDOM.width(),
+			'pasW': Kafenes.pasAreaDOM.width(),
+		});
+
+		Kafenes.mousemove = Kafenes.partidaResize;
+	});
+
+	return Kafenes;
+};
+
+Kafenes.partidaResize = function(e) {
+	e.preventDefault();
+	e.stopPropagation();
+
+	let data = Kafenes.panelPartidaDOM.data('mousedownData');
+	let dx = data.pageX - e.pageX;
+	let pw = data.pektisW
+	let kw = data.kafenioW;
+	let rw = data.partidaW;
+	let sw = data.pasW;
+
+	let dxMin = -sw;
+	let dxMax = pw + kw + rw;
+
+	if (dx < dxMin)
+	dx = dxMin;
+
+	else if (dx > dxMax)
+	dx = dxMax;
+
+	sw += dx;
+	rw -= dx;
+
+	if (rw < 0) {
+		kw += rw;
+		rw = 0;
+	}
+
+	if (kw < 0) {
+		pw += kw;
+		kw = 0;
+	}
+
+	if (pw < 0)
+	pw = 0;
+
+	Kafenes.pektisAreaDOM.width(pw);
+	Kafenes.kafenioAreaDOM.width(kw);
+	Kafenes.partidaAreaDOM.width(rw);
+	Kafenes.pasAreaDOM.width(sw);
 };
 
 Kafenes.panelPasSetup = function() {
@@ -202,7 +493,7 @@ Kafenes.panelAnazitisiSetup = function() {
 		'vh': 'H',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/bara.png',
+				'icon': 'ikona/misc/baraV.png',
 				'title': 'Αυξομείωση περιοχής',
 			}),
 			new Panel.panelItem({
@@ -228,18 +519,16 @@ Kafenes.panelAnazitisiSetup = function() {
 		dom.
 		data('mousedownData', {
 			'pageY': e.pageY,
+			'pektisW': Kafenes.pektisAreaDOM.width(),
+			'kafenioW': Kafenes.kafenioAreaDOM.width(),
+			'partidaW': Kafenes.partidaAreaDOM.width(),
+			'pasW': Kafenes.pasAreaDOM.width(),
 			'prosklisiH': Kafenes.prosklisiAreaDOM.height(),
 			'anazitisiH': Kafenes.anazitisiAreaDOM.height(),
 			'sizitisiH': Kafenes.sizitisiAreaDOM.height(),
 		});
 
 		Kafenes.mousemove = Kafenes.anazitisiResize;
-		Kafenes.mouseup = function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-
-			Kafenes.mousemove = Kafenes.mousemoveDefault;
-		};
 	});
 
 	return Kafenes;
@@ -283,7 +572,7 @@ Kafenes.panelSizitisiSetup = function() {
 		'vh': 'H',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/bara.png',
+				'icon': 'ikona/misc/baraV.png',
 				'title': 'Αυξομείωση περιοχής',
 			}),
 			new Panel.panelItem({
@@ -316,12 +605,6 @@ Kafenes.panelSizitisiSetup = function() {
 		});
 
 		Kafenes.mousemove = Kafenes.sizitisiResize;
-		Kafenes.mouseup = function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-
-			Kafenes.mousemove = Kafenes.mousemoveDefault;
-		};
 	});
 
 	return Kafenes;

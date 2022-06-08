@@ -11,19 +11,22 @@ Selida::javascript("kafenes/selida.js");
 Selida::body();
 Selida::toolbar();
 ?>
+<div id="panelMain"></div>
+
 <div id="pektisArea"></div>
+<div id="panelPektis"></div>
 
 <div id="kafenioArea">
 <div id="rebelosArea"></div>
 <div id="trapeziArea"></div>
 </div>
+<div id="panelKafenio"></div>
 
 <div id="partidaArea">
 <div id="diathesimosArea"></div>
 <div id="pexnidiArea"></div>
 </div>
-
-<div id="panelMain"></div>
+<div id="panelPartida"></div>
 
 <div id="pasArea">
 <div id="panelProsklisi"></div>
@@ -33,8 +36,8 @@ Selida::toolbar();
 <div id="panelSizitisi"></div>
 <div id="sizitisiArea"></div>
 </div>
-
 <div id="panelPas"></div>
+
 <?php
 Selida::ribbon();
 Selida::klisimo();

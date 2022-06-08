@@ -5,57 +5,39 @@
 
 #pektisArea {
 	display: inline-block;
-	padding: 4px;
 	width: 150px;
-	height: calc(100% - 8px);
-	overflow-y: scroll;
 background-color: teal;
 }
 
 #kafenioArea {
 	display: inline-block;
-	padding: 4px;
 	width: 400px;
-	height: calc(100% - 8px);
-	overflow-y: scroll;
 background-color: #919157;
 }
 
 #partidaArea {
 	display: inline-block;
-	padding: 4px;
 	width: 558px;
-	height: calc(100% - 8px);
 background-color: #7f9b9b;
 }
 
 #pasArea {
 	display: inline-block;
-	height: 100%;
 	vertical-align: top;
 background-color: #dbd99b;
 }
 
 #prosklisiArea {
 	height: 20%;
-	border-style: solid none none solid;
-	border-color: grey;
-	border-width: 1px;
 background-color: #7db377;
 }
 
 #anazitisiArea {
 	height: 20%;
-	border-style: solid none none solid;
-	border-color: grey;
-	border-width: 1px;
 background-color: #95c8cb;
 }
 
 #sizitisiArea {
 	height: auto;
-	border-style: solid none none solid;
-	border-color: grey;
-	border-width: 1px;
-background-color: #e5e598;
+background-color: #f9f9a4;
 }

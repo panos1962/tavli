@@ -45,9 +45,8 @@ Selida.resizeInit = function() {
 
 	Selida.ofelimoDOM.css('height', '');
 
-	h = Selida.bodyDOM.innerHeight();
+	h = Selida.windowDOM.innerHeight();
 	o = Selida.ofelimoDOM.innerHeight();
-
 
 	h -= Selida.toolbarDOM.outerHeight(true);
 	h -= Selida.ribbonDOM.outerHeight(true);
