@@ -232,7 +232,7 @@ Kafenes.panelPektisSetup = function() {
 	return Kafenes;
 };
 
-Kafenes.trapeziAreaWidthMax = 400;
+Kafenes.trapeziAreaWidthMax = 720;
 
 Kafenes.pektisResize = function(e) {
 	e.preventDefault();
@@ -262,10 +262,12 @@ Kafenes.pektisResize = function(e) {
 		kw = 0;
 	}
 
+/*
 	else if (kw > Kafenes.trapeziAreaWidthMax) {
 		rw += kw - Kafenes.trapeziAreaWidthMax;
 		kw = Kafenes.trapeziAreaWidthMax;
 	}
+*/
 
 	if (rw < 0) {
 		sw += rw;
@@ -355,10 +357,12 @@ Kafenes.kafenioResize = function(e) {
 		kw = 0;
 	}
 
+/*
 	else if (kw > Kafenes.trapeziAreaWidthMax) {
 		pw += kw - Kafenes.trapeziAreaWidthMax;
 		kw = Kafenes.trapeziAreaWidthMax;
 	}
+*/
 
 	if (pw < 0)
 	pw = 0;

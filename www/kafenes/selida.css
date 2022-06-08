@@ -11,7 +11,7 @@ background-color: #cbeded;
 }
 
 #kafenioArea {
-	width: 400px;
+	width: 362px;
 /*
 background-color: #d5d5af;
 */
@@ -78,19 +78,14 @@ background-color: #8AA886;
 }
 
 .trapezi {
-	display: inline-block;
+	display: block;
 	margin: 4px;
 	padding: 2px;
-	width: 360px;
-	text-align: center;
 	white-space: nowrap;
+	min-width: 335px;
 	overflow: hidden;
-
-	border-style: solid;
-	border-color: #a38738;
-	border-width: 3px;
 	border-radius: 5px;
-background-color: #cfad79;
+background-color: #dbd1a0;
 }
 
 .trapezi div {
@@ -99,7 +94,7 @@ background-color: #cfad79;
 
 .trapeziKodikos {
 	display: inline-block;
-	width: 70px;
+	width: 64px;
 	text-align: center;
 	white-space: nowrap;
 	overflow: hidden;
@@ -107,4 +102,10 @@ background-color: #cfad79;
 
 .trapeziPektis {
 	display: inline-block;
+}
+
+.trapeziTheatis,
+.kafenioRebelos {
+	width: auto;
+	max-width: 100px;
 }
