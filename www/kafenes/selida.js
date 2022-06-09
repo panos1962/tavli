@@ -116,14 +116,6 @@ Kafenes.pasResize = function() {
 	return Kafenes;
 };
 
-Kafenes.pasSizeReset = function() {
-	Kafenes.prosklisiAreaDOM.css('height', '');
-	Kafenes.anazitisiAreaDOM.css('height', '');
-	Kafenes.sizitisiAreaDOM.css('height', '');
-
-	return Kafenes;
-};
-
 Kafenes.mousemove =
 Kafenes.mousemoveDefault = function(e) {
 	e.preventDefault();
@@ -200,7 +192,7 @@ Kafenes.panelPektisSetup = function() {
 		'vh': 'V',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/baraH.png',
+				'icon': 'ikona/panel/resize.gif',
 				'title': 'Αυξομείωση περιοχής',
 				'siromeno': true,
 			}),
@@ -283,7 +275,7 @@ Kafenes.panelKafenioSetup = function() {
 		'vh': 'V',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/baraH.png',
+				'icon': 'ikona/panel/resize.gif',
 				'title': 'Αυξομείωση περιοχής',
 				'siromeno': true,
 			}),
@@ -366,7 +358,7 @@ Kafenes.panelPartidaSetup = function() {
 		'vh': 'V',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/baraH.png',
+				'icon': 'ikona/panel/resize.gif',
 				'title': 'Αυξομείωση περιοχής',
 				'siromeno': true,
 			}),
@@ -469,7 +461,9 @@ Kafenes.panelProsklisiSetup = function() {
 				'icon': 'ikona/panel/resize.gif',
 				'title': 'Επαναφορά περιοχών',
 				'action': function() {
-					Kafenes.pasSizeReset();
+					Kafenes.prosklisiAreaDOM.css('height', '');
+					Kafenes.anazitisiAreaDOM.css('height', '');
+					Kafenes.sizitisiAreaDOM.css('height', '');
 					Kafenes.pasResize();
 				},
 			}),
@@ -500,7 +494,7 @@ Kafenes.panelAnazitisiSetup = function() {
 		'vh': 'H',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/baraV.png',
+				'icon': 'ikona/panel/resize.gif',
 				'title': 'Αυξομείωση περιοχής',
 				'siromeno': true,
 			}),
@@ -576,7 +570,7 @@ Kafenes.panelSizitisiSetup = function() {
 		'vh': 'H',
 		'ilist': [
 			new Panel.panelItem({
-				'icon': 'ikona/misc/baraV.png',
+				'icon': 'ikona/panel/resize.gif',
 				'title': 'Αυξομείωση περιοχής',
 				'siromeno': true,
 			}),

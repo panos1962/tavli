@@ -13,7 +13,7 @@
 
 .panelV .panelItem {
 	width: 70%;
-	margin-bottom: 8px;
+	margin: 2px;
 	border-radius: 4px;
 }
 
@@ -23,14 +23,14 @@
 
 .panelH {
 	width: 100%;
-	height: 30px;
+	height: 40px;
 	text-align: left;
 	white-space: nowrap;
 }
 
 .panelH .panelItem {
 	height: 74%;
-	margin: 2px 6px 0px 0px;
+	margin: 2px;
 	border-radius: 3px;
 }
 
