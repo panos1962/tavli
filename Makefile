@@ -16,7 +16,13 @@ commit:
 push:
 	git push
 
+min:
+	(cd www && make min)
+
 test:
 	@#database/ddload.sh -L
 	@#misc/test_install.sh asda
 	bash local/test.sh
+
+cleanup:
+	(cd www && make cleanup)

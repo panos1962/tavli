@@ -98,6 +98,7 @@ Selida.resize = function() {
 	w = 0;
 
 	Kafenes.pasAreaDOM.width(w);
+	return Kafenes;
 };
 
 Kafenes.pasResize = function() {
@@ -112,7 +113,6 @@ Kafenes.pasResize = function() {
 	h -= Kafenes.panelSizitisiDOM.outerHeight(true);
 
 	Kafenes.sizitisiAreaDOM.css('height', h + 'px');
-
 	return Kafenes;
 };
 
@@ -131,6 +131,10 @@ Kafenes.mouseupDefault = function(e) {
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
+
+// Σχεδόν σε όλα τα πάνελ, κάθετα και οριζόντια, υπάρχει πλήκτρο αναδιάταξης
+// περιοχών. Για να αποφύγουμε την επανάληψη κώδικα, ορίζουμε function που
+// επιστρέφει το πλήκτρο.
 
 Kafenes.areaResize = function() {
 	return new Panel.panelItem({
