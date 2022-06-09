@@ -132,6 +132,37 @@ Kafenes.mouseupDefault = function(e) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+Kafenes.areaResize = function() {
+	return new Panel.panelItem({
+		'icon': 'ikona/panel/resize.gif',
+		'title': 'Αυξομείωση περιοχής',
+		'siromeno': true,
+	});
+};
+
+Kafenes.areaResizeStart = function(panel, resizeFunc) {
+	panel.
+	on('mousedown', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		panel.
+		data('mousedownData', {
+			'pageX': e.pageX,
+			'pageY': e.pageY,
+			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
+			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
+			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
+			'pasW': Kafenes.pasAreaDOM.innerWidth(),
+			'prosklisiH': Kafenes.prosklisiAreaDOM.innerHeight(),
+			'anazitisiH': Kafenes.anazitisiAreaDOM.innerHeight(),
+			'sizitisiH': Kafenes.sizitisiAreaDOM.innerHeight(),
+		});
+
+		Kafenes.mousemove = resizeFunc;
+	});
+};
+
 Kafenes.panelMainSetup = function() {
 	Kafenes.panelMain = new Panel.panel({
 		'vh': 'V',
@@ -191,11 +222,7 @@ Kafenes.panelPektisSetup = function() {
 	Kafenes.panelPektis = new Panel.panel({
 		'vh': 'V',
 		'ilist': [
-			new Panel.panelItem({
-				'icon': 'ikona/panel/resize.gif',
-				'title': 'Αυξομείωση περιοχής',
-				'siromeno': true,
-			}),
+			Kafenes.areaResize(),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
@@ -208,22 +235,7 @@ Kafenes.panelPektisSetup = function() {
 	let dom = Kafenes.panelPektis.domGet();
 	Kafenes.panelPektisDOM.replaceWith(dom);
 	Kafenes.panelPektisDOM = dom;
-
-	dom.on('mousedown', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		dom.
-		data('mousedownData', {
-			'pageX': e.pageX,
-			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
-			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
-			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
-			'pasW': Kafenes.pasAreaDOM.innerWidth(),
-		});
-
-		Kafenes.mousemove = Kafenes.pektisResize;
-	});
+	Kafenes.areaResizeStart(dom, Kafenes.pektisResize);
 
 	return Kafenes;
 };
@@ -274,11 +286,7 @@ Kafenes.panelKafenioSetup = function() {
 	Kafenes.panelKafenio = new Panel.panel({
 		'vh': 'V',
 		'ilist': [
-			new Panel.panelItem({
-				'icon': 'ikona/panel/resize.gif',
-				'title': 'Αυξομείωση περιοχής',
-				'siromeno': true,
-			}),
+			Kafenes.areaResize(),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
@@ -291,22 +299,7 @@ Kafenes.panelKafenioSetup = function() {
 	let dom = Kafenes.panelKafenio.domGet();
 	Kafenes.panelKafenioDOM.replaceWith(dom);
 	Kafenes.panelKafenioDOM = dom;
-
-	dom.on('mousedown', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		dom.
-		data('mousedownData', {
-			'pageX': e.pageX,
-			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
-			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
-			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
-			'pasW': Kafenes.pasAreaDOM.innerWidth(),
-		});
-
-		Kafenes.mousemove = Kafenes.kafenioResize;
-	});
+	Kafenes.areaResizeStart(dom, Kafenes.kafenioResize);
 
 	return Kafenes;
 };
@@ -357,11 +350,7 @@ Kafenes.panelPartidaSetup = function() {
 	Kafenes.panelPartida = new Panel.panel({
 		'vh': 'V',
 		'ilist': [
-			new Panel.panelItem({
-				'icon': 'ikona/panel/resize.gif',
-				'title': 'Αυξομείωση περιοχής',
-				'siromeno': true,
-			}),
+			Kafenes.areaResize(),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
@@ -374,22 +363,7 @@ Kafenes.panelPartidaSetup = function() {
 	let dom = Kafenes.panelPartida.domGet();
 	Kafenes.panelPartidaDOM.replaceWith(dom);
 	Kafenes.panelPartidaDOM = dom;
-
-	dom.on('mousedown', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		dom.
-		data('mousedownData', {
-			'pageX': e.pageX,
-			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
-			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
-			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
-			'pasW': Kafenes.pasAreaDOM.innerWidth(),
-		});
-
-		Kafenes.mousemove = Kafenes.partidaResize;
-	});
+	Kafenes.areaResizeStart(dom, Kafenes.partidaResize);
 
 	return Kafenes;
 };
@@ -493,11 +467,7 @@ Kafenes.panelAnazitisiSetup = function() {
 	Kafenes.panelAnazitisi = new Panel.panel({
 		'vh': 'H',
 		'ilist': [
-			new Panel.panelItem({
-				'icon': 'ikona/panel/resize.gif',
-				'title': 'Αυξομείωση περιοχής',
-				'siromeno': true,
-			}),
+			Kafenes.areaResize(),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
@@ -513,21 +483,7 @@ Kafenes.panelAnazitisiSetup = function() {
 	let dom = Kafenes.panelAnazitisi.domGet();
 	Kafenes.panelAnazitisiDOM.replaceWith(dom);
 	Kafenes.panelAnazitisiDOM = dom;
-
-	dom.on('mousedown', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		dom.
-		data('mousedownData', {
-			'pageY': e.pageY,
-			'prosklisiH': Kafenes.prosklisiAreaDOM.innerHeight(),
-			'anazitisiH': Kafenes.anazitisiAreaDOM.innerHeight(),
-			'sizitisiH': Kafenes.sizitisiAreaDOM.innerHeight(),
-		});
-
-		Kafenes.mousemove = Kafenes.anazitisiResize;
-	});
+	Kafenes.areaResizeStart(dom, Kafenes.anazitisiResize);
 
 	return Kafenes;
 
@@ -569,11 +525,7 @@ Kafenes.panelSizitisiSetup = function() {
 	Kafenes.panelSizitisi = new Panel.panel({
 		'vh': 'H',
 		'ilist': [
-			new Panel.panelItem({
-				'icon': 'ikona/panel/resize.gif',
-				'title': 'Αυξομείωση περιοχής',
-				'siromeno': true,
-			}),
+			Kafenes.areaResize(),
 			new Panel.panelItem({
 				'icon': 'ikona/panel/4Balls.png',
 			}),
@@ -590,21 +542,7 @@ Kafenes.panelSizitisiSetup = function() {
 	let dom = Kafenes.panelSizitisi.domGet();
 	Kafenes.panelSizitisiDOM.replaceWith(dom);
 	Kafenes.panelSizitisiDOM = dom;
-
-	dom.on('mousedown', function(e) {
-		e.preventDefault();
-		e.stopPropagation();
-
-		dom.
-		data('mousedownData', {
-			'pageY': e.pageY,
-			'prosklisiH': Kafenes.prosklisiAreaDOM.innerHeight(),
-			'anazitisiH': Kafenes.anazitisiAreaDOM.innerHeight(),
-			'sizitisiH': Kafenes.sizitisiAreaDOM.innerHeight(),
-		});
-
-		Kafenes.mousemove = Kafenes.sizitisiResize;
-	});
+	Kafenes.areaResizeStart(dom, Kafenes.sizitisiResize);
 
 	return Kafenes;
 };
