@@ -82,12 +82,16 @@ Selida.resize = function() {
 	let w = Selida.ofelimoDOM.innerWidth();
 
 	w -= Kafenes.panelMainDOM.outerWidth(true);
+
 	w -= Kafenes.pektisAreaDOM.outerWidth(true);
 	w -= Kafenes.panelPektisDOM.outerWidth(true);
+
 	w -= Kafenes.kafenioAreaDOM.outerWidth(true);
 	w -= Kafenes.panelKafenioDOM.outerWidth(true);
+
 	w -= Kafenes.partidaAreaDOM.outerWidth(true);
 	w -= Kafenes.panelPartidaDOM.outerWidth(true);
+
 	w -= Kafenes.panelPasDOM.outerWidth(true);
 
 	if (w < 0)
@@ -220,10 +224,10 @@ Kafenes.panelPektisSetup = function() {
 		dom.
 		data('mousedownData', {
 			'pageX': e.pageX,
-			'pektisW': Kafenes.pektisAreaDOM.width(),
-			'kafenioW': Kafenes.kafenioAreaDOM.width(),
-			'partidaW': Kafenes.partidaAreaDOM.width(),
-			'pasW': Kafenes.pasAreaDOM.width(),
+			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
+			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
+			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
+			'pasW': Kafenes.pasAreaDOM.innerWidth(),
 		});
 
 		Kafenes.mousemove = Kafenes.pektisResize;
@@ -231,8 +235,6 @@ Kafenes.panelPektisSetup = function() {
 
 	return Kafenes;
 };
-
-Kafenes.trapeziAreaWidthMax = 720;
 
 Kafenes.pektisResize = function(e) {
 	e.preventDefault();
@@ -262,20 +264,13 @@ Kafenes.pektisResize = function(e) {
 		kw = 0;
 	}
 
-/*
-	else if (kw > Kafenes.trapeziAreaWidthMax) {
-		rw += kw - Kafenes.trapeziAreaWidthMax;
-		kw = Kafenes.trapeziAreaWidthMax;
-	}
-*/
-
 	if (rw < 0) {
 		sw += rw;
 		rw = 0;
 	}
 
-	if (pw < 0)
-	pw = 0;
+	if (sw < 0)
+	sw = 0;
 
 	Kafenes.pektisAreaDOM.width(pw);
 	Kafenes.kafenioAreaDOM.width(kw);
@@ -312,10 +307,10 @@ Kafenes.panelKafenioSetup = function() {
 		dom.
 		data('mousedownData', {
 			'pageX': e.pageX,
-			'pektisW': Kafenes.pektisAreaDOM.width(),
-			'kafenioW': Kafenes.kafenioAreaDOM.width(),
-			'partidaW': Kafenes.partidaAreaDOM.width(),
-			'pasW': Kafenes.pasAreaDOM.width(),
+			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
+			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
+			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
+			'pasW': Kafenes.pasAreaDOM.innerWidth(),
 		});
 
 		Kafenes.mousemove = Kafenes.kafenioResize;
@@ -357,13 +352,6 @@ Kafenes.kafenioResize = function(e) {
 		kw = 0;
 	}
 
-/*
-	else if (kw > Kafenes.trapeziAreaWidthMax) {
-		pw += kw - Kafenes.trapeziAreaWidthMax;
-		kw = Kafenes.trapeziAreaWidthMax;
-	}
-*/
-
 	if (pw < 0)
 	pw = 0;
 
@@ -402,10 +390,10 @@ Kafenes.panelPartidaSetup = function() {
 		dom.
 		data('mousedownData', {
 			'pageX': e.pageX,
-			'pektisW': Kafenes.pektisAreaDOM.width(),
-			'kafenioW': Kafenes.kafenioAreaDOM.width(),
-			'partidaW': Kafenes.partidaAreaDOM.width(),
-			'pasW': Kafenes.pasAreaDOM.width(),
+			'pektisW': Kafenes.pektisAreaDOM.innerWidth(),
+			'kafenioW': Kafenes.kafenioAreaDOM.innerWidth(),
+			'partidaW': Kafenes.partidaAreaDOM.innerWidth(),
+			'pasW': Kafenes.pasAreaDOM.innerWidth(),
 		});
 
 		Kafenes.mousemove = Kafenes.partidaResize;
@@ -539,13 +527,9 @@ Kafenes.panelAnazitisiSetup = function() {
 		dom.
 		data('mousedownData', {
 			'pageY': e.pageY,
-			'pektisW': Kafenes.pektisAreaDOM.width(),
-			'kafenioW': Kafenes.kafenioAreaDOM.width(),
-			'partidaW': Kafenes.partidaAreaDOM.width(),
-			'pasW': Kafenes.pasAreaDOM.width(),
-			'prosklisiH': Kafenes.prosklisiAreaDOM.height(),
-			'anazitisiH': Kafenes.anazitisiAreaDOM.height(),
-			'sizitisiH': Kafenes.sizitisiAreaDOM.height(),
+			'prosklisiH': Kafenes.prosklisiAreaDOM.innerHeight(),
+			'anazitisiH': Kafenes.anazitisiAreaDOM.innerHeight(),
+			'sizitisiH': Kafenes.sizitisiAreaDOM.innerHeight(),
 		});
 
 		Kafenes.mousemove = Kafenes.anazitisiResize;
@@ -620,9 +604,9 @@ Kafenes.panelSizitisiSetup = function() {
 		dom.
 		data('mousedownData', {
 			'pageY': e.pageY,
-			'prosklisiH': Kafenes.prosklisiAreaDOM.height(),
-			'anazitisiH': Kafenes.anazitisiAreaDOM.height(),
-			'sizitisiH': Kafenes.sizitisiAreaDOM.height(),
+			'prosklisiH': Kafenes.prosklisiAreaDOM.innerHeight(),
+			'anazitisiH': Kafenes.anazitisiAreaDOM.innerHeight(),
+			'sizitisiH': Kafenes.sizitisiAreaDOM.innerHeight(),
 		});
 
 		Kafenes.mousemove = Kafenes.sizitisiResize;
