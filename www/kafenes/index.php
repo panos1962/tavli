@@ -130,10 +130,12 @@ function print_rebelos() {
 
 
 Selida::head();
-Selida::stylesheet("lib/panel.css");
-Selida::javascript("lib/panel.js");
-Selida::stylesheet("kafenes/selida.css");
-Selida::javascript("kafenes/selida.js");
+Selida::stylesheet("tavlijs/tavlijs");
+Selida::javascript("tavlijs/tavlijs");
+Selida::stylesheet("lib/panel");
+Selida::javascript("lib/panel");
+Selida::stylesheet("kafenes/selida");
+Selida::javascript("kafenes/selida");
 
 Selida::body();
 Selida::toolbar();

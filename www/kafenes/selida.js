@@ -2,6 +2,8 @@
 
 var Kafenes = {};
 
+Kafenes.tavli = new tavlijs.tavli();
+
 Selida.init = function() {
 	$('#arxikiXrisi').
 	addClass('linkTab').
@@ -30,6 +32,8 @@ Selida.init = function() {
 	Kafenes.panelKafenioDOM = $('#panelKafenio');
 
 	Kafenes.partidaAreaDOM = $('#partidaArea');
+	Kafenes.diathesimosAreaDOM = $('#diathesimosArea');
+	Kafenes.pexnidiAreaDOM = $('#pexnidiArea');
 	Kafenes.panelPartidaDOM = $('#panelPartida');
 
 	Kafenes.pasAreaDOM = $('#pasArea');
@@ -98,6 +102,8 @@ Selida.resize = function() {
 	w = 0;
 
 	Kafenes.pasAreaDOM.width(w);
+	Kafenes.pexnidiResize();
+
 	return Kafenes;
 };
 
@@ -113,6 +119,25 @@ Kafenes.pasResize = function() {
 	h -= Kafenes.panelSizitisiDOM.outerHeight(true);
 
 	Kafenes.sizitisiAreaDOM.css('height', h + 'px');
+	return Kafenes;
+};
+
+Kafenes.pexnidiResize = function() {
+	let w = Kafenes.pexnidiAreaDOM.width();
+	let h = Kafenes.pexnidiAreaDOM.height();
+console.log(w, h);
+
+	if ((w * 1.1111) > h)
+{
+console.log('asdasd');
+	w = h * 0.9;
+}
+console.log(w, h);
+
+	Kafenes.tavli.platos = w;
+	Kafenes.pexnidiAreaDOM.empty();
+	Kafenes.tavli.dom().appendTo(Kafenes.pexnidiAreaDOM);
+
 	return Kafenes;
 };
 
@@ -284,6 +309,7 @@ Kafenes.pektisResize = function(e) {
 	Kafenes.kafenioAreaDOM.width(kw);
 	Kafenes.partidaAreaDOM.width(rw);
 	Kafenes.pasAreaDOM.width(sw);
+	Kafenes.pexnidiResize();
 };
 
 Kafenes.panelKafenioSetup = function() {
@@ -348,6 +374,7 @@ Kafenes.kafenioResize = function(e) {
 	Kafenes.kafenioAreaDOM.width(kw);
 	Kafenes.partidaAreaDOM.width(rw);
 	Kafenes.pasAreaDOM.width(sw);
+	Kafenes.pexnidiResize();
 };
 
 Kafenes.panelPartidaSetup = function() {
@@ -412,6 +439,7 @@ Kafenes.partidaResize = function(e) {
 	Kafenes.kafenioAreaDOM.width(kw);
 	Kafenes.partidaAreaDOM.width(rw);
 	Kafenes.pasAreaDOM.width(sw);
+	Kafenes.pexnidiResize();
 };
 
 Kafenes.panelPasSetup = function() {

@@ -29,7 +29,8 @@ background-color: #d5d5af;
 }
 
 #pektisArea,
-#kafenioArea {
+#kafenioArea,
+#partidaArea {
 	display: inline-block;
 	font-size: 18px;
 	white-space: normal;
@@ -40,6 +41,7 @@ background-color: #d5d5af;
 #partidaArea {
 	display: inline-block;
 	width: 558px;
+	overflow-y: hidden;
 background-color: #7f9b9b;
 }
 
@@ -111,4 +113,16 @@ background-color: #dbd1a0;
 .kafenioRebelos {
 	width: auto;
 	max-width: 100px;
+}
+
+#diathesimosArea {
+	height: 40px;
+	white-space: nowrap;
+background-color: yellow;
+}
+
+#pexnidiArea {
+	height: calc(100% - 50px);
+	padding: 10px 10px 0px 10px;
+	text-align: center;
 }

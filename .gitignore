@@ -10,6 +10,7 @@
 *\.tab\.[ch]
 lex\.yy\.c
 *\.min\.js
+www/tavlijs
 local/*
 panos*
 !www/test_root.min.js
