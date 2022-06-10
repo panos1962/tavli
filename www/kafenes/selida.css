@@ -1,3 +1,9 @@
+body {
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 #ofelimo {
 	font-size: 0px;
 	white-space: nowrap;
@@ -42,7 +48,9 @@ background-color: #d5d5af;
 	display: inline-block;
 	width: 558px;
 	overflow-y: hidden;
+/*
 background-color: #7f9b9b;
+*/
 }
 
 #pasArea {
@@ -118,11 +126,22 @@ background-color: #dbd1a0;
 #diathesimosArea {
 	height: 40px;
 	white-space: nowrap;
+/*
 background-color: yellow;
+*/
 }
 
 #pexnidiArea {
-	height: calc(100% - 50px);
-	padding: 10px 10px 0px 10px;
+	height: calc(100% - 60px);
+	padding: 10px;
 	text-align: center;
+/*
+background-color: red;
+*/
+}
+
+.tavlijsTavli {
+/*
+background-color: yellow;
+*/
 }

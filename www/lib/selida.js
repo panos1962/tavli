@@ -30,7 +30,7 @@ $(function() {
 		if (Selida.resizeTimer)
 		clearTimeout(Selida.resizeTimer);
 
-		Selida.resizeTimer = setTimeout(Selida.resizeInit, 100);
+		Selida.resizeTimer = setTimeout(Selida.resizeInit, 300);
 	});
 
 	Selida.resizeInit();
@@ -74,24 +74,32 @@ Selida.resizeInit = function() {
 ///////////////////////////////////////////////////////////////////////////////@
 
 Selida.bodySetup = function() {
-	Selida.bodyDOM.on('click', '.linkTab', function(e) {
+	Selida.bodyDOM.on('click', '.tab', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if ($(this).data('klisimo'))
+		let tab = $(this).data('tabData');
+
+		if (!tab)
+		return;
+
+		if (tab.klisimo)
 		return window.close();
 
-		let link = $(this).data('link');
+		if (tab.action)
+		return tab.action($(this));
+
+		let link = tab.link;
 
 		if (!link)
 		return;
 
-		let target = $(this).data('target');
+		let target = tab.target;
 
 		if (!target)
 		target = Selida.tabTargetDefault;
 
-		window.open(link, target);
+		window.open(Selida.url(link), target);
 	});
 
 	return Selida;
@@ -138,28 +146,23 @@ Selida.ribbonSetup = function() {
 
 Selida.tabTargetDefault = '_self';
 
-Selida.tab = function(opts) {
-	if (!opts.hasOwnProperty('html'))
-	throw new Error('undefined tab html');
+Selida.tab = function(props) {
+	if (props === undefined)
+	props = {};
 
-	let dom = $('<div>').addClass('tab').html(opts.html);
+	if (!props.hasOwnProperty('html'))
+	props.html = '&nbsp;';
 
-	if (opts.title)
-	dom.prop('title', opts.title)
+	let dom = $('<div>').
+	data('tabData', props).
+	addClass('tab').
+	html(props.html);
 
-	if (opts.klisimo)
-	return dom.data('klisimo', true).addClass('linkTab');
+	if (props.link)
+	dom.addClass('linkTab');
 
-	if (!opts.link)
-	return dom;
-
-	if (!opts.target)
-	opts.target = Selida.tabTargetDefault;
-
-	dom.
-	data('link', Selida.url(opts.link)).
-	data('target', opts.target).
-	addClass('linkTab');
+	if (props.title)
+	dom.prop('title', props.title)
 
 	return dom;
 }

@@ -2,7 +2,20 @@
 
 var Kafenes = {};
 
+Kafenes.mode =
+Kafenes.modeKafenio = 'Καφενείο';
+Kafenes.modePartida = 'Παρτίδα';
+
 Kafenes.tavli = new tavlijs.tavli();
+
+(function(t) {
+	for (let i = 0; i < 15; i++)
+	t.thiki[0].pouliPush(new tavlijs.pouli(t, 0, i));
+
+	for (let i = 0; i < 15; i++)
+	t.thiki[1].pouliPush(new tavlijs.pouli(t, 1, i));
+})(Kafenes.tavli);
+
 
 Selida.init = function() {
 	$('#arxikiXrisi').
@@ -53,6 +66,9 @@ Selida.init = function() {
 	Kafenes.panelProsklisiSetup();
 	Kafenes.panelAnazitisiSetup();
 	Kafenes.panelSizitisiSetup();
+
+	let modeSwitchTab = Selida.tab().appendTo(Selida.toolbarLeftDOM);
+	Kafenes.modeSetKafenio(modeSwitchTab);
 
 	Selida.bodyDOM.
 	on('mousemove', function(e) {
@@ -125,14 +141,9 @@ Kafenes.pasResize = function() {
 Kafenes.pexnidiResize = function() {
 	let w = Kafenes.pexnidiAreaDOM.width();
 	let h = Kafenes.pexnidiAreaDOM.height();
-console.log(w, h);
 
-	if ((w * 1.1111) > h)
-{
-console.log('asdasd');
-	w = h * 0.9;
-}
-console.log(w, h);
+	if ((w * 0.91) > h)
+	w = h / 0.91;
 
 	Kafenes.tavli.platos = w;
 	Kafenes.pexnidiAreaDOM.empty();
@@ -153,6 +164,53 @@ Kafenes.mouseupDefault = function(e) {
 	e.stopPropagation();
 
 	Kafenes.mousemove = Kafenes.mousemoveDeault;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Kafenes.isKafenio = function() {
+	return (Kafenes.mode === Kafenes.modeKafenio);
+};
+
+Kafenes.isPartida = function() {
+	return (Kafenes.mode === Kafenes.modePartida);
+};
+
+Kafenes.modeSetKafenio = function(tabDom) {
+	let tabData = tabDom.data('tabData');
+
+	Kafenes.mode = Kafenes.modeKafenio;
+	tabData.title = 'Άποψη παρτίδας';
+	tabDom.html(Kafenes.modePartida);
+	tabData.action = Kafenes.modeSetPartida;
+
+	Kafenes.pektisAreaDOM.css('width', '');
+	Kafenes.kafenioAreaDOM.css('width', '');
+	Kafenes.partidaAreaDOM.css('width', '');
+	Selida.resize();
+
+	return Kafenes;
+};
+
+Kafenes.modeSetPartida = function(tabDom) {
+	let tabData = tabDom.data('tabData');
+
+	Kafenes.mode = Kafenes.modePartida;
+	tabData.title = 'Άποψη καφενείου';
+	tabDom.html(Kafenes.modeKafenio);
+	tabData.action = Kafenes.modeSetKafenio;
+
+	let w = Kafenes.partidaAreaDOM.width();
+
+	w += Kafenes.pektisAreaDOM.width();
+	w += Kafenes.kafenioAreaDOM.width();
+
+	Kafenes.pektisAreaDOM.width(0);
+	Kafenes.kafenioAreaDOM.width(0);
+	Kafenes.partidaAreaDOM.width(w);
+	Selida.resize();
+
+	return Kafenes;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
