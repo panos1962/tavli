@@ -126,22 +126,36 @@ background-color: #dbd1a0;
 #diathesimosArea {
 	height: 40px;
 	white-space: nowrap;
+background-color: #abd1cc;
 /*
-background-color: yellow;
 */
 }
 
+#theatisArea {
+	height: 40px;
+	white-space: nowrap;
+background-color: #d1ce70;
+/*
+*/
+}
+
+.partidaPektisArea {
+	height: 40px;
+	white-space: nowrap;
+background-color: red;
+}
+
 #pexnidiArea {
-	height: calc(100% - 60px);
+	height: calc(100% - 180px);
 	padding: 10px;
 	text-align: center;
+background-color: #ff9900;
 /*
-background-color: red;
 */
 }
 
 .tavlijsTavli {
+background-color: darkkhaki;
 /*
-background-color: yellow;
 */
 }

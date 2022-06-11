@@ -87,7 +87,7 @@ function print_trapezi() {
 <?php print $plist[$pektis2]; ?>
 </div>
 </div>
-<div class="trpeziTheatisArea">
+<div class="trapeziTheatisArea">
 <?php print_theatis(random_int(0, 3)); ?>
 </div>
 </div>
@@ -159,7 +159,10 @@ Selida::toolbar();
 
 <div id="partidaArea">
 <div id="diathesimosArea"></div>
+<div class="partidaPektisArea" id="partidaPektis2Area"></div>
 <div id="pexnidiArea"></div>
+<div class="partidaPektisArea" id="partidaPektis1Area"></div>
+<div id="theatisArea"></div>
 </div>
 <div id="panelPartida"></div>
 

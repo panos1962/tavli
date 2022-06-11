@@ -47,6 +47,7 @@ Selida.init = function() {
 	Kafenes.partidaAreaDOM = $('#partidaArea');
 	Kafenes.diathesimosAreaDOM = $('#diathesimosArea');
 	Kafenes.pexnidiAreaDOM = $('#pexnidiArea');
+	Kafenes.theatisAreaDOM = $('#theatisArea');
 	Kafenes.panelPartidaDOM = $('#panelPartida');
 
 	Kafenes.pasAreaDOM = $('#pasArea');
