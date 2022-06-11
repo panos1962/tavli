@@ -140,15 +140,29 @@ Kafenes.pasResize = function() {
 };
 
 Kafenes.pexnidiResize = function() {
-	let w = Kafenes.pexnidiAreaDOM.width();
-	let h = Kafenes.pexnidiAreaDOM.height();
+	Kafenes.pexnidiAreaDOM.css('height', '');
+	Kafenes.theatisAreaDOM.css('height', '');
 
-	if ((w * 0.91) > h)
-	w = h / 0.91;
+	let pw = Kafenes.pexnidiAreaDOM.width();
+	let ph = Kafenes.pexnidiAreaDOM.height();
 
-	Kafenes.tavli.platos = w;
+	if ((pw * 0.91) > ph)
+	pw = ph / 0.91;
+
+	Kafenes.tavli.platos = pw;
 	Kafenes.pexnidiAreaDOM.empty();
-	Kafenes.tavli.dom().appendTo(Kafenes.pexnidiAreaDOM);
+	let boardDOM = Kafenes.tavli.dom().appendTo(Kafenes.pexnidiAreaDOM);
+
+	let bh = boardDOM.outerHeight(true);
+	let dh = ph - bh;
+
+	if (dh <= 0)
+	return Kafenes;
+
+	let th = Kafenes.theatisAreaDOM.height();
+
+	Kafenes.pexnidiAreaDOM.height(ph - dh);
+	Kafenes.theatisAreaDOM.height(th + dh);
 
 	return Kafenes;
 };

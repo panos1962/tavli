@@ -134,6 +134,7 @@ background-color: #abd1cc;
 #theatisArea {
 	height: 40px;
 	white-space: nowrap;
+	overflow: auto;
 background-color: #d1ce70;
 /*
 */
