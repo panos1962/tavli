@@ -267,11 +267,7 @@ Kafenes.modeSetKafenio = function(tabDom) {
 	tabDom.html(Kafenes.modePartida);
 	tabData.action = Kafenes.modeSetPartida;
 
-	Kafenes.pektisAreaDOM.css('width', '');
-	Kafenes.kafenioAreaDOM.css('width', '');
-	Kafenes.partidaAreaDOM.css('width', '');
 	Selida.resize();
-
 	return Kafenes;
 };
 
@@ -283,26 +279,7 @@ Kafenes.modeSetPartida = function(tabDom) {
 	tabDom.html(Kafenes.modeKafenio);
 	tabData.action = Kafenes.modeSetKafenio;
 
-	let pw = Kafenes.partidaAreaDOM.width();
-
-	pw += Kafenes.pektisAreaDOM.width();
-	pw += Kafenes.kafenioAreaDOM.width();
-
-	Kafenes.pektisAreaDOM.width(0);
-	Kafenes.kafenioAreaDOM.width(0);
-
-	Kafenes.partidaAreaDOM.width(pw);
 	Selida.resize();
-
-	let tw = Kafenes.tavliDOM.width();
-	let dw = pw - tw;
-
-	if (dw <= 20)
-	return Kafenes;
-
-	Kafenes.pasAreaDOM.width(Kafenes.pasAreaDOM.width() + dw);
-	Kafenes.partidaAreaDOM.width(Kafenes.partidaAreaDOM.width() - dw);
-
 	return Kafenes;
 };
 
