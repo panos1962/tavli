@@ -83,48 +83,100 @@ Selida.init = function() {
 };
 
 Selida.resize = function() {
+	// Πρώτα θέτουμε την καθ' ύψος διάσταση όλων των επίμαχων περιοχών.
+	// Οι επίμαχες περιοχές είναι οι κάθετες περιοχές που εκτείνονται
+	// στην ωφέλιμη περιοχή.
+
 	let h = Selida.ofelimoDOM.height();
 
 	Kafenes.panelMainDOM.height(h);
-
 	Kafenes.pektisAreaDOM.height(h);
 	Kafenes.panelPektisDOM.height(h);
-
 	Kafenes.kafenioAreaDOM.height(h);
 	Kafenes.panelKafenioDOM.height(h);
-
 	Kafenes.partidaAreaDOM.height(h);
 	Kafenes.panelPartidaDOM.height(h);
-
 	Kafenes.pasAreaDOM.height(h);
 	Kafenes.panelPasDOM.height(h);
-	Kafenes.pasResize();
+	Kafenes.pasHeightResize();
 
-	let w = Selida.ofelimoDOM.innerWidth();
+	// Κατόπιν θέτουμε τα πλάτη των επίμαχων περιοχών ώστε να χωρούν κατά
+	// πλάτος στην ωφέλιμη περιοχή.
 
-	w -= Kafenes.panelMainDOM.outerWidth(true);
+	// Αρχικά μηδενίζουμε όλα τα πλάτη.
 
-	w -= Kafenes.pektisAreaDOM.outerWidth(true);
-	w -= Kafenes.panelPektisDOM.outerWidth(true);
+	Kafenes.pektisAreaDOM.width(0);
+	Kafenes.kafenioAreaDOM.width(0);
+	Kafenes.partidaAreaDOM.width(0);
+	Kafenes.pasAreaDOM.width(0);
 
-	w -= Kafenes.kafenioAreaDOM.outerWidth(true);
-	w -= Kafenes.panelKafenioDOM.outerWidth(true);
+	// Υπολογίζουμε το πλάτος της ωφέλιμης περιοχής.
 
-	w -= Kafenes.partidaAreaDOM.outerWidth(true);
-	w -= Kafenes.panelPartidaDOM.outerWidth(true);
+	let ow = Selida.ofelimoDOM.innerWidth();
 
-	w -= Kafenes.panelPasDOM.outerWidth(true);
+	// Αφαιρούμε από το διαθέσιμο πλάτος τα πλάτη των κάθετων panels.
 
-	if (w < 0)
-	w = 0;
+	ow -= Kafenes.panelMainDOM.outerWidth(true);
+	ow -= Kafenes.panelPektisDOM.outerWidth(true);
+	ow -= Kafenes.panelKafenioDOM.outerWidth(true);
+	ow -= Kafenes.panelPartidaDOM.outerWidth(true);
+	ow -= Kafenes.panelPasDOM.outerWidth(true);
 
-	Kafenes.pasAreaDOM.width(w);
-	Kafenes.pexnidiResize();
+	// Αν δεν έχει περισσέψει διαθέσιμο πλάτος, τότε δεν μπορούμε να
+	// κάνουμε τίποτα.
 
+	if (ow <= 0)
+	return Kafenes;
+
+	// Έχει περισσέψει κάποιο πλάτος, επομένως θα πρέπει να διαπλατύνουμε
+	// κάποιες από τις περιοχές. Αν είμαστε σε mode παρτίδας, δίνουμε
+	// έμφαση στην περιοχή παρτίδας.
+
+	if (Kafenes.modeIsPartida()) {
+		Kafenes.partidaAreaDOM.width(ow);
+		Kafenes.pexnidiResize();
+		Kafenes.partidaWidthResize();
+		return Kafenes;
+	}
+
+	// Είμαστε σε mode καφενείου, οπότε εκκινούμε τις διαπλατύνσεις από
+	// την περιοχή παικτών, δίνοντάς της αρχικά το default πλάτος.
+
+	Kafenes.pektisAreaDOM.css('width', '');
+	let w = Kafenes.pektisAreaDOM.outerWidth(true);
+	ow -= w;
+
+	// Αν έχουμε υπερβεί το διαθέσιμο πλάτος, τότε μειώνουμε το πλάτος
+	// της περιοχής παικτών και επιστρέφουμε.
+
+	if (ow < 0) {
+		Kafenes.pektisAreaDOM.width(w + ow);
+		return Kafenes;
+	}
+
+	// Υπάρχει και άλλο διαθέσιμο πλάτος, οπότε πλαταίνουμε την περιοχή
+	// καφενείου, δίνοντάς της αρχικά το default πλάτος.
+
+	Kafenes.kafenioAreaDOM.css('width', '');
+	w = Kafenes.kafenioAreaDOM.outerWidth(true);
+	ow -= w;
+
+	// Αν έχουμε υπερβεί το διαθέσιμο πλάτος, τότε μειώνουμε το πλάτος
+	// της περιοχής καφενείου και επιστρέφουμε.
+
+	if (ow < 0) {
+		Kafenes.kafenioAreaDOM.width(w + ow);
+		return Kafenes;
+	}
+
+	// Εφόσον υπάρχει επιπλέον διαθέσιμο πλάτος, το δίνουμε στην περιοχή
+	// συζήτησης.
+
+	Kafenes.pasAreaDOM.width(ow);
 	return Kafenes;
 };
 
-Kafenes.pasResize = function() {
+Kafenes.pasHeightResize = function() {
 	let h = Selida.ofelimoDOM.innerHeight();
 
 	h -= Kafenes.panelProsklisiDOM.outerHeight(true);
@@ -147,14 +199,15 @@ Kafenes.pexnidiResize = function() {
 	let ph = Kafenes.pexnidiAreaDOM.height();
 
 	const coe = 0.81;
+
 	if ((pw * coe) > ph)
 	pw = ph / coe;
 
 	Kafenes.tavli.platos = pw;
 	Kafenes.pexnidiAreaDOM.empty();
-	let boardDOM = Kafenes.tavli.dom().appendTo(Kafenes.pexnidiAreaDOM);
+	Kafenes.tavliDOM = Kafenes.tavli.dom().appendTo(Kafenes.pexnidiAreaDOM);
 
-	let bh = boardDOM.outerHeight(true);
+	let bh = Kafenes.tavliDOM.outerHeight(true);
 	let dh = ph - bh;
 
 	if (dh <= 0)
@@ -164,6 +217,20 @@ Kafenes.pexnidiResize = function() {
 
 	Kafenes.pexnidiAreaDOM.height(ph - dh);
 	Kafenes.theatisAreaDOM.height(th + dh);
+
+	return Kafenes;
+};
+
+Kafenes.partidaWidthResize = function() {
+	let pw = Kafenes.partidaAreaDOM.width();
+	let tw = Kafenes.tavliDOM.width();
+	let dw = pw - tw;
+
+	if (dw <= 20)
+	return Kafenes;
+
+	Kafenes.pasAreaDOM.width(Kafenes.pasAreaDOM.width() + dw);
+	Kafenes.partidaAreaDOM.width(Kafenes.partidaAreaDOM.width() - dw);
 
 	return Kafenes;
 };
@@ -184,11 +251,11 @@ Kafenes.mouseupDefault = function(e) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Kafenes.isKafenio = function() {
+Kafenes.modeIsKafenio = function() {
 	return (Kafenes.mode === Kafenes.modeKafenio);
 };
 
-Kafenes.isPartida = function() {
+Kafenes.modeIsPartida = function() {
 	return (Kafenes.mode === Kafenes.modePartida);
 };
 
@@ -216,15 +283,25 @@ Kafenes.modeSetPartida = function(tabDom) {
 	tabDom.html(Kafenes.modeKafenio);
 	tabData.action = Kafenes.modeSetKafenio;
 
-	let w = Kafenes.partidaAreaDOM.width();
+	let pw = Kafenes.partidaAreaDOM.width();
 
-	w += Kafenes.pektisAreaDOM.width();
-	w += Kafenes.kafenioAreaDOM.width();
+	pw += Kafenes.pektisAreaDOM.width();
+	pw += Kafenes.kafenioAreaDOM.width();
 
 	Kafenes.pektisAreaDOM.width(0);
 	Kafenes.kafenioAreaDOM.width(0);
-	Kafenes.partidaAreaDOM.width(w);
+
+	Kafenes.partidaAreaDOM.width(pw);
 	Selida.resize();
+
+	let tw = Kafenes.tavliDOM.width();
+	let dw = pw - tw;
+
+	if (dw <= 20)
+	return Kafenes;
+
+	Kafenes.pasAreaDOM.width(Kafenes.pasAreaDOM.width() + dw);
+	Kafenes.partidaAreaDOM.width(Kafenes.partidaAreaDOM.width() - dw);
 
 	return Kafenes;
 };
@@ -544,7 +621,7 @@ Kafenes.panelProsklisiSetup = function() {
 					Kafenes.prosklisiAreaDOM.css('height', '');
 					Kafenes.anazitisiAreaDOM.css('height', '');
 					Kafenes.sizitisiAreaDOM.css('height', '');
-					Kafenes.pasResize();
+					Kafenes.pasHeightResize();
 				},
 			}),
 			new Panel.panelItem({
