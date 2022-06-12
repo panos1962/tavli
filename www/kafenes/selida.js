@@ -146,8 +146,9 @@ Kafenes.pexnidiResize = function() {
 	let pw = Kafenes.pexnidiAreaDOM.width();
 	let ph = Kafenes.pexnidiAreaDOM.height();
 
-	if ((pw * 0.91) > ph)
-	pw = ph / 0.91;
+	const coe = 0.81;
+	if ((pw * coe) > ph)
+	pw = ph / coe;
 
 	Kafenes.tavli.platos = pw;
 	Kafenes.pexnidiAreaDOM.empty();
