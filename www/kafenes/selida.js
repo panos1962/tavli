@@ -45,7 +45,7 @@ Selida.init = function() {
 	Kafenes.panelKafenioDOM = $('#panelKafenio');
 
 	Kafenes.partidaAreaDOM = $('#partidaArea');
-	Kafenes.diathesimosAreaDOM = $('#diathesimosArea');
+	Kafenes.eleftherosAreaDOM = $('#eleftherosArea');
 	Kafenes.pexnidiAreaDOM = $('#pexnidiArea');
 	Kafenes.theatisAreaDOM = $('#theatisArea');
 	Kafenes.panelPartidaDOM = $('#panelPartida');
@@ -531,10 +531,13 @@ Kafenes.panelPartidaSetup = function() {
 		'ilist': [
 			Kafenes.areaResize(),
 			new Panel.panelItem({
-				'icon': 'ikona/panel/4Balls.png',
+				'icon': 'ikona/panel/eleftheros.png',
+				'action': Kafenes.eleftherosAreaToggle,
+				'title': 'Απόκρυψη/Εμφάνιση διαθέσιμων παικτών',
 			}),
 			new Panel.panelItem({
-				'icon': 'ikona/panel/4Balls.png',
+				'icon': 'ikona/panel/theatis.png',
+				'action': Kafenes.theatisAreaToggle,
 			}),
 		],
 	});
@@ -757,6 +760,66 @@ Kafenes.sizitisiResize = function(e) {
 	Kafenes.sizitisiAreaDOM.height(sh);
 	Kafenes.anazitisiAreaDOM.height(ah);
 	Kafenes.prosklisiAreaDOM.height(ph);
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Kafenes.eleftherosAreaIsHidden = function() {
+	let vis = Kafenes.eleftherosAreaDOM.css('visibility');
+
+	return (vis === 'hidden');
+}
+
+Kafenes.eleftherosAreaIsVisible = function() {
+	return !Kafenes.eleftherosAreaIsHidden();
+}
+
+Kafenes.eleftherosAreaToggle = function(panelItemDom) {
+	let panelItem = panelItemDom.data('panelItem');
+
+	if (Kafenes.eleftherosAreaIsHidden()) {
+		Kafenes.eleftherosAreaDOM.css('visibility', 'visible');
+		panelItemDom.
+		css('opacity', 1).
+		attr('title', 'Απόκρυψη ελεύθερων παικτών');
+	}
+
+	else {
+		Kafenes.eleftherosAreaDOM.css('visibility', 'hidden');
+		panelItemDom.
+		css('opacity', 0.6).
+		attr('title', 'Εμφάνιση ελεύθερων παικτών');
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+Kafenes.theatisAreaIsHidden = function() {
+	let vis = Kafenes.theatisAreaDOM.css('visibility');
+
+	return (vis === 'hidden');
+}
+
+Kafenes.theatisAreaIsVisible = function() {
+	return !Kafenes.theatisAreaIsHidden();
+}
+
+Kafenes.theatisAreaToggle = function(panelItemDom) {
+	let panelItem = panelItemDom.data('panelItem');
+
+	if (Kafenes.theatisAreaIsHidden()) {
+		Kafenes.theatisAreaDOM.css('visibility', 'visible');
+		panelItemDom.
+		css('opacity', 1).
+		attr('title', 'Απόκρυψη θεατών παρτίδας');
+	}
+
+	else {
+		Kafenes.theatisAreaDOM.css('visibility', 'hidden');
+		panelItemDom.
+		css('opacity', 0.6).
+		attr('title', 'Εμφάνιση θεατών παρτίδας');
+	}
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

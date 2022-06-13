@@ -158,7 +158,7 @@ Selida::toolbar();
 <div id="panelKafenio"></div>
 
 <div id="partidaArea">
-<div id="diathesimosArea"></div>
+<div id="eleftherosArea"></div>
 <div class="partidaPektisArea" id="partidaPektis2Area"></div>
 <div id="pexnidiArea"></div>
 <div class="partidaPektisArea" id="partidaPektis1Area"></div>
