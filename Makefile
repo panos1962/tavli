@@ -19,6 +19,9 @@ push:
 min:
 	(cd www && make min)
 
+install:
+	local/install.sh
+
 test:
 	@#database/ddload.sh -L
 	@#misc/test_install.sh asda
