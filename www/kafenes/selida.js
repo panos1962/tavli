@@ -194,18 +194,29 @@ Kafenes.pasHeightResize = function() {
 Kafenes.pexnidiResize = function() {
 	Kafenes.pexnidiAreaDOM.css('height', '');
 	Kafenes.theatisAreaDOM.css('height', '');
+	Kafenes.pexnidiAreaDOM.empty();
 
 	let pw = Kafenes.pexnidiAreaDOM.width();
 	let ph = Kafenes.pexnidiAreaDOM.height();
 
-	const coe = 0.81;
+	// Ο συντελεστής που ακολουθεί δείχνει την αναλογία του ύψους
+	// προς το πλάτος του board (στις διαστάσεις συμπεριλαμβάνονται
+	// οι εκατέρωθεν «θήκες»).
+
+	const coe = 0.8;
+
+	// Σε περίπτωση που υπάρχει «περίσσευμα» πλάτους με βάση το ύψος
+	// που έχει διαμορφωθεί, διαμορφώνω κατάλληλα το πλάτος του board
+	// προκειμένου να μην «χάνεται» διαθέσιμο πλάτος από τη συζήτηση.
 
 	if ((pw * coe) > ph)
 	pw = ph / coe;
 
 	Kafenes.tavli.platos = pw;
-	Kafenes.pexnidiAreaDOM.empty();
 	Kafenes.tavliDOM = Kafenes.tavli.dom().appendTo(Kafenes.pexnidiAreaDOM);
+
+	// Το board έχει διαμορφωθεί, οπότε θα ελέγξουμε αν υπάρχει διαθέσιμο
+	// ύψος προκειμένου να αυξήσουμε τον χώρο των θεατών (κάτω).
 
 	let bh = Kafenes.tavliDOM.outerHeight(true);
 	let dh = ph - bh;
@@ -224,9 +235,18 @@ Kafenes.pexnidiResize = function() {
 Kafenes.partidaWidthResize = function() {
 	let pw = Kafenes.partidaAreaDOM.width();
 	let tw = Kafenes.tavliDOM.width();
+
+	// Προσθέτουμε το οριζόντιο padding της περιοχής παιχνιδιού.
+
+	tw += Kafenes.pexnidiAreaDOM.outerWidth(true);
+	tw -= Kafenes.pexnidiAreaDOM.width();
+
+	// Υπολογίζουμε το διαθέσιμο υπόλοιπο πλάτος της περιοχής παιχνιδιού
+	// προκειμένου να αυξήσουμε, αν μπορούμε, το πλάτος της συζήτησης.
+
 	let dw = pw - tw;
 
-	if (dw <= 20)
+	if (dw < 0)
 	return Kafenes;
 
 	Kafenes.pasAreaDOM.width(Kafenes.pasAreaDOM.width() + dw);
