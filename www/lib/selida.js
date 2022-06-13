@@ -30,7 +30,7 @@ $(function() {
 		if (Selida.resizeTimer)
 		clearTimeout(Selida.resizeTimer);
 
-		Selida.resizeTimer = setTimeout(Selida.resizeInit, 300);
+		Selida.resizeTimer = setTimeout(Selida.resizeInit, 100);
 	});
 
 	Selida.resizeInit();

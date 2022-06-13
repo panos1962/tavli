@@ -20,7 +20,7 @@ min:
 	(cd www && make min)
 
 install:
-	local/install.sh
+	@local/install.sh
 
 test:
 	@#database/ddload.sh -L
