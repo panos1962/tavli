@@ -1,5 +1,8 @@
 "use strict";
 
+global.server = {};
+let Server = global.server;
+
 // Εμπλουτίζουμε με απλές δομές και μεθόδους που θα μας βοηθήσουν στην
 // εκτύπωση μηνυμάτων προόδου των εργασιών του παρόντος κλπ.
 
@@ -72,17 +75,11 @@ require('./globals.js');
 Log.print('reading database access module');
 require('./db.js');
 
-// Εμπλουτίζουμε με δομές και μεθόδους που είναι κοινές σε server και client,
-// και αφορούν στα παιχνίδια του «Ταβλαδόρου».
-
-Log.print('reading common "tavladoros" module');
-Server.requireExisting('../client/common/tavladoros');
-
 // Εμπλουτίζουμε με δομές και μεθόδους που είναι κοινές σε server και client
 // και αφορούν στη διαμόρφωση και στον χειρισμό του σκηνικού.
 
 Log.print('reading common "skiniko" module');
-Server.requireExisting('../client/common/skiniko');
+Server.require('../common/skiniko');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στη διαμόρφωση και στον
 // χειρισμό του σκηνικού ειδικά από την πλευρά του server.
@@ -111,7 +108,7 @@ require('./server.js');
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στο transaction log.
 
 Log.print('reading "kinisi" module');
-Server.requireExisting('../client/common/kinisi');
+Server.require('../common/kinisi');
 require('./kinisi.js');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στον κύκλο τακτικού ελέγχου
@@ -124,12 +121,13 @@ require('./peripolos.js');
 // όπου κάνουμε ανάπτυξη των προγραμμάτων θέτουμε κάποιες flags για το
 // debugging.
 
-Server.requireExisting('../client/common/rcLocal');
-Server.requireExisting('./rcLocal');
+Server.require('../client/common/rcLocal');
+Server.require('./rcLocal');
 
 // Αναπροσαρμόζουμε διάφορες παραμέτρους, στήνουμε το σκηνικό και μπαίνουμε
 // σε κατάσταση ετοιμότητας. Όλα αυτά θα γίνουν αλυσιδωτά, εκκινώντας με το
 // στήσιμο του σκηνικού και συνεχίζοντας με callbacks μέχρι το άνοιγμα της
 // πόρτας υποδοχής αιτημάτων.
 
+console.log('asdasda');
 skiniko = new Skiniko().stisimo();
