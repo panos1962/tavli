@@ -1,10 +1,10 @@
 "use strict";
 
+global.Log = {};
+
 // Στο παρόν module ορίζουμε δομές και μεθόδους που αφορούν στο console log
 // και γενικότερα στην παρακολούθηση των εργασιών που εκτελούνται στον node
 // server.
-
-global.Log = {};
 
 Log.level = {
 	level: 0,

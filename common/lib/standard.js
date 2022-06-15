@@ -1,6 +1,10 @@
 "use strict";
 
-var Globals = {};
+try {
+	global.Globals = {};
+} catch (e) {
+	window.Globals = {};
+}
 
 Globals.gramataMask = 'a-zA-Z' +
 	'αβγδεζηθικλμνξοπρστυφχψω' +
@@ -54,3 +58,14 @@ Globals.validEmail = function(email) {
 Globals.invalidEmail = function(email) {
 	return !Globals.validEmail(email);
 };
+
+///////////////////////////////////////////////////////////////////////////////@
+
+String.prototype.evalAsfales = function() {
+	let x;
+
+	eval('x = ' + this.valueOf() + ';');
+	return x;
+};
+
+///////////////////////////////////////////////////////////////////////////////@

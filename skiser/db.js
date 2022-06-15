@@ -1,13 +1,11 @@
 "use strict";
 
-let Server = global.server;
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
 // Δημιουργούμε το singelton "DB" το οποίο αφορά στην επαφή μας με την database.
 // Περιέχει connection pool, connection free stack και σχετικές functions.
 
-let DB = {};
+global.DB = {};
 
 // Ακολουθεί το connection pool. Πρόκειται για array συνδέσεων με την database.
 // Κάθε νέα connection προστίθεται στο array. Εφόσον φροντίζουμε να απελευθερώνουμε
@@ -40,7 +38,7 @@ DB.connection = function() {
 
 	conn.activeSet(true);
 	return conn;
-}
+};
 
 // Η property "timeout" δείχνει σε πόσα milliseconds μια sql connection θεωρείται ανενεργή.
 // Αν, δηλαδή, κάποια sql connection δεν εκτελέσει query στο συγκεκριμένο διάστημα, τότε
@@ -89,7 +87,7 @@ DB.timeoutSet = function(rows) {
 	if (DB.timeout < 10000)
 		throw 'DB.timeoutSet: too small database connection timeout (' +
 			Math.floor(DB.timeout / 1000) + ' sec)';
-}
+};
 
 // Αν το connection δεν εκτελέσει κανένα πραγματικό query για πάνω από μισή ώρα, τότε
 // θεωρείται zombie και επανατοποθετείται στο free stack. Η property "zombie" σκοπό έχει
@@ -134,7 +132,7 @@ DB.check = function() {
 			conn.free();
 		}
 	});
-}
+};
 
 // Η function "reset" κλείνει όλα τα database connections και "μηδενίζει" το connection
 // pool και το connection free stack.
@@ -142,7 +140,7 @@ DB.check = function() {
 DB.reset = function(callback) {
 	Log.level.push('closing database connections');
 	DB.resetRest(callback);
-}
+};
 
 DB.resetRest = function(callback) {
 	if (DB.pool.length) return DB.pool.pop().connection.end(function() {
@@ -153,7 +151,7 @@ DB.resetRest = function(callback) {
 	DB.pool = [];
 	DB.freeStack = [];
 	if (callback) callback();
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
@@ -188,7 +186,7 @@ DB.nodedb.password = DB.nodedb.dbpass;
 // για ενισχυμένα αντικείμενα συνδέσεων, δηλαδή συνδέσεις που εμπλουτίζονται με
 // επιπλέλον properties και μεθόδους.
 
-let DBSindesi = function() {
+const DBSindesi = function() {
 	// Το property "active" δείχνει αν το connection είναι ενεργό, δηλαδή
 	// αν το connection δεν έχει τοποθετηθεί ή επανατοποθετηθεί στο free
 	// stack.
@@ -215,36 +213,36 @@ let DBSindesi = function() {
 
 	this.indexSet(DB.pool.push(this) - 1);
 	Globals.consoleLog('new database connection: ' + this.indexGet());
-}
+};
 
 DBSindesi.prototype.indexSet = function(idx) {
 	this.index = idx;
 	return this;
-}
+};
 
 DBSindesi.prototype.indexGet = function() {
 	return this.index;
-}
+};
 
 DBSindesi.prototype.activeSet = function(naiOxi) {
 	this.active = naiOxi;
 	return this;
-}
+};
 
 DBSindesi.prototype.isActive = function() {
 	return this.active;
-}
+};
 
 DBSindesi.prototype.oxiActive = function() {
 	return !this.isActive();
-}
+};
 
 // Η μέθοδος "escape" χρησιμοποιείται κυρίως στην κατασκευή των queries και σκοπό
 // έχει την προφύλαξη από SQL injections και το escaping των ειδικών χαρακτήρων.
 
 DBSindesi.prototype.escape = function(s) {
 	return this.connection.escape(s);
-}
+};
 
 // Η μέθοδος "query" είναι αυτή που αναλαμβάνει να εκτελέσει τα queries του ανά χείρας
 // connection. Ως παραμέτρους δέχεται το query αυτό καθεαυτό και (προαιρετικά) μια
@@ -286,7 +284,7 @@ DBSindesi.prototype.query = function(query, callback) {
 	});
 
 	return this;
-}
+};
 
 // Μετά το πέρας των εργασιών που επιτελούνται στα πλαίσια κάποιας database connection,
 // πρέπει να καλείται η μέθοδος "free" με την οποία επιστρέφεται το connection στο free
@@ -299,7 +297,7 @@ DBSindesi.prototype.free = function() {
 	this.activeSet(false);
 	DB.freeStack.push(this.index);
 	return this;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
@@ -314,7 +312,7 @@ DBSindesi.prototype.transaction = function(callback) {
 	});
 
 	return this;
-}
+};
 
 // Η μέθοδος "commit" κλείνει μια σειρά από queries που είχαν εκκινήσει με τη μέθοδο
 // "transaction" κάνοντας commit. Ως παράμετρο μπορούμε να περάσουμε callback function
@@ -328,7 +326,7 @@ DBSindesi.prototype.commit = function(callback) {
 	});
 
 	return this;
-}
+};
 
 // Η μέθοδος "rollback" κλείνει μια σειρά από queries που είχαν εκκινήσει με τη μέθοδο
 // "transaction" κάνοντας rollback, ακυρώνοντας ουσιαστικά τις όποιες αλλαγές τα queries
@@ -343,7 +341,7 @@ DBSindesi.prototype.rollback = function(callback) {
 	});
 
 	return this;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
@@ -352,7 +350,7 @@ DBSindesi.prototype.rollback = function(callback) {
 
 DBSindesi.xeklidoma = function(conn) {
 	conn.free();
-}
+};
 
 // Η function "klidomeno" χρησιμοποιείται ως default error function σε περίπτωση
 // που κάποιο κλείδωμα αποτύχει.
@@ -360,7 +358,7 @@ DBSindesi.xeklidoma = function(conn) {
 DBSindesi.klidomeno = function(conn, tag) {
 	conn.free();
 	throw tag + ': database lock exists'
-}
+};
 
 DBSindesi.prototype.klidoma = function(tag, opts) {
 	var query;
@@ -378,7 +376,7 @@ DBSindesi.prototype.klidoma = function(tag, opts) {
 	});
 
 	return this;
-}
+};
 
 DBSindesi.prototype.xeklidoma = function(tag, callback) {
 	var query = 'DO RELEASE_LOCK(' + this.escape(tag) + ')';
@@ -388,4 +386,4 @@ DBSindesi.prototype.xeklidoma = function(tag, callback) {
 	});
 
 	return this;
-}
+};

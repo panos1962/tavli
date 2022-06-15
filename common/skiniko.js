@@ -1,38 +1,16 @@
 "use strict";
 
-// Το σκηνικό αποτελείται από:
-//
-//	Παίκτες		Πρόκειται για λίστα δεικτοδοτημένη με το login name του παίκτη
-//			που για κάποιο λόγο πρέπει να τους έχουμε πρόχειρους. Οι λόγοι
-//			αυτοί είναι: ο παίκτης είναι online, ο παίκτης παίζει σε κάποιο
-//			τραπέζι. Η λίστα των παικτών εκκαθαρίζεται από καιρού εις καιρόν
-//			μέσω συγκεκριμένης διαδικασίας περιπόλου.
-//
-//	Τραπέζια	Πρόκειται για λίστα δεικτοδοτημένη με τον κωδικό τραπεζιού και
-//			περιέχει όλα τα ενεργά τραπέζια. Κάθε νέο τραπέζι εντάσσεται στη
-//			λίστα των τραπεζιών και αφαιρείται με το κλείσιμο και την
-//			αρχειοθέτησή του.
-//
-//
-//	Συνεδρίες	Πρόκειται για λίστα δεικτοδοτημένη με το login name του παίκτη
-//			και περιλαμβάνει όλους τους online παίκτες. Η λίστα περιέχει
-//			στοιχεία επικοινωνίας του παίκτη με τον server (IP, κλειδί,
-//			αίτημα δεδομένων, κανάλι απάντησης κλπ) και τα στοιχεία θέσης
-//			του παίκτη (κωδικός τραπεζιού, θέση και τρόπος συμμετοχής στο
-//			τραπέζι). Οι συνεδρίες αφαιρούνται από τη λίστα είτε κατά την
-//			ρητή έξοδο του παίκτη από το καφενείο, είτε μέσω περιπολικής
-//			διαδικασίας εκκαθάρισης που κλείνει συνεδρίες που δείχνουν να
-//			είναι αδρανείς για μεγάλο χρονικό διάστημα.
-//
-//	Συζήτηση	Πρόκειται για λίστα δεικτοδοτημένη με τον κωδικό σχολίου και
-//			αφορά στη δημόσια συζήτηση του καφενείου.
-//
-// Υπάρχει πλήρες σκηνικό στον skiser και υποσύνολα σε κάθε client. Τα σκηνικά των clients
-// περιλαμβάνουν εκείνα τα στοιχεία του σκηνικού που αφορούν στον αντίστοιχο παίκτη.
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-tavli.pektis = function(props) {
+let globobj;
+
+try {
+	globobj = window;
+} catch (e) {
+	globobj = global;
+};
+
+globobj.Pektis = function(props) {
 	this.peparam = {};
 	this.sxesi = {};
 	// Η λίστα πληροφοριών προφίλ δεν πρέπει να τεθεί εδώ.
@@ -319,7 +297,7 @@ Pektis.prototype.pektisProfinfoWalk = function(callback) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Peparam = function(props) {
+globobj.Peparam = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -346,19 +324,19 @@ Peparam.axiomaRank = {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sxesi = function(props) {
+globobj.Sxesi = function(props) {
 	Globals.initObject(this, props);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Profinfo = function(props) {
+globobj.Profinfo = function(props) {
 	Globals.initObject(this, props);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Trapezi = function(props) {
+globobj.Trapezi = function(props) {
 	var trapezi = this;
 
 	this.trparam = {
@@ -999,7 +977,7 @@ Trapezi.prototype.trapeziArvilaDelete = function(pektis) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Trparam = function(props) {
+globobj.Trparam = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -1017,7 +995,7 @@ Trparam.prototype.trparamTimiGet = function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Simetoxi = function(props) {
+globobj.Simetoxi = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -1035,7 +1013,7 @@ Simetoxi.prototype.simetoxiThesiGet = function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Telefteos = function(props) {
+globobj.Telefteos = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -1053,162 +1031,7 @@ Telefteos.prototype.telefteosPektisGet = function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Dianomi = function(props) {
-	var thesi, prop;
-
-	this.energia = {};
-	this.energiaArray = [];
-	Globals.initObject(this, props);
-
-	if (isNaN(this.kodikos)) delete this.kodikos;
-	else this.kodikos = parseInt(this.kodikos);
-
-	for (thesi = 1; thesi <= Prefadoros.thesiMax; thesi++) {
-		prop = 'kasa' + thesi;
-		this[prop] = isNaN(this[prop]) ? 0 : parseInt(this[prop]);
-
-		prop = 'metrita' + thesi;
-		this[prop] = isNaN(this[prop]) ? 0 : parseInt(this[prop]);
-	}
-};
-
-Dianomi.prototype.dianomiKodikosGet = function() {
-	return this.kodikos;
-};
-
-Dianomi.prototype.dianomiTrapeziGet = function() {
-	return this.trapezi;
-};
-
-Dianomi.prototype.dianomiEnarxiGet = function() {
-	return this.enarxi;
-};
-
-Dianomi.prototype.dianomiDealerGet = function() {
-	return this.dealer;
-};
-
-Dianomi.prototype.dianomiKasaSet = function(thesi, kapikia) {
-	this['kasa' + thesi] = kapikia;
-	return this;
-};
-
-Dianomi.prototype.dianomiKasaAdd = function(thesi, kapikia) {
-	this['kasa' + thesi] += kapikia;
-	return this;
-};
-
-Dianomi.prototype.dianomiKasaGet = function(thesi) {
-	return parseInt(this['kasa' + thesi]);
-};
-
-Dianomi.prototype.dianomiMetritaSet = function(thesi, kapikia) {
-	this['metrita' + thesi] = kapikia;
-	return this;
-};
-
-Dianomi.prototype.dianomiMetritaAdd = function(thesi, kapikia) {
-	this['metrita' + thesi] += kapikia;
-	return this;
-};
-
-Dianomi.prototype.dianomiMetritaSub = function(thesi, kapikia) {
-	this['metrita' + thesi] -= kapikia;
-	return this;
-};
-
-Dianomi.prototype.dianomiMetritaGet = function(thesi) {
-	return parseInt(this['metrita' + thesi]);
-};
-
-Dianomi.prototype.dianomiTelosSet = function(telos) {
-	if (telos === undefined)
-	telos = Math.floor(Date.now() / 1000);
-
-	this.telos = telos;
-	return this;
-};
-
-Dianomi.prototype.dianomiTelosGet = function() {
-	return this.telos;
-};
-
-Dianomi.prototype.dianomiEnergiaSet = function(energia) {
-	this.energia[energia.energiaKodikosGet()] = energia;
-	return this;
-};
-
-Dianomi.prototype.dianomiEnergiaGet = function(kodikos) {
-	return this.energia[kodikos];
-};
-
-Dianomi.prototype.dianomiEnergiaDelete = function(kodikos) {
-	delete this.energia[kodikos];
-	return this;
-};
-
-// Η μέθοδος "dianomiEnergiaWalk" διατρέχει τις διανομές του τραπεζιού και για κάθε
-// ενέργεια καλεί callback function ως μέθοδο της ενέργειας.
-//
-// Αν δεν υφίσταται παράμετρος "dir" οι επισκέψεις γίνονται με τυχαία σειρά. Αν η
-// παράμετρος είναι 1 οι επισκέψεις γίνονται με αύξουσα σειρά, ενώ αν είναι -1 με
-// φθίνουσα.
-
-Dianomi.prototype.dianomiEnergiaWalk = function(callback, dir) {
-	var i;
-
-	if (dir > 0) {
-		for (i = 0; i < this.energiaArray.length; i++) {
-			callback.call(this.energiaArray[i]);
-		}
-	}
-	else if (dir < 0) {
-		for (i = this.energiaArray.length; i >= 0; i--) {
-			callback.call(this.energiaArray[i]);
-		}
-	}
-	else {
-		for (i in this.energia) {
-			callback.call(this.energia[i]);
-		}
-	}
-
-	return this;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Energia = function(props) {
-	Globals.initObject(this, props);
-};
-
-Energia.prototype.energiaKodikosGet = function() {
-	return this.kodikos;
-};
-
-Energia.prototype.energiaDianomiGet = function() {
-	return this.dianomi;
-};
-
-Energia.prototype.energiaIdosGet = function() {
-	return this.idos;
-};
-
-Energia.prototype.energiaPektisGet = function() {
-	return this.pektis;
-};
-
-Energia.prototype.energiaDataGet = function() {
-	return this.data;
-};
-
-Energia.prototype.energiaPoteGet = function() {
-	return this.pote;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Sizitisi = function(props) {
+globobj.Sizitisi = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -1269,7 +1092,7 @@ Sizitisi.prototype.sizitisiPoteGet = function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sinedria = function(props) {
+globobj.Sinedria = function(props) {
 	Globals.initObject(this, props);
 	if (Prefadoros.isThesi(this.thesi)) this.thesi = parseInt(this.thesi);
 };
@@ -1465,7 +1288,7 @@ Sinedria.prototype.sinedriaEntopismos = function(skiniko) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Prosklisi = function(props) {
+globobj.Prosklisi = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -1550,189 +1373,7 @@ Prosklisi.prototype.prosklisiIsAdiafori = function(pektis) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Arvila = function(props) {
-	Globals.initObject(this, props);
-};
-
-Arvila.prototype.arvilaTrapeziSet = function(trapezi) {
-	this.trapezi = trapezi;
-	return this;
-};
-
-Arvila.prototype.arvilaTrapeziGet = function() {
-	return this.trapezi;
-};
-
-Arvila.prototype.arvilaApoSet = function(pektis) {
-	this.apo = pektis;
-	return this;
-};
-
-Arvila.prototype.arvilaApoGet = function() {
-	return this.apo;
-};
-
-Arvila.prototype.arvilaProsSet = function(pektis) {
-	this.pros = pektis;
-	return this;
-};
-
-Arvila.prototype.arvilaProsGet = function() {
-	return this.pros;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Τα αντικείμενα τύπου "Apodosi" αφορούν στη βαθμολογία (αξιολόγηση) των
-// παικτών. Η βαθμολογία εγγράφεται στην παράμετρο παίκτη "ΒΑΘΜΟΛΟΓΙΑ" ως
-// string της μορφής "Κ#Δ", όπου "Κ" είναι ένας δεκαδικός αριθμός (θετικός
-// ή αρνητικός) που δείχνει τον μέσο όρο καπικιών που φαίνεται να κερδίζει
-// ή να χάνει ο παίκτης σε κάθε παιγμένη διανομή. Το "Δ" είναι ένας ακέραιος
-// αριθμός που δείχνει το πλήθος των διανομών που λήφθηκαν υπόψιν στον
-// υπολογισμό της συγκεκριμένης εκτίμησης.
-
-Apodosi = function(s) {
-	this.string2apodosi(s);
-};
-
-// Η σταθερά "peparamIdx" είναι ο κωδικός παραμέτρου παίκτη για τη
-// βαθμολογία.
-
-Apodosi.peparamIdx = 'ΒΑΘΜΟΛΟΓΙΑ';
-
-// Η σταθερά "dianomesAnagogi" είναι ένα πλήθος διανομών με βάση το οποίο
-// υπολογίζεται η απόδοση του παίκτη. Όσο μεγαλύτερο είναι το πλήθος αυτό
-// τόσο πιο αργά αλλάζει η βαθμολογία.
-
-Apodosi.dianomesAnagogi = 10000;
-
-Apodosi.prototype.apodosiKapikiaSet = function(kapikia) {
-	this.kapikia = kapikia;
-	return this;
-};
-
-Apodosi.prototype.apodosiDianomesSet = function(dianomes) {
-	this.dianomes = dianomes;
-	return this;
-};
-
-Apodosi.prototype.apodosiKapikiaGet = function() {
-	return this.kapikia;
-};
-
-Apodosi.prototype.apodosiDianomesGet = function() {
-	return this.dianomes;
-};
-
-// Η μέθοδος "apodosiCheck" ελέγχει την ορθότητα της απόδοσης. Αν τα στοιχεία
-// απόδοσης δεν είναι ορθά, τότε η απόδοση μηδενίζεται.
-
-Apodosi.prototype.apodosiCheck = function() {
-	var kapikia, dianomes;
-
-	kapikia = parseFloat(this.apodosiKapikiaGet());
-
-	if (isNaN(kapikia))
-	return this.apodosiMidenismos();
-
-	dianomes = parseInt(this.apodosiDianomesGet());
-
-	if (isNaN(dianomes))
-	return this.apodosiMidenismos();
-
-	if (dianomes < 1)
-	return this.apodosiMidenismos();
-
-	return this.
-	apodosiKapikiaSet(kapikia).
-	apodosiDianomesSet(dianomes);
-};
-
-Apodosi.prototype.apodosiMidenismos = function() {
-	return this.
-	apodosiKapikiaSet(0.0).
-	apodosiDianomesSet(0);
-};
-
-// Η μέθοδος "apodosiAdd" ενημερώνει τη βαθμολογία του παίκτη στο σκηνικό,
-// μετά από μια διανομή. Ως παράμετρο δέχεται τα καπίκια που κέρδισε ή έχασε
-// ο παίκτης στην εν λόγω διανομή.
-
-Apodosi.prototype.apodosiAdd = function(x) {
-	var kapikia, dianomes;
-
-	this.apodosiCheck();
-
-	x = parseFloat(x);
-
-	if (isNaN(x))
-	return this;
-
-	kapikia = this.apodosiKapikiaGet();
-	dianomes = this.apodosiDianomesGet();
-
-	// Στο σημείο αυτό κάνουμε αναγωγή στον προκαθορισμένο αριθμό
-	// διανομών προκειμένου τα καπίκια της τρέχουσας διανομής να
-	// επηρεάσουν τη βαθμολογία ασχέτως του πλήθους των διανομών
-	// που έχει παίξει ο παίκτης.
-
-	kapikia *= Apodosi.dianomesAnagogi;
-
-	// Ποσθέτουμε ή αφαιρούμε τα καπίκια της τρέχουσας διανομής
-	// και βγάζουμε νέο μέσο όρο (βαθμολογία).
-
-	x = (kapikia + x) / (Apodosi.dianomesAnagogi + 1);
-
-	return this.
-	apodosiKapikiaSet(x).
-	apodosiDianomesSet(dianomes + 1);
-};
-
-// Η μέθοδος "string2apodosi" δέχεται την απόδοση του παίκτη ως string της
-// μορφής "Κ#Δ", όπου "Κ" είναι ένας δεκαδικός αριθμός που δηλώνει τα καπίκια
-// που αναμένεται να κερδίσει (θετικός αριθμός) ή να χάσει (αρνητικός αριθμός)
-// ο παίκτης ανά παιγμένη διανομή, και "Δ" είναι είναι ένας θετικός ακέραιος
-// αριθμός που δηλώνει το συνολικό πλήθος παιγμένων διανομών που έχουν ληφθεί
-// υπόψιν για τη διαμόρφωση της βαθμολογίας του παίκτη. Σε περίπτωση που το
-// string είναι ακαθόριστο ή εσφαλμένο, η βαθμολογία του παίκτη μηδενίζεται.
-
-Apodosi.prototype.string2apodosi = function(s) {
-	if (s === undefined)
-	return this.apodosiMidenismos();
-
-	if (typeof(s) !== 'string')
-	return this.apodosiMidenismos();
-
-	s = s.split('#');
-
-	if (s.length !== 2)
-	return this.apodosiMidenismos();
-
-	return this.
-	apodosiKapikiaSet(s[0]).
-	apodosiDianomesSet(s[1]).
-	apodosiCheck();
-};
-
-// Η μέθοδος "apodosi2string" είναι η αντίθετη της "string2apodosi" καθώς
-// επιστρέφει την απόδοση του παίκτη ως string. Αν η απόδοση είναι εσφαλμένη,
-// τότε μηδενίζεται πρίν επιστραφεί το αντίστοιχο string, ενώ τα καπίκια
-// στρογγυλεύονται στα έξι (6) δεκαδικά ψηφία.
-
-Apodosi.prototype.apodosi2string = function() {
-	var kapikia, dianomes;
-
-	this.apodosiCheck();
-
-	kapikia = this.apodosiKapikiaGet();
-	dianomes = this.apodosiDianomesGet();
-
-	return kapikia.toFixed(6) + '#' + dianomes;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Minima = function(props) {
+globobj.Minima = function(props) {
 	Globals.initObject(this, props);
 };
 
@@ -1814,7 +1455,7 @@ Minima.prototype.minimaOxiKratimeno = function() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Skiniko = function() {
+globobj.Skiniko = function() {
 	this.skinikoReset();
 };
 
@@ -2083,7 +1724,7 @@ Skiniko.prototype.skinikoProsklisiWalk = function(callback) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Kinisi = function(prop) {
+globobj.Kinisi = function(prop) {
 	if (typeof(prop) === 'string') prop = {
 		idos: prop,
 	};

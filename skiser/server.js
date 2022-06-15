@@ -1,7 +1,5 @@
 "use strict";
 
-let Server = global.server;
-
 Server.ekinisi = function(skiniko) {
 	Log.fasi.nea('Activating the Node server');
 	Server.atexit().oriste(skiniko);

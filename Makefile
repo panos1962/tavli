@@ -25,7 +25,8 @@ install:
 test:
 	@#database/ddload.sh -L
 	@#misc/test_install.sh asda
-	bash local/test.sh
+	@#bash local/test.sh
+	node skiser/main.js
 
 cleanup:
 	(cd www && make cleanup)
