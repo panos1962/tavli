@@ -250,9 +250,12 @@ Selida.xristis = <?php
 	public static function tavlijs() {
 		$tavlijs = Globals::$conf->tavlijs . "/";
 ?>
-<script src="<?php print $tavlijs; ?>tavlijsCore.js"></script>
-<link rel="stylesheet" href="<?php print $tavlijs; ?>tavlijs.css">
-<script src="<?php print $tavlijs; ?>tavlijs.js"></script>
+<script src="<?php print $tavlijs . "tavlijsCore" .
+	Globals::$conf->tavlijsJS; ?>"></script>
+<link rel="stylesheet" href="<?php print $tavlijs . "tavlijs" .
+	Globals::$conf->tavlijsCSS; ?>">
+<script src="<?php print $tavlijs . "tavlijs" .
+	Globals::$conf->tavlijsJS; ?>"></script>
 <?php
 	}
 
