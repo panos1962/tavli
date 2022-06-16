@@ -134,7 +134,8 @@ class Selida {
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="icon" type="image/svg+xml" href="<?php print self::$base_url; ?>/ikona/tavli.svg">
+<link rel="icon" type="image/svg+xml" href="<?php
+	print self::$base_url; ?>/ikona/misc/tavli.svg">
 <title><?php print $titlos; ?></title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -271,7 +272,7 @@ self::toolbarCenterZari(1);
 	private static function toolbarCenterZari($zari) {
 ?>
 <div style="display: inline-block; height: 100%;">
-<img src="<?php print Selida::$base_url; ?>/ikona/zari<?php
+<img src="<?php print Selida::$base_url; ?>/ikona/misc/zari<?php
 	print $zari; ?>.png" style="height: 100%;">
 </div>
 <?php

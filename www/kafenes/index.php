@@ -128,8 +128,8 @@ function print_rebelos() {
 	}
 }
 
-
 Selida::head();
+Selida::javascript("tavlijs/tavlijsCore");
 Selida::stylesheet("tavlijs/tavlijs");
 Selida::javascript("tavlijs/tavlijs");
 Selida::stylesheet("lib/panel");
