@@ -129,9 +129,7 @@ function print_rebelos() {
 }
 
 Selida::head();
-Selida::javascript("tavlijs/tavlijsCore");
-Selida::stylesheet("tavlijs/tavlijs");
-Selida::javascript("tavlijs/tavlijs");
+Selida::tavlijs();
 Selida::stylesheet("lib/panel");
 Selida::javascript("lib/panel");
 Selida::stylesheet("kafenes/selida");

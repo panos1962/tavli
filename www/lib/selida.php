@@ -247,6 +247,15 @@ Selida.xristis = <?php
 		return __CLASS__;
 	}
 
+	public static function tavlijs() {
+		$tavlijs = Globals::$conf->tavlijs . "/";
+?>
+<script src="<?php print $tavlijs; ?>tavlijsCore.js"></script>
+<link rel="stylesheet" href="<?php print $tavlijs; ?>tavlijs.css">
+<script src="<?php print $tavlijs; ?>tavlijs.js"></script>
+<?php
+	}
+
 	public static function toolbar() {
 ?>
 <div id="toolbar">

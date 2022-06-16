@@ -46,6 +46,8 @@ class Globals {
 
 	public static $base_dir;
 
+	public static $conf;
+
 	// Η μεταβλητή "db" είναι ο database connector και χρησιμοποιείται
 	// όποτε υπάρχει ανάγκη χρήσης της database. Ωστόσο, η σύνδεση με
 	// την database γίνεται ήδη από την αρχή και όχι όταν παραστεί
@@ -96,26 +98,26 @@ class Globals {
 		// Είναι η στιγμή να αποκαταστήσουμε σύνδεση με την database
 		// της εφαρμογής. Τα credenrtials που θα χρησιμοποιήσουμε για
 		// τη σύνδεση με την database βρίσκονται αποθηκευμένα σε μορφή
-		// json στον αρχείο "db.cf" στο directory "local" της
+		// json στον αρχείο "conf.cf" στο directory "local" της
 		// εφαρμογής. Θυμίζουμε ότι σε αυτό το directory υπάρχουν
 		// per site αρχεία που δεν μετέχουν στο repository της
 		// εφαρμογής.
 
-		$dbconf_file = self::$base_dir . "/local/db.cf";
-		$dbconf = file_get_contents($dbconf_file);
+		$conf_file = self::$base_dir . "/local/conf.cf";
+		self::$conf = file_get_contents($conf_file);
 
-		if (!$dbconf)
-		self::fatal($dbconf_file . ": cannot read file");
+		if (!self::$conf)
+		self::fatal($conf_file . ": cannot read file");
 
-		$dbconf = json_decode($dbconf);
+		self::$conf = json_decode(self::$conf);
 
-		if (!$dbconf)
-		self::fatal($dbconf_file . ": configuration error");
+		if (!self::$conf)
+		self::fatal($conf_file . ": configuration error");
 
 		// Επιχειρούμε τώρα τη σύνδεση με την database της εφαρμογής.
 
-		self::$db = new mysqli("localhost", $dbconf->dbuser,
-			$dbconf->dbpass, $dbconf->dbname);
+		self::$db = new mysqli("localhost", self::$conf->dbuser,
+			self::$conf->dbpass, self::$conf->dbname);
 
 		if (self::$db->connect_errno)
 		self::fatal("database connection error");
