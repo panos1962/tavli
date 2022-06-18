@@ -74,7 +74,7 @@ Isodos.isodos = function() {
 };
 
 Isodos.invalidData = function() {
-	if (Globals.invalidLogin(Isodos.loginDOM.val())) {
+	if (globals.invalidLogin(Isodos.loginDOM.val())) {
 		Selida.fyiErrorRight('Μη αποδεκτό login name');
 		Isodos.loginDOM.select();
 		return true;

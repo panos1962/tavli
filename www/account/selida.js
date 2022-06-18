@@ -139,19 +139,19 @@ Account.enimerosi = function() {
 };
 
 Account.invalidData = function() {
-	if (Globals.invalidLogin(Account.loginDOM.val())) {
+	if (globals.invalidLogin(Account.loginDOM.val())) {
 		Selida.fyiErrorRight('Μη αποδεκτό login name');
 		Account.loginDOM.select();
 		return true;
 	}
 
-	if (Globals.invalidOnoma(Account.onomaDOM.val())) {
+	if (globals.invalidOnoma(Account.onomaDOM.val())) {
 		Selida.fyiErrorRight('Μη αποδεκτό ονοματεπώνυμο');
 		Account.onomaDOM.select();
 		return true;
 	}
 
-	if (Globals.invalidEmail(Account.emailDOM.val())) {
+	if (globals.invalidEmail(Account.emailDOM.val())) {
 		Selida.fyiErrorRight('Μη αποδεκτό email');
 		Account.emailDOM.select();
 		return true;
@@ -160,7 +160,7 @@ Account.invalidData = function() {
 	if (Selida.oxiXristis()) {
 		if (!Account.ilikiaDOM.prop('checked')) {
 			Selida.fyiErrorRight('Πρέπει να είστε άνω των ' +
-				Globals.ilikiaMinimum + ' ετών');
+				globals.ilikiaMinimum + ' ετών');
 			Account.ilikiaDOM.focus();
 			return true;
 		}

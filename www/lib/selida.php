@@ -152,20 +152,20 @@ class Selida {
 //<![CDATA[
 "use strict";
 
-if (Globals.gramataMask !== '<?php print GRAMATA_MASK; ?>')
-throw new Error('Globals.gramataMask !== GRAMATA_MASK');
+if (globals.gramataMask !== '<?php print GRAMATA_MASK; ?>')
+throw new Error('globals.gramataMask !== GRAMATA_MASK');
 
-if (Globals.akindinaMask !== '<?php print AKINDINA_MASK ?>')
-throw new Error('Globals.akindinaMask !== AKINDINA_MASK');
+if (globals.akindinaMask !== '<?php print AKINDINA_MASK ?>')
+throw new Error('globals.akindinaMask !== AKINDINA_MASK');
 
-if (Globals.loginMask !== '<?php print LOGIN_MASK; ?>')
-throw new Error('Globals.loginMask !== LOGIN_MASK');
+if (globals.loginMask !== '<?php print LOGIN_MASK; ?>')
+throw new Error('globals.loginMask !== LOGIN_MASK');
 
-if (Globals.onomaMask !== '<?php print ONOMA_MASK ?>')
-throw new Error('Globals.onomaMask !== ONOMA_MASK');
+if (globals.onomaMask !== '<?php print ONOMA_MASK ?>')
+throw new Error('globals.onomaMask !== ONOMA_MASK');
 
-if (Globals.emailMask !== '<?php print EMAIL_MASK ?>')
-throw new Error('Globals.emailMask !== EMAIL_MASK');
+if (globals.emailMask !== '<?php print EMAIL_MASK ?>')
+throw new Error('globals.emailMask !== EMAIL_MASK');
 
 Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
