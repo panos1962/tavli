@@ -94,12 +94,6 @@ require('../common/lib/skiniko');
 log.print('reading server "skiniko" module');
 require('./skiniko.js');
 
-// Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στις υπηρεσίες που θα
-// παρέχει ο server σκηνικού.
-
-log.print('reading "service" module');
-require('./service.js');
-
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στη διαχείριση των αιτημάτων
 // που υποβάλλουν οι clients.
 
