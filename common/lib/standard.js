@@ -64,6 +64,104 @@ globals.invalidEmail = function(email) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+
+// Ακολουθούν functions σχετικές με ημερομηνία και ώρα.
+
+// Η function "torams" επιστρέφει το τρέχον timestamp σε milliseconds,
+// με όρους της μηχανής στην οποία εκτελείται.
+
+globals.torams = function() {
+	return (new Date).getTime();
+};
+
+// Η function "tora" επιστρέφει το τρέχον timestamp σε seconds,
+// με όρους της μηχανής στην οποία εκτελείται.
+
+globals.tora = function() {
+	return Math.floor((new Date).getTime() / 1000);
+};
+
+
+// Η function "mera" δίνει την τρέχουσα ημερομηνία στη μηχανή που τρέχει.
+// Μπορούμε να δώσουμε και συγκεκριμένη ώρα ως παράμετρο.
+
+globals.mera = function(d, full) {
+	let s, x;
+
+	if (!d) d = new Date;
+	else if (typeof d === 'number') d = new Date(d * 1000);
+
+	s = '';
+
+	x = d.getDate();
+	if (x < 10) s += '0';
+	s += x;
+	s += '/';
+
+	x = d.getMonth() + 1;
+	if (x < 10) s += '0';
+	s += x;
+	s += '/'; 
+
+	x = d.getFullYear();
+	if (full || (x < 2000)) s += x;
+	else {
+		x %= 100;
+		if (x < 10) s += '0';
+		s += x;
+	}
+
+	return s;
+};
+
+
+// Η function "ora" δίνει την τρέχουσα ώρα στη μηχανή που τρέχει.
+// Μπορούμε να δώσουμε και συγκεκριμένη ώρα ως παράμετρο.
+
+globals.ora = function(d, seconds) {
+	var s, x;
+
+	if (!d) d = new Date;
+	else if (typeof d === 'number') d = new Date(d * 1000);
+
+	s = '';
+
+	x = d.getHours();
+	if (x < 10) s += '0';
+	s += x + ':';
+
+	x = d.getMinutes();
+	if (x < 10) s += '0';
+	s += x;
+
+	if (seconds === undefined)
+	seconds = false;
+
+	if (seconds) {
+		s += ':';
+		x = d.getSeconds();
+		if (x < 10) s += '0';
+		s += x;
+	}
+
+	return s;
+};
+
+globals.meraOra = function(seconds) {
+	const tora = new Date;
+	return globals.mera(tora) + ', ' + globals.ora(tora, seconds);
+};
+
+globals.consoleLog = function(msg) {
+	console.log(msg, '(' + globals.meraOra(true) + ')');
+};
+
+globals.consoleError = function(msg) {
+	console.error(msg, '(' + globals.meraOra(true) + ')');
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
 String.prototype.evalAsfales = function() {
 	let x;
 

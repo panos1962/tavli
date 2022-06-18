@@ -191,13 +191,13 @@ CREATE TABLE `trapezi` (
 	`kodikos`	INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
 	`stisimo`	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Πότε δημιουργήθηκε',
 
-	`pektis0`	VARCHAR(64) NULL DEFAULT NULL COMMENT 'Πρώτος παίκτης',
+	`pektis1`	VARCHAR(64) NULL DEFAULT NULL COMMENT 'Πρώτος παίκτης',
 	`apodoxi1`	ENUM(
 		'ΟΧΙ',
 		'ΝΑΙ'
 	) NOT NULL DEFAULT 'ΟΧΙ' COMMENT 'Αποδοχή όρων από τον πρώτο παίκτη',
 
-	`pektis1`	VARCHAR(64) NULL DEFAULT NULL COMMENT 'Δεύτερος παίκτης',
+	`pektis2`	VARCHAR(64) NULL DEFAULT NULL COMMENT 'Δεύτερος παίκτης',
 	`apodoxi2`	ENUM(
 		'ΟΧΙ',
 		'ΝΑΙ'
@@ -211,7 +211,7 @@ CREATE TABLE `trapezi` (
 	) USING BTREE,
 
 	INDEX (
-		`pektis0`
+		`pektis1`
 	) USING HASH,
 
 	INDEX (
@@ -644,14 +644,14 @@ ALTER TABLE `minima` ADD FOREIGN KEY (
 -- Πίνακας τραπεζιών ("trapezi")
 
 ALTER TABLE `trapezi` ADD FOREIGN KEY (
-	`pektis0`
+	`pektis1`
 ) REFERENCES `pektis` (
 	`login`
 ) ON UPDATE CASCADE
 ;
 
 ALTER TABLE `trapezi` ADD FOREIGN KEY (
-	`pektis1`
+	`pektis2`
 ) REFERENCES `pektis` (
 	`login`
 ) ON UPDATE CASCADE

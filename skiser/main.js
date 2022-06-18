@@ -87,12 +87,14 @@ require('../common/lib/tavladoros.js');
 
 log.print('reading common "skiniko" module');
 require('../common/lib/skiniko');
+require('../common/lib/kinisi');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στη διαμόρφωση και στον
 // χειρισμό του σκηνικού ειδικά από την πλευρά του server.
 
 log.print('reading server "skiniko" module');
 require('./skiniko.js');
+require('./kinisi.js');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στη διαχείριση των αιτημάτων
 // που υποβάλλουν οι clients.
@@ -106,29 +108,9 @@ require('./request.js');
 log.print('reading "server" module');
 require('./server.js');
 
-// Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στο transaction log.
-
-log.print('reading "kinisi" module');
-Server.require('../common/kinisi');
-require('./kinisi.js');
-
-// Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στον κύκλο τακτικού ελέγχου
-// εργασιών.
-
-log.print('reading "peripolos" module');
-require('./peripolos.js');
-
-// Τρέχουμε τυχόν ιδιαίτερες εντολές για κάθε site, π.χ. στο local site
-// όπου κάνουμε ανάπτυξη των προγραμμάτων θέτουμε κάποιες flags για το
-// debugging.
-
-Server.require('../client/common/rcLocal');
-Server.require('./rcLocal');
-
 // Αναπροσαρμόζουμε διάφορες παραμέτρους, στήνουμε το σκηνικό και μπαίνουμε
 // σε κατάσταση ετοιμότητας. Όλα αυτά θα γίνουν αλυσιδωτά, εκκινώντας με το
 // στήσιμο του σκηνικού και συνεχίζοντας με callbacks μέχρι το άνοιγμα της
 // πόρτας υποδοχής αιτημάτων.
 
-console.log('asdasda');
-skiniko = new Skiniko().stisimo();
+skiniko.stisimo();

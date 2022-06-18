@@ -34,7 +34,7 @@ db.connection = function() {
 
 	conn = db.pool[db.freeStack.pop()];
 	if (conn.isActive())
-	Globals.fatal('active database connection detected in the free stack');
+	globals.fatal('active database connection detected in the free stack');
 
 	conn.activeSet(true);
 	return conn;
@@ -109,10 +109,10 @@ db.zombie = 1800000;	// 30 minutes X 60 seconds X 1000 = μισή ώρα σε mi
 db.check = function() {
 	var tora, ora;
 
-	tora = Globals.torams();
-	ora = Globals.ora(null, true);
+	tora = globals.torams();
+	ora = globals.ora(null, true);
 
-	Globals.walk(db.pool, function(i, conn) {
+	globals.walk(db.pool, function(i, conn) {
 		// Επανενεργοποιούνται συνδέσεις που φαίνονται ανενεργές για αρκετά
 		// μεγάλο χρονικό διάστημα.
 
@@ -128,7 +128,7 @@ db.check = function() {
 		// τα προγράμματα που τις έχουν δεσμεύσει (zombies).
 
 		if (conn.isActive() && (tora - conn.realAction > db.zombie)) {
-			Globals.consoleLog('zombie SQL connection freed: ' + conn.index);
+			globals.consoleLog('zombie SQL connection freed: ' + conn.index);
 			conn.free();
 		}
 	});
@@ -200,19 +200,19 @@ const dbSindesi = function() {
 	// query εννοούμε query ουσίας και όχι ψευδοquery που δίδεται για να
 	// κρατήσει "ζωντανή" τη σύνδεση.
 
-	this.realAction = (this.action = Globals.torams());
+	this.realAction = (this.action = globals.torams());
 
 	// Το property "connection" είναι η καρδιά του connection. Πρόκειται
 	// για το connection αυτό καθεαυτό.
 
-	this.connection = MYSQL.createConnection(db.nodedb);
+	this.connection = MySQL.createConnection(db.nodedb);
 
 	// Αμέσως μετά τη δημιουργία νέας σύνδεσης με την database, τοποθετούμε
 	// τη νέα σύνδεση στο connection pool και κρατάμε τη θέση στo property
 	// "index".
 
 	this.indexSet(db.pool.push(this) - 1);
-	Globals.consoleLog('new database connection: ' + this.indexGet());
+	globals.consoleLog('new database connection: ' + this.indexGet());
 };
 
 dbSindesi.prototype.indexSet = function(idx) {
@@ -253,10 +253,10 @@ dbSindesi.prototype.query = function(query, callback) {
 	var conn;
 
 	if (this.oxiActive())
-	Globals.fatal(query + ': inactive database connection');
+	globals.fatal(query + ': inactive database connection');
 
 	conn = this;
-	this.realAction = (this.action = Globals.torams());
+	this.realAction = (this.action = globals.torams());
 	this.connection.query(query, function(err, res) {
 		if (err) {
 			switch (err.code) {
@@ -292,7 +292,7 @@ dbSindesi.prototype.query = function(query, callback) {
 
 dbSindesi.prototype.free = function() {
 	if (this.oxiActive())
-	Globals.fatal('inactive database connection pushed free');
+	globals.fatal('inactive database connection pushed free');
 
 	this.activeSet(false);
 	db.freeStack.push(this.index);

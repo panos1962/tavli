@@ -41,7 +41,7 @@ TAVLI_BASEDIR="/var/opt/tavli"
 
 export TAVLI_BASEDIR
 
-dbconf="${TAVLI_BASEDIR}/local/db.cf"
+dbconf="${TAVLI_BASEDIR}/local/conf.cf"
 
 [ -r "${dbconf}" ] || {
 	echo "${progname}: ${dbconf}: cannot read"

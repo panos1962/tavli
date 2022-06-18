@@ -1,16 +1,18 @@
 "use strict";
 
-Server.ekinisi = function(skiniko) {
-	Log.fasi.nea('Activating the Node server');
-	Server.atexit().oriste(skiniko);
+global.server = {};
 
-	return Server;
-}
+server.ekinisi = function(skiniko) {
+	Log.fasi.nea('Activating the node server');
+	server.atexit().oriste(skiniko);
 
-Server.oriste = function(skiniko) {
-	Globals.sport = Server.readFileSync('misc/.mistiko/sport').replace(/[^a-zA-Z0-9]/g, '');
+	return server;
+};
+
+server.oriste = function(skiniko) {
+	Globals.sport = server.readFileSync('misc/.mistiko/sport').replace(/[^a-zA-Z0-9]/g, '');
 	Log.print('listening port ' + Globals.sport + ' for http requests');
-	Server.skiser = HTTP.createServer(function(request, response) {
+	server.skiser = HTTP.createServer(function(request, response) {
 		var nodereq, x;
 
 		// Συμμαζεύουμε τις δομές του αιτήματος σε ένα αντικείμενο
@@ -23,15 +25,15 @@ Server.oriste = function(skiniko) {
 		// αίτημα το οποίο εμπεριέχει τόσο το ίδιο το αίτημα όσο και το
 		// κανάλι απάντησης.
 
-		if (Server.router.hasOwnProperty(nodereq.service)) {
-			Server.router[nodereq.service](nodereq);
+		if (server.router.hasOwnProperty(nodereq.service)) {
+			server.router[nodereq.service](nodereq);
 			return;
 		}
 
 		// Αν η υπηρεσία που ζητείται ανήκει στις υπηρεσίες που αγνοούνται
 		// κλείνουμε αμέσως το αίτημα χωρίς να στείλουμε καμία απάντηση.
 
-		if (Server.off.hasOwnProperty(nodereq.service)) {
+		if (server.off.hasOwnProperty(nodereq.service)) {
 			nodereq.end()
 			return;
 		}
@@ -45,26 +47,26 @@ Server.oriste = function(skiniko) {
 		console.error(x + 'invalid url pathname');
 	}).listen(Globals.sport);
 
-	return Server;
-}
+	return server;
+};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
-Server.shutdown = function() {
+server.shutdown = function() {
 	Log.fasi.nea('Shutting down the Node server');
-	Server.skiser.close();
+	server.skiser.close();
 	DB.reset(function() {
 		Log.fasi.nea('Skiser shutdown complete!');
 		process.reallyExit();
 	});
 
-	return Server;
-}
+	return server;
+};
 
 // Η function "atexit" θα κληθεί λίγο πριν βάλουμε μπροστά τον Node server
 // και κανονίζει να γίνουν κάποιες ενέργειες σε περίπτωση διακοπής.
 
-Server.atexit = function() {
+server.atexit = function() {
 	var stopEvent, i;
 
 	stopEvent = {
@@ -80,13 +82,13 @@ Server.atexit = function() {
 	Log.print('Setting up shutdown actions');
 	for (i in stopEvent) {
 		process.on(i, function() {
-			if (Server.closed)
+			if (server.closed)
 			return;
 
-			Server.closed = true;
-			Server.shutdown();
+			server.closed = true;
+			server.shutdown();
 		});
 	}
 
-	return Server;
-}
+	return server;
+};

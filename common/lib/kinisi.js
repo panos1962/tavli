@@ -1,6 +1,6 @@
 "use strict";
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // PK -- Νέος παίκτης
 //
@@ -8,12 +8,12 @@
 //
 //	pektis		Περιέχει τα στοιχεία παίκτη.
 
-Skiniko.prototype.processKinisiPK = function(data) {
+skiniko.processKinisiPK = function(data) {
 	this.skinikoPektisSet(new Pektis(data));
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // SN -- Νέα συνεδρία
 //
@@ -29,7 +29,7 @@ Skiniko.prototype.processKinisiPK = function(data) {
 //	pektis		Περιέχει τα στοιχεία του παίκτη της συνεδρίας και παρέχεται
 //			συνήθως όταν ο παίκτης δεν υπάρχει στο σκηνικό.
 
-Skiniko.prototype.processKinisiSN = function(data) {
+skiniko.processKinisiSN = function(data) {
 	if (data.hasOwnProperty('pektis'))
 	this.skinikoPektisSet(new Pektis(data.pektis));
 
@@ -37,7 +37,7 @@ Skiniko.prototype.processKinisiSN = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // NS -- Διαγραφή συνεδρίας
 //
@@ -49,12 +49,12 @@ Skiniko.prototype.processKinisiSN = function(data) {
 //
 //	login	Το login name του παίκτη της συνεδρίας.
 
-Skiniko.prototype.processKinisiNS = function(data) {
+skiniko.processKinisiNS = function(data) {
 	this.skinikoSinedriaDelete(data.login);
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // SL -- Χαιρετισμός κατά την είσοδο/επανείσοδο συνεδρίας
 //
@@ -65,11 +65,11 @@ Skiniko.prototype.processKinisiNS = function(data) {
 //
 //	login	Το login name του παίκτη της συνεδρίας.
 
-Skiniko.prototype.processKinisiSL = function(data) {
+skiniko.processKinisiSL = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // TR -- Νέο τραπέζι
 //
@@ -80,7 +80,7 @@ Skiniko.prototype.processKinisiSL = function(data) {
 //
 //	trapezi		Περιέχει τα στοιχεία του τραπεζιού.
 
-Skiniko.prototype.processKinisiTR = function(data) {
+skiniko.processKinisiTR = function(data) {
 	var trapezi, pektis, sinedria;
 
 	// Εντάσσουμε το τραπέζι στο σκηνικό.
@@ -108,7 +108,7 @@ Skiniko.prototype.processKinisiTR = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // ET -- Επιλογή τραπεζιού
 //
@@ -119,7 +119,7 @@ Skiniko.prototype.processKinisiTR = function(data) {
 //	pektis		Login name παίκτη.
 //	trapezi		Κωδικός τραπεζιού.
 
-Skiniko.prototype.processKinisiET = function(data) {
+skiniko.processKinisiET = function(data) {
 	var sinedria, trapezi, thesi;
 
 	sinedria = this.skinikoSinedriaGet(data.pektis);
@@ -142,7 +142,7 @@ Skiniko.prototype.processKinisiET = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // RT -- Έξοδος από τραπέζι
 //
@@ -152,7 +152,7 @@ Skiniko.prototype.processKinisiET = function(data) {
 //
 //	pektis		Login name παίκτη.
 
-Skiniko.prototype.processKinisiRT = function(data) {
+skiniko.processKinisiRT = function(data) {
 	var sinedria, trapezi, thesi;
 
 	sinedria = this.skinikoSinedriaGet(data.pektis);
@@ -168,7 +168,7 @@ Skiniko.prototype.processKinisiRT = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // SZ -- Νέο σχόλιο συζήτησης
 //
@@ -182,7 +182,7 @@ Skiniko.prototype.processKinisiRT = function(data) {
 //			Αν δεν προσδιοριστεί εννοείται η δημόσια συζήτηση.
 //	sxolio		Το σχόλιο αυτό καθαυτό.
 
-Skiniko.prototype.processKinisiSZ = function(data) {
+skiniko.processKinisiSZ = function(data) {
 	var sizitisi, trapezi;
 
 	sizitisi = new Sizitisi(data);
@@ -200,7 +200,7 @@ Skiniko.prototype.processKinisiSZ = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // PL -- Πρόσκληση
 //
@@ -213,7 +213,7 @@ Skiniko.prototype.processKinisiSZ = function(data) {
 //	apo		Login name Αποστολέα.
 //	pros		Login name παραλήπτη.
 
-Skiniko.prototype.processKinisiPL = function(data) {
+skiniko.processKinisiPL = function(data) {
 	var prosklisi;
 
 	prosklisi = new Prosklisi(data);
@@ -222,7 +222,7 @@ Skiniko.prototype.processKinisiPL = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // DL -- Διαγραφή πρόσκλησης
 //
@@ -232,12 +232,12 @@ Skiniko.prototype.processKinisiPL = function(data) {
 //
 //	kodikos		Κωδικός πρόσκλησης.
 
-Skiniko.prototype.processKinisiDL = function(data) {
+skiniko.processKinisiDL = function(data) {
 	this.skinikoProsklisiDelete(data.kodikos);
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // AL -- Αποδοχή πρόσκλησης
 //
@@ -250,7 +250,7 @@ Skiniko.prototype.processKinisiDL = function(data) {
 //	thesi		Θέση παίκτη/θεατή.
 //	simetoxi	Παίκτης ή θεατής.
 
-Skiniko.prototype.processKinisiAL = function(data) {
+skiniko.processKinisiAL = function(data) {
 	var sinedria, trapezi;
 
 	sinedria = this.skinikoSinedriaGet(data.pektis);
@@ -268,7 +268,7 @@ Skiniko.prototype.processKinisiAL = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // AV -- Αποκλεισμός παίκτη από τραπέζι
 //
@@ -278,7 +278,7 @@ Skiniko.prototype.processKinisiAL = function(data) {
 //	apo		Login name παίκτη/επόπτη που θέτει τον αποκλεισμό.
 //	pros		Login name αποκλειομένου.
 
-Skiniko.prototype.processKinisiAV = function(data) {
+skiniko.processKinisiAV = function(data) {
 	var trapezi;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -290,7 +290,7 @@ Skiniko.prototype.processKinisiAV = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // DV -- Άρση αποκλεισμού παίκτη από τραπέζι
 //
@@ -299,7 +299,7 @@ Skiniko.prototype.processKinisiAV = function(data) {
 //	trapezi		Κωδικός τραπεζιού.
 //	pros		Login name αποκλειομένου.
 
-Skiniko.prototype.processKinisiDV = function(data) {
+skiniko.processKinisiDV = function(data) {
 	var trapezi;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -311,7 +311,7 @@ Skiniko.prototype.processKinisiDV = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // PT -- Από παίκτης θεατής
 //
@@ -323,7 +323,7 @@ Skiniko.prototype.processKinisiDV = function(data) {
 //	trapezi		Κωδικός τραπεζιού.
 //	thesi		Θέση παίκτη.
 
-Skiniko.prototype.processKinisiPT = function(data) {
+skiniko.processKinisiPT = function(data) {
 	var sinedria, trapezi;
 
 	sinedria = this.skinikoSinedriaGet(data.pektis);
@@ -336,7 +336,7 @@ Skiniko.prototype.processKinisiPT = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // PS -- Παράμετρος παίκτη
 //
@@ -348,7 +348,7 @@ Skiniko.prototype.processKinisiPT = function(data) {
 //	param		Ονομασία παραμέτρου.
 //	timi		Τιμή παραμέτρου.
 
-Skiniko.prototype.processKinisiPS = function(data) {
+skiniko.processKinisiPS = function(data) {
 	var pektis;
 
 	pektis = this.skinikoPektisGet(data.pektis);
@@ -363,7 +363,7 @@ Skiniko.prototype.processKinisiPS = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // TS -- Παράμετρος τραπεζιού
 //
@@ -377,7 +377,7 @@ Skiniko.prototype.processKinisiPS = function(data) {
 //	timi		Τιμή παραμέτρου.
 //	apodoxi		Αν είναι true να μην αλλάζει η αποδοχή
 
-Skiniko.prototype.processKinisiTS = function(data) {
+skiniko.processKinisiTS = function(data) {
 	var trapezi;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -395,7 +395,7 @@ Skiniko.prototype.processKinisiTS = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // DX -- Αλλαγή διάταξης παικτών
 //
@@ -409,7 +409,7 @@ Skiniko.prototype.processKinisiTS = function(data) {
 //	h2		Αριθμός θέσης.
 //	p2		Παίκτης για τη θέση h2.
 
-Skiniko.prototype.processKinisiDX = function(data) {
+skiniko.processKinisiDX = function(data) {
 	var trapezi = this.skinikoTrapeziGet(data.trapezi);
 	if (!trapezi) return this;
 
@@ -420,7 +420,7 @@ Skiniko.prototype.processKinisiDX = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // RL -- Κυκλική εναλλαγή παικτών
 //
@@ -436,7 +436,7 @@ Skiniko.prototype.processKinisiDX = function(data) {
 //	p3		Παίκτης για τη θέση 3.
 //	a3		Αποδοχή για τη θέση 3.
 
-Skiniko.prototype.processKinisiRL = function(data) {
+skiniko.processKinisiRL = function(data) {
 	var trapezi = this.skinikoTrapeziGet(data.trapezi);
 	if (!trapezi) return this;
 
@@ -449,7 +449,7 @@ Skiniko.prototype.processKinisiRL = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // AX -- Αποδοχή/Επαναδιαπραγμάτευση όρων
 //
@@ -459,7 +459,7 @@ Skiniko.prototype.processKinisiRL = function(data) {
 //	thesi		Θέση παίκτη που εκτελεί την ενέργεια.
 //	apodoxi		ΝΑΙ = Αποδοχή, ΟΧΙ = Επαναδιαπραγμάτευση.
 
-Skiniko.prototype.processKinisiAX = function(data) {
+skiniko.processKinisiAX = function(data) {
 	var trapezi;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -469,7 +469,7 @@ Skiniko.prototype.processKinisiAX = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // TT -- Αλλαγή θέσης θέασης
 //
@@ -478,7 +478,7 @@ Skiniko.prototype.processKinisiAX = function(data) {
 //	pektis		Login name θεατή που αλλάζει θέση.
 //	thesi		Νέα θέση θέασης.
 
-Skiniko.prototype.processKinisiTT = function(data) {
+skiniko.processKinisiTT = function(data) {
 	var sinedria, trapezi;
 
 	sinedria = this.skinikoSinedriaGet(data.pektis);
@@ -492,7 +492,7 @@ Skiniko.prototype.processKinisiTT = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // DN -- Νέα διανομή
 //
@@ -502,7 +502,7 @@ Skiniko.prototype.processKinisiTT = function(data) {
 //	trapezi		Κωδικός τραπεζιού.
 //	dealer		Θέση dealer.
 
-Skiniko.prototype.processKinisiDN = function(data) {
+skiniko.processKinisiDN = function(data) {
 	var trapezi, dianomi;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -529,7 +529,7 @@ Skiniko.prototype.processKinisiDN = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // EG -- Νέα ενέργεια
 //
@@ -542,7 +542,7 @@ Skiniko.prototype.processKinisiDN = function(data) {
 //	idos		Το είδος της ενέργειας.
 //	data		Data ενέργειας.
 
-Skiniko.prototype.processKinisiEG = function(data) {
+skiniko.processKinisiEG = function(data) {
 	var trapezi, dianomi, energia;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -566,7 +566,7 @@ Skiniko.prototype.processKinisiEG = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // PD -- Πληρωμή διανομής
 //
@@ -581,7 +581,7 @@ Skiniko.prototype.processKinisiEG = function(data) {
 //	kasa3		Ποσό κάσας παίκτη θέσης 3.
 //	metrita3	Μετρητά παίκτη θέσης 3.
 
-Skiniko.prototype.processKinisiPD = function(data) {
+skiniko.processKinisiPD = function(data) {
 	var skiniko = this, trapezi, dianomi, kapikia, agora;
 
 	trapezi = skiniko.skinikoTrapeziGet(data.trapezi);
@@ -671,7 +671,7 @@ Skiniko.prototype.processKinisiPD = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // AK -- Ακύρωση κινήσεων
 //
@@ -684,7 +684,7 @@ Skiniko.prototype.processKinisiPD = function(data) {
 //	pektis		Login name του ενεργούντος παίκτη.
 //	ecount		Πλήθος ενεργειών που απομένουν.
 
-Skiniko.prototype.processKinisiAK = function(data) {
+skiniko.processKinisiAK = function(data) {
 	var trapezi, dianomi, ecount, energiaArray, i, energia;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -717,7 +717,7 @@ Skiniko.prototype.processKinisiAK = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // RC -- Reject claim
 //
@@ -727,7 +727,7 @@ Skiniko.prototype.processKinisiAK = function(data) {
 //	dianomi		Κωδικός διανομής.
 //	ecount		Πλήθος ενεργειών πριν το claim.
 
-Skiniko.prototype.processKinisiRC = function(data) {
+skiniko.processKinisiRC = function(data) {
 	var trapezi, dianomi, ecount, energiaArray, energia;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -752,7 +752,7 @@ Skiniko.prototype.processKinisiRC = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // AT -- Αρχειοθέτηση τραπεζιού
 //
@@ -760,7 +760,7 @@ Skiniko.prototype.processKinisiRC = function(data) {
 //
 //	trapezi		Κωδικός τραπεζιού.
 
-Skiniko.prototype.processKinisiAT = function(data) {
+skiniko.processKinisiAT = function(data) {
 	var skiniko = this;
 
 	// Διαγράφουμε το τραπέζι από το σκηνικό.
@@ -786,7 +786,7 @@ Skiniko.prototype.processKinisiAT = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // ZS -- Διαγραφή σχολίου συζήτησης
 //
@@ -801,7 +801,7 @@ Skiniko.prototype.processKinisiAT = function(data) {
 //			καθοριστεί σημαίνει μαζική διαγραφή.
 //	pektis		Login name του παίκτη που διαγράφει το σχόλιο.
 
-Skiniko.prototype.processKinisiZS = function(data) {
+skiniko.processKinisiZS = function(data) {
 	var trapezi;
 
 	trapezi = this.skinikoTrapeziGet(data.trapezi);
@@ -819,7 +819,7 @@ Skiniko.prototype.processKinisiZS = function(data) {
 	return this;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////@
 
 // PI -- Πληροφορίες προφίλ παίκτη
 //
@@ -834,7 +834,7 @@ Skiniko.prototype.processKinisiZS = function(data) {
 //
 //	kimeno		Το κείμενο του προφίλ.
 
-Skiniko.prototype.processKinisiPI = function(data) {
+skiniko.processKinisiPI = function(data) {
 	var pektis;
 
 	pektis = this.skinikoPektisGet(data.pektis);
