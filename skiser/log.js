@@ -1,47 +1,47 @@
 "use strict";
 
-global.Log = {};
+global.log = {};
 
 // Στο παρόν module ορίζουμε δομές και μεθόδους που αφορούν στο console log
 // και γενικότερα στην παρακολούθηση των εργασιών που εκτελούνται στον node
 // server.
 
-Log.level = {
+log.level = {
 	level: 0,
 
 	reset: function() {
-		Log.level.level = 0;
+		log.level.level = 0;
 	},
 
 	push: function(s) {
 		if (s)
-		Log.print(s);
+		log.print(s);
 
-		Log.level.level++;
+		log.level.level++;
 	},
 
 	pop: function() {
-		Log.level.level--;
+		log.level.level--;
 	},
 };
 
-Log.fasi = {
+log.fasi = {
 	fasi: 0,
 
 	nea: function(msg) {
 		var nl;
 
-		nl = Log.fasi.fasi > 0 ? '\n' : '';
-		Log.fasi.fasi++;
-		console.log(nl + 'PHASE ' + Log.fasi.fasi + ': ' + msg);
-		Log.level.reset();
+		nl = log.fasi.fasi > 0 ? '\n' : '';
+		log.fasi.fasi++;
+		console.log(nl + 'PHASE ' + log.fasi.fasi + ': ' + msg);
+		log.level.reset();
 	},
 };
 
-Log.print = function(msg) {
+log.print = function(msg) {
 	var tabs = '', i;
 
-	for (i = 0; i <= Log.level.level; i++)
+	for (i = 0; i <= log.level.level; i++)
 	tabs += '\t';
 
 	console.log(tabs + msg);
@@ -49,4 +49,4 @@ Log.print = function(msg) {
 
 // Η ενημέρωση είναι πρωθύστερη για ευνόητους λόγους.
 
-Log.fasi.nea('initializing the node server');
+log.fasi.nea('initializing the node server');

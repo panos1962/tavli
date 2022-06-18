@@ -1,51 +1,54 @@
 "use strict";
 
 try {
-	global.Globals = {};
+	global.globals = {};
 } catch (e) {
-	window.Globals = {};
+	window.globals = {};
 }
 
-Globals.gramataMask = 'a-zA-Z' +
+///////////////////////////////////////////////////////////////////////////////@
+
+globals.gramataMask = 'a-zA-Z' +
 	'αβγδεζηθικλμνξοπρστυφχψω' +
 	'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' +
 	'άέήίόύώϊϋΐΰς' +
 	'ΆΈΉΊΌΎΏΪΫ';
-Globals.akindinaMask = '!@#$%*._+=-';
-Globals.loginMask = '^[a-zA-Z][a-zA-Z0-9' + Globals.akindinaMask + ']*$';
-Globals.onomaMask = '^[' + Globals.gramataMask + '][0-9 ' + Globals.gramataMask + Globals.akindinaMask + ']*$';
-Globals.emailMask = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$';
-Globals.ilikiaMinimum = 18;
+globals.akindinaMask = '!@#$%*._+=-';
+globals.loginMask = '^[a-zA-Z][a-zA-Z0-9' + globals.akindinaMask + ']*$';
+globals.onomaMask = '^[' + globals.gramataMask + ']' +
+	'[0-9 ' + globals.gramataMask + globals.akindinaMask + ']*$';
+globals.emailMask = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$';
+globals.ilikiaMinimum = 18;
 
-Globals.validLogin = function(login) {
+globals.validLogin = function(login) {
 	if (login === undefined)
 	return false;
 
 	if (typeof(login) !== 'string')
 	return false;
 
-	return login.match(new RegExp(Globals.loginMask));
+	return login.match(new RegExp(globals.loginMask));
 };
 
-Globals.invalidLogin = function(login) {
-	return !Globals.validLogin(login);
+globals.invalidLogin = function(login) {
+	return !globals.validLogin(login);
 };
 
-Globals.validOnoma = function(onoma) {
+globals.validOnoma = function(onoma) {
 	if (onoma === undefined)
 	return false;
 
 	if (typeof(onoma) !== 'string')
 	return false;
 
-	return onoma.match(new RegExp(Globals.onomaMask));
+	return onoma.match(new RegExp(globals.onomaMask));
 };
 
-Globals.invalidOnoma = function(onoma) {
-	return !Globals.validOnoma(onoma);
+globals.invalidOnoma = function(onoma) {
+	return !globals.validOnoma(onoma);
 };
 
-Globals.validEmail = function(email) {
+globals.validEmail = function(email) {
 	if (email === undefined)
 	return false;
 
@@ -55,8 +58,8 @@ Globals.validEmail = function(email) {
 	return email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$/);
 };
 
-Globals.invalidEmail = function(email) {
-	return !Globals.validEmail(email);
+globals.invalidEmail = function(email) {
+	return !globals.validEmail(email);
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

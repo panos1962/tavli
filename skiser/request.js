@@ -1,14 +1,14 @@
 "use strict";
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
+///////////////////////////////////////////////////////////////////////////////@
 
-// Η κλάση "NodeRequest" δέχεται ως παραμέτρους ένα αίτημα και το κανάλι απάντησης και
-// δημιουργεί αντικείμενο που περιέχει πολλά βολικά properties και μεθόδους για τους
-// μετέπειτα χειρισμούς τού συγκεκριμένου αιτήματος. Το αντικείμενο που δημιουργείται
-// ονομάζεται «ενισχυμένο» αίτημα και, εκτός των άλλων, περιέχει το ίδιο το αίτημα
-// και το κανάλι απάντησης.
+// Η κλάση "nodeRequest" δέχεται ως παραμέτρους ένα αίτημα και το κανάλι
+// απάντησης και δημιουργεί αντικείμενο που περιέχει πολλά βολικά properties
+// και μεθόδους για τους μετέπειτα χειρισμούς τού συγκεκριμένου αιτήματος. Το
+// αντικείμενο που δημιουργείται ονομάζεται «ενισχυμένο» αίτημα και, εκτός των
+// άλλων, περιέχει το ίδιο το αίτημα και το κανάλι απάντησης.
 
-let NodeRequest = function(request, response, skiniko) {
+const nodeRequest = function(request, response, skiniko) {
 	var urlComponents;
 
 	// Αρχικά εντάσσουμε στο ενισχυμένο αίτημα το ίδιο το αίτημα και το κανάλι
@@ -55,7 +55,7 @@ let NodeRequest = function(request, response, skiniko) {
 // πορεία να αναθεωρήσουμε, μέχρι να αποσταλλούν τα πρώτα δεδομένα προς
 // το κανάλι απάντησης.
 
-NodeRequest.prototype.header = function(tipos) {
+nodeRequest.prototype.header = function(tipos) {
 	if (this.redaeh === null)
 	Globals.fatal('header data already sent');
 
@@ -67,7 +67,7 @@ NodeRequest.prototype.header = function(tipos) {
 // και σκοπό έχει να στείλει τα header data εφόσον αυτά δεν έχουν ήδη αποσταλεί.
 // Η μέθοδος καλείται με το πρώτο write στο κανάλι απάντησης.
 
-NodeRequest.prototype.headerCheck = function() {
+nodeRequest.prototype.headerCheck = function() {
 	if (this.redaeh === null) return this;
 
 	this.response.writeHead(200, {
@@ -78,7 +78,7 @@ NodeRequest.prototype.headerCheck = function() {
 	return this;
 };
 
-NodeRequest.prototype.error = function(msg, code) {
+nodeRequest.prototype.error = function(msg, code) {
 	if (code === undefined) code = 500;
 	if (this.redaeh === null)
 	Globals.fatal('header data already sent');
@@ -99,7 +99,7 @@ NodeRequest.prototype.error = function(msg, code) {
 // απάντηση. Χωρίς όρισμα (ή με κενό όρισμα), η μέθοδος μπορεί να
 // χρησιμοποιηθεί ως flush των header data.
 
-NodeRequest.prototype.write = function(s) {
+nodeRequest.prototype.write = function(s) {
 	this.headerCheck();
 	if (s === undefined) return this;
 	else if (typeof s === 'number') this.response.write(s.toString());
@@ -112,7 +112,7 @@ NodeRequest.prototype.write = function(s) {
 // προαιρετικά μπορεί να δεχθεί και δεδομένα τα οποία αποστέλλει ως coda
 // στον client.
 
-NodeRequest.prototype.end = function(s) {
+nodeRequest.prototype.end = function(s) {
 	this.headerCheck();
 
 	if (s === undefined)
@@ -139,7 +139,7 @@ NodeRequest.prototype.end = function(s) {
 // Η μέθοδος επιστρέφει true αν το αίτημα είναι ανώνυμο, αλλιώς επιστρέφει
 // false και εμπλουτίζεται το ενισχυμένο αίτημα με τις δύο αυτές παραμέτρους.
 
-NodeRequest.prototype.anonimo = function(s) {
+nodeRequest.prototype.anonimo = function(s) {
 	// XXX
 	// Για λόγους που δεν γνωρίζω το url property, το οποίο είναι αντικείμενο,
 	// παρουσιάζει έλλειψη της μεθόδου "hasOwnProperty". Γι' αυτό το λόγο
@@ -172,7 +172,7 @@ NodeRequest.prototype.anonimo = function(s) {
 // ανώνυμο ή δεν υπάρχει σχετική συνεδρία επιστρέφει true, αλλιώς επιστρέφει
 // false και εμπλουτίζεται το ενισχυμένο αίτημα με τη σχετική συνεδρία.
 
-NodeRequest.prototype.nosinedria = function(s) {
+nodeRequest.prototype.nosinedria = function(s) {
 	var skiniko = this.skinikoGet(), trapezi;
 
 	if (this.anonimo(s)) return true;
@@ -236,33 +236,33 @@ NodeRequest.prototype.nosinedria = function(s) {
 	return false;
 };
 
-NodeRequest.prototype.skinikoGet = function() {
+nodeRequest.prototype.skinikoGet = function() {
 	return this.skiniko;
 };
 
-NodeRequest.prototype.skinikoFetch = function() {
+nodeRequest.prototype.skinikoFetch = function() {
 	var skiniko = this.skiniko;
 	if (skiniko) return skiniko;
 	Globals.fatal('ακαθόριστο σκηνικό αιτήματος');
 };
 
-NodeRequest.prototype.loginGet = function() {
+nodeRequest.prototype.loginGet = function() {
 	return this.login;
 };
 
-NodeRequest.prototype.ipGet = function() {
+nodeRequest.prototype.ipGet = function() {
 	return this.ip;
 };
 
-NodeRequest.prototype.pektisGet = function() {
+nodeRequest.prototype.pektisGet = function() {
 	return this.pektis;
 };
 
-NodeRequest.prototype.sinedriaGet = function() {
+nodeRequest.prototype.sinedriaGet = function() {
 	return this.sinedria;
 };
 
-NodeRequest.prototype.trapeziGet = function() {
+nodeRequest.prototype.trapeziGet = function() {
 	return this.trapezi;
 };
 
@@ -271,7 +271,7 @@ NodeRequest.prototype.trapeziGet = function() {
 // συνεδρίας. Αν όλα αυτά βρεθούν εντάξει επιστρέφεται false, αλλιώς επιστρέφεται
 // true.
 
-NodeRequest.prototype.isvoli = function(s) {
+nodeRequest.prototype.isvoli = function(s) {
 	var sinedria;
 
 	if (this.nosinedria(s)) return true;
@@ -302,14 +302,14 @@ NodeRequest.prototype.isvoli = function(s) {
 	return false;
 };
 
-NodeRequest.prototype.oxiTrapezi = function(s) {
+nodeRequest.prototype.oxiTrapezi = function(s) {
 	if (this.trapeziGet()) return false;
 
 	this.error(s ? s : 'ακαθόριστο τραπέζι αιτούντος');
 	return true;
 };
 
-NodeRequest.prototype.oxiPektis = function(s) {
+nodeRequest.prototype.oxiPektis = function(s) {
 	var trapezi;
 
 	if (this.oxiTrapezi(s)) return true;
@@ -321,12 +321,12 @@ NodeRequest.prototype.oxiPektis = function(s) {
 	return true;
 };
 
-NodeRequest.prototype.perastike = function(s) {
+nodeRequest.prototype.perastike = function(s) {
 	return Object.prototype.hasOwnProperty.call(this.url, s);
 	//XXX return this.url.hasOwnProperty(s);
 };
 
-NodeRequest.prototype.denPerastike = function(parametros, msg) {
+nodeRequest.prototype.denPerastike = function(parametros, msg) {
 	// Αν έχει περαστεί η συγκεκριμένη παράμετρος είμαστε εντάξει και
 	// επιστρέφουμε false χωρίς να προβούμε σε περαιτέρω ενέργειες.
 
@@ -356,6 +356,6 @@ NodeRequest.prototype.denPerastike = function(parametros, msg) {
 	return true;
 };
 
-NodeRequest.prototype.urlGet = function(s) {
+nodeRequest.prototype.urlGet = function(s) {
 	return this.url[s];
 };
