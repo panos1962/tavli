@@ -70,19 +70,19 @@ db.timeoutSet = function(rows) {
 	// συνδέσεις με την database δεν θα λήξουν.
 
 	sqlTimeout *= 1000;
-	Log.print('MySQL database connection timeout: ' + sqlTimeout + ' ms');
+	log.print('MySQL database connection timeout: ' + sqlTimeout + ' ms');
 
 	// Ορίζουμε τακτικό έλεγχο ανενεργών συνδέσεων περίπου στο μισό του μέγιστου
 	// επιτρεπτού χρόνου ανενεργών συνδέσεων.
 
 	Peripolos.ergasia.dbconn.period = Math.floor(sqlTimeout / 2);
-	Log.print('database connection patrol cycle: ' + Peripolos.ergasia.dbconn.period + ' ms');
+	log.print('database connection patrol cycle: ' + Peripolos.ergasia.dbconn.period + ' ms');
 
 	// Κατά τον έλεγχο θα επανεργοποιήσουμε συνδέσεις που είναι ανενεργές για περίπου
 	// το 90% του χρόνου της περιόδου ελέγχου.
 
 	db.timeout = Math.floor(Peripolos.ergasia.dbconn.period * 0.9);
-	Log.print('database connection idle max: ' + db.timeout + ' ms');
+	log.print('database connection idle max: ' + db.timeout + ' ms');
 
 	if (db.timeout < 10000)
 		throw 'db.timeoutSet: too small database connection timeout (' +
@@ -138,13 +138,13 @@ db.check = function() {
 // pool και το connection free stack.
 
 db.reset = function(callback) {
-	Log.level.push('closing database connections');
+	log.level.push('closing database connections');
 	db.resetRest(callback);
 };
 
 db.resetRest = function(callback) {
 	if (db.pool.length) return db.pool.pop().connection.end(function() {
-		Log.print('connection ' + db.pool.length);
+		log.print('connection ' + db.pool.length);
 		db.resetRest(callback);
 	});
 
@@ -155,32 +155,11 @@ db.resetRest = function(callback) {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
-// Για να συνδεθούμε με την database πρέπει να δώσουμε τις κατάλληλες παραμέτρους
-// στην "createConnection" μέθοδο του MySQL node module. Οι παράμετροι αυτές είναι:
-//
-//	database	Το όνομα της database, π.χ. "tavli"
-//
-//	user		Το όνομα του database user μέσω του οποίου προσπελαύνουμε
-//			την database, π.χ. "tavli".
-//
-//	password	Το password του database user που αναφέραμε παραπάνω.
-//
-//	host		Το hostname του database server. Συνήθως είναι το "localhost".
-//			Αν η σύνδεσή μας στην database γίνεται με UNIX socket και όχι
-//			μέσω TCP/IP, τότε η παράμετρος αυτή δεν είναι απαραίτητη.
-//
-//	socketPath	Το sokcet pathname του UNIX socket μέσω του οποίου συνδεόμαστε
-//			με την database. ΑΝ η σύνδεση γίνεται μέσω TCP/IP, τότε αυτή η
-//			παράμετρος δεν είναι απαραίτητη.
-//
-// Για να υπάρχει ευελιξία κάποιες από τις παραπάνω παραμέτρους δίνονται σε εξωτερικά
-// files στο directory "local/.mistiko", κάτω από το βασικό directory της εφαρμογής.
+db.nodedb = {};
 
-db.nodedb = globals.readFileSync('local/conf.cf').evalAsfales();
-
-db.nodedb.database = db.nodedb.dbname;
-db.nodedb.user = db.nodedb.dbuser;
-db.nodedb.password = db.nodedb.dbpass;
+db.nodedb.database = globals.conf.dbname;
+db.nodedb.user = globals.conf.dbuser;
+db.nodedb.password = globals.conf.dbpass;
 
 // Ακολουθεί η κλάση "dbSindesi" που παριστά συνδέσεις με την database. Πρόκειται
 // για ενισχυμένα αντικείμενα συνδέσεων, δηλαδή συνδέσεις που εμπλουτίζονται με

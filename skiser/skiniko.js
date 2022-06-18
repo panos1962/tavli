@@ -62,3 +62,47 @@ return;
 
 	return this;
 };
+
+
+// Διαβάζουμε τις παραμέτρους των ενεργών τραπεζιών και τις εντάσσουμε στο
+// σκηνικό.
+
+skiniko.stisimoTrparam = function(conn) {
+	let kodikos;
+	let query;
+
+	for (kodikos in skiniko.izepart) {
+		let trapezi = skiniko.izepart[kodikos];
+		delete skiniko.izepart[kodikos];
+
+		skiniko.izepart2[kodikos] = trapezi;
+
+		query = 'SELECT `param`, `timi` ' +
+			'FROM `trparam` ' +
+			'WHERE `trapezi` = ' + kodikos;
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(i, trparam) {
+				trapezi.trapeziTrparamSet(new Trparam(trparam));
+			});
+
+			// Συνεχίζουμε με τα υπόλοιπα στοιχεία της λίστας
+			// τραπεζιών.
+
+			skiniko.stisimoTrparam(conn);
+		});
+
+		// Διακόπτουμε τη διαδικασία στο πρώτο τραπέζι εφόσον
+		// λειτουργούμε με αναδρομή.
+
+		return skiniko;
+	}
+
+	// Έχει εξαντληθεί η λίστα τραπεζιών, οπότε προχωρούμε στην επόμενη φάση
+	// που αφορά στις συμμετοχές.
+
+	log.print('Μητρώο συμμετοχών');
+	//this.stisimoSimetoxi(conn);
+	server.ekinisi();
+	return skiniko;
+};

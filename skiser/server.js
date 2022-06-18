@@ -3,16 +3,15 @@
 global.server = {};
 
 server.ekinisi = function(skiniko) {
-	Log.fasi.nea('Activating the node server');
+	log.fasi.nea('Activating the node server');
 	server.atexit().oriste(skiniko);
 
 	return server;
 };
 
 server.oriste = function(skiniko) {
-	Globals.sport = server.readFileSync('misc/.mistiko/sport').replace(/[^a-zA-Z0-9]/g, '');
-	Log.print('listening port ' + Globals.sport + ' for http requests');
-	server.skiser = HTTP.createServer(function(request, response) {
+	log.print('listening port ' + globals.conf.sport + ' for http requests');
+	server.skiser = http.createServer(function(request, response) {
 		var nodereq, x;
 
 		// Συμμαζεύουμε τις δομές του αιτήματος σε ένα αντικείμενο
@@ -45,7 +44,7 @@ server.oriste = function(skiniko) {
 		if (x != '') x += ': ';
 		nodereq.error(x + 'service not found', 404);
 		console.error(x + 'invalid url pathname');
-	}).listen(Globals.sport);
+	}).listen(globals.conf.sport);
 
 	return server;
 };
@@ -53,10 +52,10 @@ server.oriste = function(skiniko) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@
 
 server.shutdown = function() {
-	Log.fasi.nea('Shutting down the Node server');
+	log.fasi.nea('Shutting down the Node server');
 	server.skiser.close();
-	DB.reset(function() {
-		Log.fasi.nea('Skiser shutdown complete!');
+	db.reset(function() {
+		log.fasi.nea('Skiser shutdown complete!');
 		process.reallyExit();
 	});
 
@@ -79,7 +78,7 @@ server.atexit = function() {
 		'SIGTERM': 0,
 	};
 
-	Log.print('Setting up shutdown actions');
+	log.print('Setting up shutdown actions');
 	for (i in stopEvent) {
 		process.on(i, function() {
 			if (server.closed)

@@ -18,3 +18,5 @@ globals.readFileSync = function(fname) {
 		console.log(err);
 	});
 }
+
+globals.conf = globals.readFileSync('local/conf.cf').evalAsfales();
