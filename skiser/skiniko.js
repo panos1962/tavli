@@ -23,38 +23,30 @@ skiniko.stisimoTrapezi = function(conn) {
 
 	skiniko.trapezi = {};
 
-	query = 'SELECT `kodikos`, `pektis1`, `pektis2` ' +
+	query = 'SELECT `kodikos`, `stisimo`, `pektis1`, `apodoxi1`, ' +
+		'`pektis2`, `apodoxi2`, `poll` ' +
 		'FROM `trapezi` ' +
 		'WHERE `arxio` IS NULL ' +
 		'ORDER BY `kodikos`';
 
 	conn.query(query, function(conn, rows) {
-		rows.forEach(function(i, trapezi) {
-console.log(i);
-return;
-			trapezi = new Trapezi(trapezi).trapeziPollSet();
-			skiniko.skinikoTrapeziSet(trapezi);
+		rows.forEach(function(trapezi) {
+			trapezi = new tavladoros.trapezi(trapezi).trapeziPollSet();
+			skiniko.trapeziSet(trapezi);
 
 			// Κρατάμε τα ενεργά τραπέζια στη λίστα "izepart".
 
 			skiniko.izepart[trapezi.kodikos] = trapezi;
 
-			// Κρατάμε όλους τους εμπλεκόμενους παίκτες στη λίστα "sitkep".
-			// Ενδεχομένως να κρατήσουμε και κενή εγγραφή, αλλά αργότερα
-			// θα διαγράψουμε την κενή εγγραφή. Εκμεταλλευόμαστε αυτή τη
-			// λίστα για να κρατήσουμε και τα πιο φρέσκα στοιχεία θέσης
-			// του παίκτη, καθώς επισκεπτόμαστε τα τραπέζι κατ' αύξουσα
-			// σειρά.
+			// Κρατάμε όλους τους εμπλεκόμενους παίκτες στη λίστα
+			// "sitkep".
 
-			trapezi.trapeziThesiWalk(function(thesi) {
-				skiniko.sitkep[this.trapeziPektisGet(thesi)] = {
-					trapezi: trapezi.kodikos,
-					thesi: thesi,
-				};
-			});
+			skiniko.sitkep[trapezi.pektis1] = 1;
+			skiniko.sitkep[trapezi.pektis2] = 2;
 		});
 
 		delete skiniko.sitkep[null];
+
 		log.print('Παράμετροι τραπεζιών');
 		skiniko.izepart2 = {};		// δευτερεύουσα λίστα τραπεζιών
 		skiniko.stisimoTrparam(conn);
@@ -62,7 +54,6 @@ return;
 
 	return this;
 };
-
 
 // Διαβάζουμε τις παραμέτρους των ενεργών τραπεζιών και τις εντάσσουμε στο
 // σκηνικό.
@@ -98,6 +89,7 @@ skiniko.stisimoTrparam = function(conn) {
 		return skiniko;
 	}
 
+console.log(skiniko.trapezi);
 	// Έχει εξαντληθεί η λίστα τραπεζιών, οπότε προχωρούμε στην επόμενη φάση
 	// που αφορά στις συμμετοχές.
 

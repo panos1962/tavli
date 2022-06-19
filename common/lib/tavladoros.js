@@ -67,6 +67,11 @@ tavladoros.loginGet = function(x) {
 ///////////////////////////////////////////////////////////////////////////////@
 
 tavladoros.pektis = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+
 	this.param = {};
 	this.sxesi = {};
 }
@@ -164,3 +169,36 @@ tavladoros.pektis.prototype.pektisIsApoklismenos = function(pektis) {
 	pektis = tavladoros.loginGet(pektis);
 	return (this.sxesi[pektis] === tavladoros.sxesiApoklismenos);
 };
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.trapezi = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+
+	this.param = {};
+	this.theatis = {};
+}
+
+tavladoros.trapezi.prototype.trapeziPollSet = function() {
+	this.poll = new Date;
+	return this;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.sinedria = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+}
+
+tavladoros.trapezi.prototype.trapeziPollSet = function() {
+	this.poll = new Date;
+	return this;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
