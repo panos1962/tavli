@@ -8,6 +8,7 @@ try {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+globals.ilikiaMinimum = 18;
 globals.gramataMask = 'a-zA-Z' +
 	'αβγδεζηθικλμνξοπρστυφχψω' +
 	'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ' +
@@ -18,7 +19,6 @@ globals.loginMask = '^[a-zA-Z][a-zA-Z0-9' + globals.akindinaMask + ']*$';
 globals.onomaMask = '^[' + globals.gramataMask + ']' +
 	'[0-9 ' + globals.gramataMask + globals.akindinaMask + ']*$';
 globals.emailMask = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$';
-globals.ilikiaMinimum = 18;
 
 globals.validLogin = function(login) {
 	if (login === undefined)
@@ -67,71 +67,89 @@ globals.invalidEmail = function(email) {
 
 // Ακολουθούν functions σχετικές με ημερομηνία και ώρα.
 
-// Η function "torams" επιστρέφει το τρέχον timestamp σε milliseconds,
-// με όρους της μηχανής στην οποία εκτελείται.
+// Η function "torams" επιστρέφει το τρέχον timestamp σε milliseconds, με όρους
+// της μηχανής στην οποία εκτελείται.
 
 globals.torams = function() {
 	return (new Date).getTime();
 };
 
-// Η function "tora" επιστρέφει το τρέχον timestamp σε seconds,
-// με όρους της μηχανής στην οποία εκτελείται.
+// Η function "torasec" επιστρέφει το τρέχον timestamp σε seconds, με όρους
+// της μηχανής στην οποία εκτελείται.
 
-globals.tora = function() {
+globals.torasec = function() {
 	return Math.floor((new Date).getTime() / 1000);
 };
-
 
 // Η function "mera" δίνει την τρέχουσα ημερομηνία στη μηχανή που τρέχει.
 // Μπορούμε να δώσουμε και συγκεκριμένη ώρα ως παράμετρο.
 
 globals.mera = function(d, full) {
-	let s, x;
+	let s = '';
 
-	if (!d) d = new Date;
-	else if (typeof d === 'number') d = new Date(d * 1000);
+	if (!d)
+	d = new Date;
 
-	s = '';
+	else if (typeof d === 'number')
+	d = new Date(d * 1000);
 
-	x = d.getDate();
-	if (x < 10) s += '0';
+	let x = d.getDate();
+
+	if (x < 10)
+	s += '0';
+
 	s += x;
 	s += '/';
 
 	x = d.getMonth() + 1;
-	if (x < 10) s += '0';
+
+	if (x < 10)
+	s += '0';
+
 	s += x;
 	s += '/'; 
 
 	x = d.getFullYear();
-	if (full || (x < 2000)) s += x;
+
+	if (full || (x < 2000))
+	s += x;
+
 	else {
 		x %= 100;
-		if (x < 10) s += '0';
+
+		if (x < 10)
+		s += '0';
+
 		s += x;
 	}
 
 	return s;
 };
 
-
-// Η function "ora" δίνει την τρέχουσα ώρα στη μηχανή που τρέχει.
-// Μπορούμε να δώσουμε και συγκεκριμένη ώρα ως παράμετρο.
+// Η function "ora" δίνει την τρέχουσα ώρα στη μηχανή που τρέχει. Μπορούμε να
+// δώσουμε και συγκεκριμένη ώρα ως παράμετρο.
 
 globals.ora = function(d, seconds) {
-	var s, x;
+	let s = '';
 
-	if (!d) d = new Date;
-	else if (typeof d === 'number') d = new Date(d * 1000);
+	if (!d)
+	d = new Date;
 
-	s = '';
+	else if (typeof d === 'number')
+	d = new Date(d * 1000);
 
-	x = d.getHours();
-	if (x < 10) s += '0';
+	let x = d.getHours();
+
+	if (x < 10)
+	s += '0';
+
 	s += x + ':';
 
 	x = d.getMinutes();
-	if (x < 10) s += '0';
+
+	if (x < 10)
+	s += '0';
+
 	s += x;
 
 	if (seconds === undefined)
@@ -140,7 +158,10 @@ globals.ora = function(d, seconds) {
 	if (seconds) {
 		s += ':';
 		x = d.getSeconds();
-		if (x < 10) s += '0';
+
+		if (x < 10)
+		s += '0';
+
 		s += x;
 	}
 
@@ -148,9 +169,11 @@ globals.ora = function(d, seconds) {
 };
 
 globals.meraOra = function(seconds) {
-	const tora = new Date;
+	let tora = new Date;
 	return globals.mera(tora) + ', ' + globals.ora(tora, seconds);
 };
+
+///////////////////////////////////////////////////////////////////////////////@
 
 globals.consoleLog = function(msg) {
 	console.log(msg, '(' + globals.meraOra(true) + ')');
