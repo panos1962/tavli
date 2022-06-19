@@ -28,7 +28,7 @@ define("LOGIN_MASK", "^[a-zA-Z][a-zA-Z0-9" . AKINDINA_MASK . "]*$");
 define("ONOMA_MASK", "^[" . GRAMATA_MASK . "][0-9 " . GRAMATA_MASK . AKINDINA_MASK . "]*$");
 define("EMAIL_MASK", "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$");
 
-// Το sngleton "Globals" χρησιμοποιείται ως name space για τα global
+// Το singleton "Globals" χρησιμοποιείται ως name space για τα global
 // αντικείμενα που χρησιμοποιούμε από την πλευρά της PHP. Ουσιαστικά
 // πρόκειται για global μεταβλητές και functions γενικής χρήσης.
 
