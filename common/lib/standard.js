@@ -175,6 +175,57 @@ globals.meraOra = function(seconds) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+// Η μέθοδος "random" επιστρέφει έναν τυχαίο ακέραιο μεταξύ των τιμών που
+// δίνονται ως παράμετροι (inclusive). Π.χ. η κλήση Globals.random(5, 10)
+// μπορεί να δώσει 5, 6, 7, 8, 9 και 10.
+
+Globals.random = function() {
+	let min;
+	let max;
+
+	switch (arguments.length) {
+	case 0:
+		min = 0;
+		max = 999999999;
+		break;
+	case 1:
+		min = 0;
+		max = parseInt(arguments[0]);
+		break;
+	case 2:
+		min = parseInt(arguments[0]);
+		max = parseInt(arguments[1]);
+		break;
+	}
+
+	if (isNaN(min) || isNaN(max))
+	throw 'Globals.random: invalid argument[s]';
+
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+// Η μέθοδος "randomString" επιστρέφει ένα τυχαίο string με μήκος που
+// καθορίζεται από τις παραμέτρους. Το string αποτελείται από γράμματα του
+// λατινικού αλφαβήτου, αλλά αν θέλουμε μπορούμε να περάσουμε αυθαίρετο string
+// από το οποίο θα επιλεγούν χαρακτήρες (παλέτα).
+
+Globals.randomString = function(min, max, pool) {
+	if (pool === undefined)
+	pool = 'abcdefghijklmnopqrstuvwxyz';
+
+
+	let n = pool.length - 1;
+	let s = '';
+	max = Globals.random(min, max);
+
+	for (min = 0; min < max; min++)
+	s += pool.substr(Globals.random(n), 1);
+
+	return s;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
 globals.consoleLog = function(msg) {
 	console.log(msg, '(' + globals.meraOra(true) + ')');
 };

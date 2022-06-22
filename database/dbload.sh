@@ -28,7 +28,7 @@ do
 		monitor=
 		;;
 	\:)
-		echo "${progname}: -${OPTARG}: option rquires an argument" >&2
+		echo "${progname}: -${OPTARG}: option requires an argument" >&2
 		errs=1
 		;;
 	\?)
