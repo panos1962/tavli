@@ -8,18 +8,29 @@ try {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-skiniko.sinedria = {};
 skiniko.trapezi = {};
+skiniko.pektis = {};
 skiniko.sizitisi = {};
+skiniko.sinedria = {};
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-skiniko.trapeziSet = function(trapezi) {
+skiniko.trapeziPush = function(trapezi) {
 	skiniko.trapezi[trapezi.kodikos] = trapezi;
 	return skiniko;
 };
 
-skiniko.sinedriaSet = function(sinedria) {
+skiniko.trapeziPop = function(trapezi) {
+	delete skiniko.trapezi[trapezi.kodikos];
+	return skiniko;
+};
+
+skiniko.sinedriaPush = function(sinedria) {
+	skiniko.sinedria[sinedria.pektis] = sinedria;
+	return skiniko;
+};
+
+skiniko.sinedriaPop = function(sinedria) {
 	skiniko.sinedria[sinedria.pektis] = sinedria;
 	return skiniko;
 };

@@ -32,7 +32,7 @@ skiniko.stisimoTrapezi = function(conn) {
 	conn.query(query, function(conn, rows) {
 		rows.forEach(function(trapezi) {
 			trapezi = new tavladoros.trapezi(trapezi).trapeziPollSet();
-			skiniko.trapeziSet(trapezi);
+			skiniko.trapeziPush(trapezi);
 
 			// Κρατάμε τα ενεργά τραπέζια στη λίστα "izepart".
 

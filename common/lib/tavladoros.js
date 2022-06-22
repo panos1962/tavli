@@ -35,6 +35,10 @@ tavladoros.katastasiApasxolimenos = 'ΑΠΑΣΧΟΛΗΜΕΝΟΣ';
 tavladoros.pouliaAspra = 'ΑΣΠΡΑ';
 tavladoros.pouliaMavra = 'ΜΑΥΡΑ';
 
+tavladoros.pexniidiPortes = 'ΠΟΡΤΕΣ';
+tavladoros.pexniidiPlakoto = 'ΠΛΑΚΩΤΟ';
+tavladoros.pexniidiFevga = 'ΦΕΥΓΑ';
+
 tavladoros.axiomaRank = {};
 tavladoros.axiomaRank[tavladoros.axiomaThamonas] = 0;
 tavladoros.axiomaRank[tavladoros.axiomaVip] = 10;
@@ -51,7 +55,7 @@ tavladoros.peparamDefault[tavladoros.peparamApodosi] = '';
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-tavladoros.loginGet = function(x) {
+tavladoros.pektisGet = function(x) {
 	if (typeof(x) === 'string')
 	return x;
 
@@ -60,6 +64,25 @@ tavladoros.loginGet = function(x) {
 
 	if (x instanceof tavladoros.pektis)
 	return x.login;
+
+	if (x instanceof tavladoros.sinedria)
+	return x.pektis;
+
+	return undefined;
+};
+
+tavladoros.trapeziGet = function(x) {
+	if (typeof(x) === 'number')
+	return x;
+
+	if (typeof(x) !== 'object')
+	return undefined;
+
+	if (x instanceof tavladoros.trapezi)
+	return x.kodikos;
+
+	if (x instanceof tavladoros.sinedria)
+	return x.trapezi;
 
 	return undefined;
 };
@@ -72,20 +95,21 @@ tavladoros.pektis = function(props) {
 		this[i] = props[i];
 	}
 
-	this.param = {};
+	this.peparam = {};
+	this.profinfo = {};
 	this.sxesi = {};
 }
 
-tavladoros.pektis.prototype.pektisParamSet = function(param, timi) {
+tavladoros.pektis.prototype.pektisPeparamSet = function(param, timi) {
 	if (!tavladoros.peparamValid.hasOwnProperty(param))
 	throw param + ': invalid parameter';
 
-	this.param[param] = timi;
+	this.peparam[param] = timi;
 	return this;
 }
 
-tavladoros.pektis.prototype.pektisParamGet = function(param) {
-	return this.param[param];
+tavladoros.pektis.prototype.pektisPeparamGet = function(param) {
+	return this.peparam[param];
 }
 
 tavladoros.pektis.prototype.pektisAxiomaSet = function(axioma) {
@@ -178,8 +202,11 @@ tavladoros.trapezi = function(props) {
 		this[i] = props[i];
 	}
 
-	this.param = {};
+	this.trparam = {};
+	this.pexnidi = [];
+	this.sizitisi = [];
 	this.theatis = {};
+	this.simetoxi = {};
 }
 
 tavladoros.trapezi.prototype.trapeziPollSet = function() {
@@ -196,7 +223,7 @@ tavladoros.sinedria = function(props) {
 	}
 }
 
-tavladoros.trapezi.prototype.trapeziPollSet = function() {
+tavladoros.sinedria.prototype.sinedriaPollSet = function() {
 	this.poll = new Date;
 	return this;
 };
