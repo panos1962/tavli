@@ -176,10 +176,10 @@ globals.meraOra = function(seconds) {
 ///////////////////////////////////////////////////////////////////////////////@
 
 // Η μέθοδος "random" επιστρέφει έναν τυχαίο ακέραιο μεταξύ των τιμών που
-// δίνονται ως παράμετροι (inclusive). Π.χ. η κλήση Globals.random(5, 10)
+// δίνονται ως παράμετροι (inclusive). Π.χ. η κλήση globals.random(5, 10)
 // μπορεί να δώσει 5, 6, 7, 8, 9 και 10.
 
-Globals.random = function() {
+globals.random = function() {
 	let min;
 	let max;
 
@@ -199,7 +199,7 @@ Globals.random = function() {
 	}
 
 	if (isNaN(min) || isNaN(max))
-	throw 'Globals.random: invalid argument[s]';
+	throw 'globals.random: invalid argument[s]';
 
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -209,17 +209,17 @@ Globals.random = function() {
 // λατινικού αλφαβήτου, αλλά αν θέλουμε μπορούμε να περάσουμε αυθαίρετο string
 // από το οποίο θα επιλεγούν χαρακτήρες (παλέτα).
 
-Globals.randomString = function(min, max, pool) {
+globals.randomString = function(min, max, pool) {
 	if (pool === undefined)
 	pool = 'abcdefghijklmnopqrstuvwxyz';
 
 
 	let n = pool.length - 1;
 	let s = '';
-	max = Globals.random(min, max);
+	max = globals.random(min, max);
 
 	for (min = 0; min < max; min++)
-	s += pool.substr(Globals.random(n), 1);
+	s += pool.substr(globals.random(n), 1);
 
 	return s;
 };
