@@ -11,6 +11,7 @@ log.level = {
 
 	reset: function() {
 		log.level.level = 0;
+		return log;
 	},
 
 	push: function(s) {
@@ -18,10 +19,16 @@ log.level = {
 		log.print(s);
 
 		log.level.level++;
+		return log;
 	},
 
-	pop: function() {
+	pop: function(s) {
 		log.level.level--;
+
+		if (s)
+		log.print(s);
+
+		return log;
 	},
 };
 

@@ -270,4 +270,12 @@ tavladoros.sinedria.prototype.sinedriaPollSet = function() {
 	return this;
 };
 
+tavladoros.sinedria.prototype.sinedriaRebelosSet = function() {
+	this.trapezi = undefined;
+	this.thesi = undefined;
+	this.simetoxi = undefined;
+
+	return this;
+};
+
 ///////////////////////////////////////////////////////////////////////////////@

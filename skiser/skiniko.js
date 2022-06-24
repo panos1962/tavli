@@ -1,19 +1,10 @@
 "use strict";
 
-// Ακολουθεί μέθοδος με την οποία στήνεται το σκηνικό στον server. Η μέθοδος
-// αποτελεί ουσιαστικά το σημείο εκκίνησης της διαδικασίας, καθώς υπάρχει
-// πληθώρα επιμέρους διαδικασιών που καλούνται αλυσιδωτά προκειμένου να στηθεί
-// το σκηνικό. Περιττό να πούμε ότι το στήσιμο του σκηνικού στον skiser γίνεται
-// με βάση τα στοιχεία που υπάρχουν κρατημένα στην database.  
-
 skiniko.stisimo = function() {
 	log.fasi.nea('Στήσιμο σκηνικού');
-	log.print('Τραπέζια');
+	log.level.push('Τραπέζια');
 	skiniko.stisimoTrapezi(db.connection());
 };
-
-// Διαβάζουμε τα ενεργά τραπέζια από την database και τα εντάσσουμε στο
-// σκηνικό.
 
 skiniko.stisimoTrapezi = function(conn) {
 	skiniko.trapezi = {};
@@ -21,20 +12,19 @@ skiniko.stisimoTrapezi = function(conn) {
 	let query = 'SELECT `kodikos`, `stisimo`, `pektis1`, `apodoxi1`, ' +
 		'`pektis2`, `apodoxi2`, `poll` ' +
 		'FROM `trapezi` ' +
-		'WHERE `arxio` IS NULL ' +
-		'ORDER BY `kodikos`';
+		'WHERE `arxio` IS NULL';
 
 	conn.query(query, function(conn, rows) {
-		skiniko.izepart1 = {};
-		skiniko.izepart2 = {};
+		skiniko.lista1 = [];
+		skiniko.lista2 = [];
 
 		rows.forEach(function(trapezi) {
 			trapezi = new tavladoros.trapezi(trapezi).trapeziPollSet();
 			skiniko.trapeziPush(trapezi);
-			skiniko.izepart1[trapezi.kodikos] = 1;
+			skiniko.lista1.push(trapezi.kodikos);
 		});
 
-		log.print('Παράμετροι τραπεζιών');
+		log.print('Παράμετροι');
 		return skiniko.stisimoTrparam(conn);
 	});
 
@@ -42,11 +32,11 @@ skiniko.stisimoTrapezi = function(conn) {
 };
 
 skiniko.stisimoTrparam = function(conn) {
-	for (let kodikos in skiniko.izepart1) {
+	for (let kodikos of skiniko.lista1) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.izepart2[kodikos] = 1;
-		delete skiniko.izepart1[kodikos];
+		skiniko.lista2.push(kodikos);
+		skiniko.lista1.pop();
 
 		let query = 'SELECT `param`, `timi` ' +
 			'FROM `trparam` ' +
@@ -69,11 +59,11 @@ skiniko.stisimoTrparam = function(conn) {
 };
 
 skiniko.stisimoPexnidi = function(conn) {
-	for (let kodikos in skiniko.izepart2) {
+	for (let kodikos of skiniko.lista2) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.izepart1[kodikos] = 1;
-		delete skiniko.izepart2[kodikos];
+		skiniko.lista1.push(kodikos);
+		skiniko.lista2.pop();
 
 		let query = 'SELECT `kodikos`, `enarxi`, `idos`, `protos`, ' +
 			'`xamenos`, `ita`, `telos` ' +
@@ -98,11 +88,11 @@ skiniko.stisimoPexnidi = function(conn) {
 };
 
 skiniko.stisimoKinisi = function(conn) {
-	for (let kodikos in skiniko.izepart1) {
+	for (let kodikos of skiniko.lista1) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.izepart2[kodikos] = 1;
-		delete skiniko.izepart1[kodikos];
+		skiniko.lista2.push(kodikos);
+		skiniko.lista1.pop();
 
 		if (!trapezi.pexnidi.length)
 		return skiniko.stisimoKinisi(conn);
@@ -131,11 +121,11 @@ skiniko.stisimoKinisi = function(conn) {
 };
 
 skiniko.stisimoSimetoxi = function(conn) {
-	for (let kodikos in skiniko.izepart2) {
+	for (let kodikos of skiniko.lista2) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.izepart1[kodikos] = 1;
-		delete skiniko.izepart2[kodikos];
+		skiniko.lista1.push(kodikos);
+		skiniko.lista2.pop();
 
 		let query = 'SELECT `pektis`, `thesi` ' +
 			'FROM `simetoxi` ' +
@@ -153,6 +143,59 @@ skiniko.stisimoSimetoxi = function(conn) {
 		return skiniko;
 	}
 
-console.log(skiniko.trapezi);
+	log.level.pop().level.push('Συνεδρίες');
+	return skiniko.stisimoSinedria(conn);
+};
+
+skiniko.stisimoSinedria = function(conn) {
+	skiniko.sinedria = {};
+
+	let query = 'SELECT `pektis`, `klidi`, `ip`, `isodos`, `poll`, ' +
+		'`trapezi`, `thesi`, `simetoxi` ' +
+		'FROM `sinedria`';
+
+	conn.query(query, function(conn, rows) {
+		skiniko.lista1 = [];
+		skiniko.lista2 = [];
+
+		rows.forEach(function(sinedria) {
+			sinedria = new tavladoros.sinedria(sinedria).sinedriaPollSet();
+			skiniko.sinedriaPush(sinedria);
+			skiniko.lista1.push(sinedria.pektis);
+		});
+
+		log.level.push('Έλεγχος');
+		return skiniko.stisimoCheck(conn);
+	});
+
+	return skiniko;
+};
+
+skiniko.stisimoCheck = function(conn) {
+	for (let pektis in skiniko.sinedria) {
+		let sinedria = skiniko.sinedria[pektis];
+		let trapezi = skiniko.trapezi[sinedria.trapezi];
+
+		if (!trapezi) {
+			sinedria.sinedriaRebelosSet();
+			continue;
+		}
+
+		switch (sinedria.thesi) {
+		case 1:
+		case 2:
+			break;
+		default:
+			sinedria.sinedriaRebelosSet();
+			continue;
+		}
+
+		if (trapezi['pektis' + sinedria.thesi] !== sinedria.pektis) {
+			sinedria.sinedriaRebelosSet();
+			continue;
+		}
+	}
+
+//console.log(skiniko.sinedria);
 	return server.ekinisi();
 };

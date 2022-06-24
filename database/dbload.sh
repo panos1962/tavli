@@ -78,7 +78,7 @@ datadir="${TAVLI_BASEDIR}/database/sample"
 	exit 2
 }
 
-for table in pektis trapezi
+for table in pektis trapezi sinedria
 do
 	datafile="${datadir}/${table}.sql"
 
