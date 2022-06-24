@@ -207,11 +207,25 @@ tavladoros.trapezi = function(props) {
 	this.sizitisi = [];
 	this.theatis = {};
 	this.simetoxi = {};
-}
+};
 
 tavladoros.trapezi.prototype.trapeziPollSet = function() {
 	this.poll = new Date;
 	return this;
+};
+
+tavladoros.trapezi.prototype.trapeziTrparamPush = function(trparam) {
+	this.trparam[trparam.param] = trparam.timi;
+	return this;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.trparam = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

@@ -236,12 +236,10 @@ COMMENT = 'Πίνακας τραπεζιών'
 -- τραπέζι και στην παρτίδα που εξελίσσεται στο τραπέζι, π.χ. την εναλλαγή
 -- των παιχνιδιών.
 --
--- Η παράμετρος "ΠΑΙΧΝΙΔΙΑ" δείχνει την εναλλαγή των παιχνιδιών. Η default
--- εναλλαγή είναι "ΠΟΡΤΕΣ, ΠΛΑΚΩΤΟ, ΦΕΥΓΑ". Αν θέλουμε, π.χ. να παίζουμε μόνο
--- πόρτες, τότε η παράμετρος θα έχει τιμή "Π", αν θέλουμε πόρτες, πλακωτό και
--- φεύγα "ΠΛΦ", αν θέλουμε φεύγα και πλακωτό με αυτή τη σειρά "ΦΛ" κοκ.
---
---	ΠΑΙΧΝΙΔΙΑ	ΠΛΦ
+--	ΕΝΑΛΛΑΓΗ	ΠΛΦ
+--	ΙΔΙΟΚΤΗΤΟ	ΟΧΙ
+--	ΠΡΙΒΕ		ΟΧΙ
+--	ΣΤΟΧΟΣ		7
 
 CREATE TABLE `trparam` (
 	`trapezi`	INTEGER(10) UNSIGNED NOT NULL COMMENT 'Τραπέζι',
@@ -448,10 +446,11 @@ ENGINE = InnoDB
 COMMENT = 'Πίνακας παιχνιδιών'
 ;
 
--- Ο πίνακας "energia" περιέχει τις ενέργειες που γίνονται στα τραπέζια. Κάθε ενέργεια
--- εντάσσεται στα πλαίσια κάποιου παιχνιδιού και κάθε παιχνίδι εντάσσεται σε κάποιο τραπέζι.
+-- Ο πίνακας "kinisi" περιέχει τις κινήσεις που γίνονται στα τραπέζια. Κάθε
+-- κίνηση εντάσσεται στα πλαίσια κάποιου παιχνιδιού και κάθε παιχνίδι
+-- εντάσσεται σε κάποιο τραπέζι.
 
-CREATE TABLE `energia` (
+CREATE TABLE `kinisi` (
 	`kodikos`	INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
 	`pexnidi`	INTEGER(10) UNSIGNED NOT NULL COMMENT 'Κωδικός παιχνιδιού',
 	`pektis`	TINYINT(1) NOT NULL COMMENT 'Θέση παίκτη που εκτελεί την ενέργεια',
@@ -740,9 +739,9 @@ ALTER TABLE `pexnidi` ADD FOREIGN KEY (
 ) ON UPDATE CASCADE ON DELETE CASCADE
 ;
 
--- Πίνακας ενεργειών ("energia")
+-- Πίνακας ενεργειών ("kinisi")
 
-ALTER TABLE `energia` ADD FOREIGN KEY (
+ALTER TABLE `kinisi` ADD FOREIGN KEY (
 	`pexnidi`
 ) REFERENCES `pexnidi` (
 	`kodikos`
