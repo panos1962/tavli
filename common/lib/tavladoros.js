@@ -219,9 +219,37 @@ tavladoros.trapezi.prototype.trapeziTrparamPush = function(trparam) {
 	return this;
 };
 
+tavladoros.trapezi.prototype.trapeziPexnidiPush = function(pexnidi) {
+	this.pexnidi.push(pexnidi);
+	return this;
+};
+
+tavladoros.trapezi.prototype.trapeziSimetoxiPush = function(simetoxi) {
+	this.simetoxi[simetoxi.pektis] = simetoxi;
+	return this;
+};
+
 ///////////////////////////////////////////////////////////////////////////////@
 
 tavladoros.trparam = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.pexnidi = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.simetoxi = function(props) {
 	if (props) {
 		for (let i in props)
 		this[i] = props[i];

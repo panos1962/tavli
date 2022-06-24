@@ -87,14 +87,14 @@ require('../common/lib/tavladoros.js');
 
 log.print('reading common "skiniko" module');
 require('../common/lib/skiniko');
-require('../common/lib/kinisi');
+require('../common/lib/metavoli');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στη διαμόρφωση και στον
 // χειρισμό του σκηνικού ειδικά από την πλευρά του server.
 
 log.print('reading server "skiniko" module');
 require('./skiniko.js');
-require('./kinisi.js');
+require('./metavoli.js');
 
 // Εμπλουτίζουμε με δομές και μεθόδους που αφορούν στη διαχείριση των αιτημάτων
 // που υποβάλλουν οι clients.

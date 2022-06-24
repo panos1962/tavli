@@ -25,71 +25,134 @@ skiniko.stisimoTrapezi = function(conn) {
 		'ORDER BY `kodikos`';
 
 	conn.query(query, function(conn, rows) {
+		skiniko.izepart1 = {};
+		skiniko.izepart2 = {};
+
 		rows.forEach(function(trapezi) {
 			trapezi = new tavladoros.trapezi(trapezi).trapeziPollSet();
 			skiniko.trapeziPush(trapezi);
-
-			skiniko.stisimoTrparam(conn, trapezi);
-		});
-console.log('XXXXXX');
-
-		server.ekinisi();
-	});
-
-	return skiniko;
-};
-
-skiniko.stisimoTrparam = function(conn, trapezi) {
-	let query = 'SELECT `param`, `timi` ' +
-		'FROM `trparam` ' +
-		'WHERE `trapezi` = ' + trapezi.kodikos;
-
-	conn.query(query, function(conn, rows) {
-		rows.forEach(function(i, trparam) {
-			trapezi.trapeziTrparamPush(new tavladoros.trparam(trparam));
+			skiniko.izepart1[trapezi.kodikos] = 1;
 		});
 
-		skiniko.stisimoPexnidi(conn, trapezi);
+		log.print('Παράμετροι τραπεζιών');
+		return skiniko.stisimoTrparam(conn);
 	});
 
 	return skiniko;
 };
 
-skiniko.stisimoPexnidi = function(conn, trapezi) {
-	let query = 'SELECT `kodikos`, `enarxi`, `idos`, `protos`, ' +
-		'`xamenos`, `ita`, `telos` ' +
-		'FROM `pexnidi` ' +
-		'WHERE `trapezi` = ' + trapezi.kodikos + ' ' +
-		'ORDER BY `kodikos`';
+skiniko.stisimoTrparam = function(conn) {
+	for (let kodikos in skiniko.izepart1) {
+		let trapezi = skiniko.trapezi[kodikos];
 
-	conn.query(query, function(conn, rows) {
-		rows.forEach(function(i, pexnidi) {
-			pexnidiLast = new tavladoros.pexnidi(pexnidi);
-			trapezi.trapeziPexnidiPush(pexnidiLast);
+		skiniko.izepart2[kodikos] = 1;
+		delete skiniko.izepart1[kodikos];
+
+		let query = 'SELECT `param`, `timi` ' +
+			'FROM `trparam` ' +
+			'WHERE `trapezi` = ' + kodikos;
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(trparam) {
+				trparam = new tavladoros.trparam(trparam);
+				trapezi.trapeziTrparamPush(trparam);
+			});
+
+			skiniko.stisimoTrparam(conn);
 		});
 
-		skiniko.stisimoKinisi(conn, trapezi)
-	});
+		return skiniko;
+	}
 
-	return skiniko;
+	log.print('Παιχνίδια');
+	return skiniko.stisimoPexnidi(conn);
 };
 
-skiniko.stisimoKinisi = function(conn, trapezi) {
-	if (!trapezi.pexnidi.length)
-	return skiniko.stisimoSimetoxi(conn, trapezi);
+skiniko.stisimoPexnidi = function(conn) {
+	for (let kodikos in skiniko.izepart2) {
+		let trapezi = skiniko.trapezi[kodikos];
 
-	let query = 'SELECT * ' +
-		'FROM `kinisi` ' +
-		'WHERE `pexnidi` = ' + trapezi.pexnidi[trapezi.pexnidi.length - 1].kodikos;
-		'ORDER BY `kodikos`';
+		skiniko.izepart1[kodikos] = 1;
+		delete skiniko.izepart2[kodikos];
 
-	conn.query(query, function(conn, rows) {
-		skiniko.stisimoSimetoxi(conn, trapezi)
-	});
+		let query = 'SELECT `kodikos`, `enarxi`, `idos`, `protos`, ' +
+			'`xamenos`, `ita`, `telos` ' +
+			'FROM `pexnidi` ' +
+			'WHERE `trapezi` = ' + kodikos + ' ' +
+			'ORDER BY `kodikos`';
 
-	return skiniko;
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(pexnidi) {
+				pexnidi = new tavladoros.pexnidi(pexnidi);
+				trapezi.trapeziPexnidiPush(pexnidi);
+			});
+
+			skiniko.stisimoPexnidi(conn);
+		});
+
+		return skiniko;
+	}
+
+	log.print('Κινήσεις');
+	return skiniko.stisimoKinisi(conn);
 };
 
-skiniko.stisimoSimetoxi = function(conn, trapezi) {
-	return skiniko;
+skiniko.stisimoKinisi = function(conn) {
+	for (let kodikos in skiniko.izepart1) {
+		let trapezi = skiniko.trapezi[kodikos];
+
+		skiniko.izepart2[kodikos] = 1;
+		delete skiniko.izepart1[kodikos];
+
+		if (!trapezi.pexnidi.length)
+		return skiniko.stisimoKinisi(conn);
+
+		let pexnidi = trapezi.pexnidi[trapezi.pexnidi.length - 1];
+
+		let query = 'SELECT * ' +
+			'FROM `kinisi` ' +
+			'WHERE `pexnidi` = ' + pexnidi.kodikos;
+			'ORDER BY `kodikos`';
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(kinisi) {
+				kinisi = new tavladoros.kinisi(kinisi);
+				pexnidi.pexnidiKinisiPush(kinisi);
+			});
+
+			skiniko.stisimoKinisi(conn);
+		});
+
+		return skiniko;
+	}
+
+	log.print('Συμμετοχές');
+	return skiniko.stisimoSimetoxi(conn);
+};
+
+skiniko.stisimoSimetoxi = function(conn) {
+	for (let kodikos in skiniko.izepart2) {
+		let trapezi = skiniko.trapezi[kodikos];
+
+		skiniko.izepart1[kodikos] = 1;
+		delete skiniko.izepart2[kodikos];
+
+		let query = 'SELECT `pektis`, `thesi` ' +
+			'FROM `simetoxi` ' +
+			'WHERE `trapezi` = ' + kodikos;
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(simetoxi) {
+				simetoxi = new tavladoros.simetoxi(simetoxi);
+				trapezi.trapeziSimetoxiPush(simetoxi);
+			});
+
+			skiniko.stisimoSimetoxi(conn);
+		});
+
+		return skiniko;
+	}
+
+console.log(skiniko.trapezi);
+	return server.ekinisi();
 };
