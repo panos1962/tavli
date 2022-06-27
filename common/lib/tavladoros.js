@@ -245,6 +245,22 @@ tavladoros.pexnidi = function(props) {
 		for (let i in props)
 		this[i] = props[i];
 	}
+
+	this.kinisi = [];
+};
+
+tavladoros.pexnidi.prototype.pexnidiKinisiPush = function(kinisi) {
+	this.kinisi.push(kinisi);
+	return this;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.kinisi = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

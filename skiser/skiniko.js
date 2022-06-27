@@ -1,5 +1,12 @@
 "use strict";
 
+skiniko.trapezi = {};
+skiniko.pektis = {};
+skiniko.sinedria = {};
+
+skiniko.lista1 = {};
+skiniko.lista2 = {};
+
 skiniko.stisimo = function() {
 	log.fasi.nea('Στήσιμο σκηνικού');
 	log.level.push('Τραπέζια');
@@ -7,36 +14,32 @@ skiniko.stisimo = function() {
 };
 
 skiniko.stisimoTrapezi = function(conn) {
-	skiniko.trapezi = {};
-
 	let query = 'SELECT `kodikos`, `stisimo`, `pektis1`, `apodoxi1`, ' +
 		'`pektis2`, `apodoxi2`, `poll` ' +
 		'FROM `trapezi` ' +
 		'WHERE `arxio` IS NULL';
 
 	conn.query(query, function(conn, rows) {
-		skiniko.lista1 = [];
-		skiniko.lista2 = [];
-
 		rows.forEach(function(trapezi) {
-			trapezi = new tavladoros.trapezi(trapezi).trapeziPollSet();
+			trapezi = new tavladoros.trapezi(trapezi);
+			trapezi.trapeziPollSet();
 			skiniko.trapeziPush(trapezi);
-			skiniko.lista1.push(trapezi.kodikos);
+			skiniko.lista1[trapezi.kodikos] = 1;
 		});
 
 		log.print('Παράμετροι');
-		return skiniko.stisimoTrparam(conn);
+		skiniko.stisimoTrparam(conn);
 	});
 
 	return skiniko;
 };
 
 skiniko.stisimoTrparam = function(conn) {
-	for (let kodikos of skiniko.lista1) {
+	for (let kodikos in skiniko.lista1) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.lista2.push(kodikos);
-		skiniko.lista1.pop();
+		skiniko.lista2[kodikos] = 1;
+		delete skiniko.lista1[kodikos];
 
 		let query = 'SELECT `param`, `timi` ' +
 			'FROM `trparam` ' +
@@ -59,11 +62,11 @@ skiniko.stisimoTrparam = function(conn) {
 };
 
 skiniko.stisimoPexnidi = function(conn) {
-	for (let kodikos of skiniko.lista2) {
+	for (let kodikos in skiniko.lista2) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.lista1.push(kodikos);
-		skiniko.lista2.pop();
+		skiniko.lista1[kodikos] = 1;
+		delete skiniko.lista2[kodikos];
 
 		let query = 'SELECT `kodikos`, `enarxi`, `idos`, `protos`, ' +
 			'`xamenos`, `ita`, `telos` ' +
@@ -88,18 +91,18 @@ skiniko.stisimoPexnidi = function(conn) {
 };
 
 skiniko.stisimoKinisi = function(conn) {
-	for (let kodikos of skiniko.lista1) {
+	for (let kodikos in skiniko.lista1) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.lista2.push(kodikos);
-		skiniko.lista1.pop();
+		skiniko.lista2[kodikos] = 1;
+		delete skiniko.lista1[kodikos];
 
 		if (!trapezi.pexnidi.length)
 		return skiniko.stisimoKinisi(conn);
 
 		let pexnidi = trapezi.pexnidi[trapezi.pexnidi.length - 1];
 
-		let query = 'SELECT * ' +
+		let query = 'SELECT `kodikos`, `pektis`, `idos`, `data` ' +
 			'FROM `kinisi` ' +
 			'WHERE `pexnidi` = ' + pexnidi.kodikos;
 			'ORDER BY `kodikos`';
@@ -121,11 +124,11 @@ skiniko.stisimoKinisi = function(conn) {
 };
 
 skiniko.stisimoSimetoxi = function(conn) {
-	for (let kodikos of skiniko.lista2) {
+	for (let kodikos in skiniko.lista2) {
 		let trapezi = skiniko.trapezi[kodikos];
 
-		skiniko.lista1.push(kodikos);
-		skiniko.lista2.pop();
+		skiniko.lista1[kodikos] = 1;
+		delete skiniko.lista2[kodikos];
 
 		let query = 'SELECT `pektis`, `thesi` ' +
 			'FROM `simetoxi` ' +
@@ -148,8 +151,6 @@ skiniko.stisimoSimetoxi = function(conn) {
 };
 
 skiniko.stisimoSinedria = function(conn) {
-	skiniko.sinedria = {};
-
 	let query = 'SELECT `pektis`, `klidi`, `ip`, `isodos`, `poll`, ' +
 		'`trapezi`, `thesi`, `simetoxi` ' +
 		'FROM `sinedria`';
@@ -161,7 +162,7 @@ skiniko.stisimoSinedria = function(conn) {
 		rows.forEach(function(sinedria) {
 			sinedria = new tavladoros.sinedria(sinedria).sinedriaPollSet();
 			skiniko.sinedriaPush(sinedria);
-			skiniko.lista1.push(sinedria.pektis);
+			skiniko.lista1[sinedria.pektis] = 1;
 		});
 
 		log.level.push('Έλεγχος');
@@ -197,5 +198,17 @@ skiniko.stisimoCheck = function(conn) {
 	}
 
 //console.log(skiniko.sinedria);
+for (let t in skiniko.trapezi) {
+t = skiniko.trapezi[t];
+	if (!t.pexnidi.length)
+	continue;
+
+	for (let p of t.pexnidi) {
+		let k = p.kinisi;
+
+		if (k.length)
+		console.log(k);
+	}
+}
 	return server.ekinisi();
 };
