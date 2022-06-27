@@ -11,6 +11,9 @@ try {
 tavladoros.sxesiFilos = 'ΦΙΛΟΣ';
 tavladoros.sxesiApoklismenos = 'ΑΠΟΚΛΕΙΣΜΕΝΟΣ';
 
+tavladoros.simetoxiPektis = 'ΠΑΙΚΤΗΣ';
+tavladoros.simetoxiTheatis = 'ΘΕΑΤΗΣ';
+
 tavladoros.peparamAxioma = 'ΑΞΙΩΜΑ';
 tavladoros.peparamKatastasi = 'ΚΑΤΑΣΤΑΣΗ';
 tavladoros.peparamPoulia = 'ΠΟΥΛΙΑ';
@@ -229,6 +232,10 @@ tavladoros.trapezi.prototype.trapeziSimetoxiPush = function(simetoxi) {
 	return this;
 };
 
+tavladoros.trapezi.prototype.trapeziPektisGet = function(thesi) {
+	return this['pektis' + thesi];
+};
+
 ///////////////////////////////////////////////////////////////////////////////@
 
 tavladoros.trparam = function(props) {
@@ -286,12 +293,24 @@ tavladoros.sinedria.prototype.sinedriaPollSet = function() {
 	return this;
 };
 
+tavladoros.sinedria.prototype.sinedriaPektisGet = function() {
+	return this.pektis;
+};
+
 tavladoros.sinedria.prototype.sinedriaRebelosSet = function() {
 	this.trapezi = undefined;
 	this.thesi = undefined;
 	this.simetoxi = undefined;
 
 	return this;
+};
+
+tavladoros.sinedria.prototype.sinedriaIsPektis = function() {
+	return (this.simetoxi === tavladoros.simetoxiPektis);
+};
+
+tavladoros.sinedria.prototype.sinedriaIsTheatis = function() {
+	return (this.simetoxi === tavladoros.simetoxiTheatis);
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

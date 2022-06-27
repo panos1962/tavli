@@ -165,6 +165,7 @@ skiniko.stisimoSinedria = function(conn) {
 			skiniko.lista1[sinedria.pektis] = 1;
 		});
 
+
 		log.level.push('Έλεγχος');
 		return skiniko.stisimoCheck(conn);
 	});
@@ -182,6 +183,15 @@ skiniko.stisimoCheck = function(conn) {
 			continue;
 		}
 
+		switch (sinedria.simetoxi) {
+		case 'ΠΑΙΚΤΗΣ':
+		case 'ΘΕΑΤΗΣ':
+			break;
+		default:
+			sinedria.sinedriaRebelosSet();
+			continue;
+		}
+
 		switch (sinedria.thesi) {
 		case 1:
 		case 2:
@@ -191,24 +201,15 @@ skiniko.stisimoCheck = function(conn) {
 			continue;
 		}
 
-		if (trapezi['pektis' + sinedria.thesi] !== sinedria.pektis) {
+		if (sinedria.sinedriaIsPektis() &&
+			trapezi.trapeziPektisGet(sinedria.thesi) !== sinedria.sinedriaPektisGet()) {
 			sinedria.sinedriaRebelosSet();
 			continue;
 		}
 	}
 
-//console.log(skiniko.sinedria);
-for (let t in skiniko.trapezi) {
-t = skiniko.trapezi[t];
-	if (!t.pexnidi.length)
-	continue;
+	delete skiniko.lista1;
+	delete skiniko.lista2;
 
-	for (let p of t.pexnidi) {
-		let k = p.kinisi;
-
-		if (k.length)
-		console.log(k);
-	}
-}
 	return server.ekinisi();
 };
