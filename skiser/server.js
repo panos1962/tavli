@@ -17,7 +17,7 @@ server.oriste = function(skiniko) {
 		// Συμμαζεύουμε τις δομές του αιτήματος σε ένα αντικείμενο
 		// για να διευκολυνθούμε στους μετέπειτα χειρισμούς.
 
-		nodereq = new NodeRequest(request, response, skiniko);
+		nodereq = new nodeRequest(request, response, skiniko);
 
 		// Αν η υπηρεσία που ζητείται είναι στις προβλεπόμενες υπηρεσίες
 		// τότε καλείται η αντίστοιχη function με όρισμα το ενισχυμένο

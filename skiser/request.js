@@ -8,41 +8,44 @@
 // αντικείμενο που δημιουργείται ονομάζεται «ενισχυμένο» αίτημα και, εκτός των
 // άλλων, περιέχει το ίδιο το αίτημα και το κανάλι απάντησης.
 
-const nodeRequest = function(request, response, skiniko) {
-	var urlComponents;
+global.nodeRequest = function(request, response, skiniko) {
+	let urlComponents;
 
-	// Αρχικά εντάσσουμε στο ενισχυμένο αίτημα το ίδιο το αίτημα και το κανάλι
-	// απάντησης.
+	// Αρχικά εντάσσουμε στο ενισχυμένο αίτημα το ίδιο το αίτημα και το
+	// κανάλι απάντησης.
 
 	this.request = request;		// το αίτημα
 	this.response = response;	// το κανάλι απάντησης
-	this.skiniko = skiniko;		// το σκηνικό μας
 
-	// Εντάσσουμε επίσης το IP του αιτούντος client. Αν το αίτημα δρομολογήθηκε
-	// μέσω proxy server ιχνηλατούμε το αρχικό IP.
+	// Εντάσσουμε επίσης το IP του αιτούντος client. Αν το αίτημα
+	// δρομολογήθηκε μέσω proxy server ιχνηλατούμε το αρχικό IP.
 
 	try {
 		this.ip = request.headers['x-forwarded-for']; 
-		this.ip = this.ip ? this.ip.split(',')[0] : request.connection.remoteAddress;
+		this.ip = this.ip ?
+			this.ip.split(',')[0]
+		:
+			request.connection.remoteAddress
+		;
 		this.ip = this.ip.validIp();
 	} catch (e) {
 		this.ip = '';
 	}
 
-	// Κατόπιν εντάσσουμε δεδομένα που αφορούν στο url του αιτήματος από όπου
-	// θα μπορέσουμε να αποσπάσουμε το είδος της ζητούμενης υπηρεσίας και τις
-	// παραμέτρους του αιτήματος καθώς τα αιτήματα προς τον Node server γίνονται
-	// με την μέθοδο GET και επομένως οι όποιες παράμετροι περνάνε ως παράμετροι
-	// του url.
+	// Κατόπιν εντάσσουμε δεδομένα που αφορούν στο url του αιτήματος από
+	// όπου θα μπορέσουμε να αποσπάσουμε το είδος της ζητούμενης υπηρεσίας
+	// και τις παραμέτρους του αιτήματος καθώς τα αιτήματα προς τον Node
+	// server γίνονται με την μέθοδο GET και επομένως οι όποιες παράμετροι
+	// περνάνε ως παράμετροι του url.
 
-	urlComponents = URL.parse(request.url, true);
+	urlComponents = url.parse(request.url, true);
 	this.service = urlComponents.pathname;
 	this.url = urlComponents.query;
 
-	// Οι μέθοδοι που ακολουθούν αφορούν στο header των δεδομένων επιστροφής.
-	// Η property "redaeh" περιέχει τον τύπο των δεδομένων και by default
-	// τίθεται "text/plain". Επειδή όλα τα δεδομένα επιστροφής υποτίθενται
-	// "text/*", χρησιμοποιούμε μόνο το δεύτερο συνθετικό.
+	// Οι μέθοδοι που ακολουθούν αφορούν στο header των δεδομένων
+	// επιστροφής. Η property "redaeh" περιέχει τον τύπο των δεδομένων και
+	// by default τίθεται "text/plain". Επειδή όλα τα δεδομένα επιστροφής
+	// υποτίθενται "text/*", χρησιμοποιούμε μόνο το δεύτερο συνθετικό.
 	// ΣτΜ: το "redaeh" είναι το αντίστροφο του "header".
 
 	this.redaeh = 'plain';
