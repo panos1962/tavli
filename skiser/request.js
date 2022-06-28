@@ -282,11 +282,11 @@ nodeRequest.prototype.isvoli = function(s) {
 		return true;
 	}
 
-	// Η λίστα "noPoll" περιέχει τα pathnames των αυτοματοποιημένων skiser
+	// Η λίστα "serviceNoPoll" περιέχει τα pathnames των αυτοματοποιημένων
 	// requests. Αν το αίτημα δεν ανήκει σ' αυτά τα αιτήματα ενημερώνουμε
 	// το poll timestamp της συνεδρίας.
 
-	if (Server.noPoll.hasOwnProperty(this.service))
+	if (server.serviceNoPoll.hasOwnProperty(this.service))
 	return false;
 
 	// Το αίτημα δεν ήταν αυτοματοποιημένο, επομένως θεωρούμε ότι η συνεδρία
@@ -297,7 +297,7 @@ nodeRequest.prototype.isvoli = function(s) {
 	// Παράλληλα κρατάμε ζωντανό και τον παίκτη, απλώς επιχειρώντας να τον
 	// προσπελάσουμε στο σκηνικό.
 
-	Server.skiniko.skinikoPektisGet(this.loginGet());
+	server.skiniko.skinikoPektisGet(this.loginGet());
 
 	return false;
 };

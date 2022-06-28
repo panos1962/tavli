@@ -1,10 +1,10 @@
 "use strict";
 
-global.log = {};
-
 // Στο παρόν module ορίζουμε δομές και μεθόδους που αφορούν στο console log
 // και γενικότερα στην παρακολούθηση των εργασιών που εκτελούνται στον node
 // server.
+
+global.log = {};
 
 log.level = {
 	level: 0,
@@ -36,11 +36,8 @@ log.fasi = {
 	fasi: 0,
 
 	nea: function(msg) {
-		var nl;
-
-		nl = log.fasi.fasi > 0 ? '\n' : '';
 		log.fasi.fasi++;
-		console.log(nl + 'PHASE ' + log.fasi.fasi + ': ' + msg);
+		console.log('\nPHASE ' + log.fasi.fasi + ': ' + msg);
 		log.level.reset();
 	},
 };

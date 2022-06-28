@@ -3,14 +3,14 @@
 global.server = {};
 
 server.ekinisi = function(skiniko) {
-	log.fasi.nea('Activating the node server');
+	log.fasi.nea('Activating node server');
 	server.atexit().oriste(skiniko);
 
 	return server;
 };
 
 server.oriste = function(skiniko) {
-	log.print('listening port ' + globals.conf.sport + ' for http requests');
+	log.print('Listening at port ' + globals.conf.sport + ' for http requests');
 	server.skiser = http.createServer(function(request, response) {
 		var nodereq, x;
 
@@ -32,7 +32,7 @@ server.oriste = function(skiniko) {
 		// Αν η υπηρεσία που ζητείται ανήκει στις υπηρεσίες που αγνοούνται
 		// κλείνουμε αμέσως το αίτημα χωρίς να στείλουμε καμία απάντηση.
 
-		if (server.off.hasOwnProperty(nodereq.service)) {
+		if (server.serviceIgnore.hasOwnProperty(nodereq.service)) {
 			nodereq.end()
 			return;
 		}
