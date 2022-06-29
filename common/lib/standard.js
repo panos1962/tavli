@@ -20,6 +20,14 @@ globals.onomaMask = '^[' + globals.gramataMask + ']' +
 	'[0-9 ' + globals.gramataMask + globals.akindinaMask + ']*$';
 globals.emailMask = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w+)+$';
 
+(function() {
+	let ipOctet = '(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])';
+
+	globals.ipRE = new RegExp('^(?:' + ipOctet + '\\.){3}' + ipOctet + '$');
+	globals.ipv4mappedRE = new RegExp('^::[fF]{4}:' +
+		'(?:' + ipOctet + '\\.){3}' + ipOctet + '$');
+})();
+
 globals.validLogin = function(login) {
 	if (login === undefined)
 	return false;
@@ -60,6 +68,25 @@ globals.validEmail = function(email) {
 
 globals.invalidEmail = function(email) {
 	return !globals.validEmail(email);
+};
+
+// Η μέθοδος "validIp" ελέγχει ένα string ως προς το εάν είναι δεκτό ως IP. Αν
+// ναι το επιστρέφει, αλλιώς επιστρέφει το κενό string.
+
+globals.validIp = function(ip) {
+	if (ip === undefined)
+	return '';
+
+	if (typeof(ip) !== 'string')
+	return '';
+
+	if (ip.match(globals.ipv4mappedRE))
+	return ip.substr(7).valueOf();
+
+	if (ip.match(globals.ipRE))
+	return ip;
+
+	return '';
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

@@ -2,13 +2,14 @@
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-// Η κλάση "nodeRequest" δέχεται ως παραμέτρους ένα αίτημα και το κανάλι
-// απάντησης και δημιουργεί αντικείμενο που περιέχει πολλά βολικά properties
-// και μεθόδους για τους μετέπειτα χειρισμούς τού συγκεκριμένου αιτήματος. Το
-// αντικείμενο που δημιουργείται ονομάζεται «ενισχυμένο» αίτημα και, εκτός των
-// άλλων, περιέχει το ίδιο το αίτημα και το κανάλι απάντησης.
+// Η κλάση "nodeRequest" δέχεται ως παραμέτρους ένα αίτημα προς τον node server
+// και το κανάλι απάντησης και δημιουργεί ένα αντικείμενο που περιέχει πολλά
+// βολικά properties και μεθόδους για τους μετέπειτα χειρισμούς που αφορούν
+// στο συγκεκριμένου αίτημα. Το αντικείμενο που δημιουργείται το ονομάζουμε
+// «ενισχυμένο» αίτημα και, μεταξύ άλλων, περιέχει ως properties το ίδιο το
+// αίτημα και το κανάλι απάντησης.
 
-global.nodeRequest = function(request, response, skiniko) {
+global.nodeRequest = function(request, response) {
 	let urlComponents;
 
 	// Αρχικά εντάσσουμε στο ενισχυμένο αίτημα το ίδιο το αίτημα και το
@@ -22,12 +23,15 @@ global.nodeRequest = function(request, response, skiniko) {
 
 	try {
 		this.ip = request.headers['x-forwarded-for']; 
-		this.ip = this.ip ?
-			this.ip.split(',')[0]
-		:
-			request.connection.remoteAddress
-		;
-		this.ip = this.ip.validIp();
+
+		if (this.ip)
+		this.ip = this.ip.split(',')[0];
+
+		else
+		this.ip = request.connection.remoteAddress;
+console.log(this.ip);
+
+		this.ip = globals.validIp(this.ip);
 	} catch (e) {
 		this.ip = '';
 	}
@@ -39,30 +43,31 @@ global.nodeRequest = function(request, response, skiniko) {
 	// περνάνε ως παράμετροι του url.
 
 	urlComponents = url.parse(request.url, true);
+
 	this.service = urlComponents.pathname;
 	this.url = urlComponents.query;
 
 	// Οι μέθοδοι που ακολουθούν αφορούν στο header των δεδομένων
-	// επιστροφής. Η property "redaeh" περιέχει τον τύπο των δεδομένων και
-	// by default τίθεται "text/plain". Επειδή όλα τα δεδομένα επιστροφής
-	// υποτίθενται "text/*", χρησιμοποιούμε μόνο το δεύτερο συνθετικό.
-	// ΣτΜ: το "redaeh" είναι το αντίστροφο του "header".
+	// επιστροφής. Η property "dataType" περιέχει τον τύπο των δεδομένων
+	// και by default θεωρείται "text/plain". Επειδή όλα τα δεδομένα
+	// επιστροφής υποτίθενται "text/*", χρησιμοποιούμε μόνο το δεύτερο
+	// συνθετικό.
 
-	this.redaeh = 'plain';
+	this.dataType = 'plain';
 };
 
 // Η μέθοδος "header" χρησιμοποείται ως πρώτο βήμα στην απάντηση καθορίζοντας
 // το είδος των δεδομένων. Η μέθοδος μπορεί να κληθεί κατ' επανάληψη καθώς
 // η πραγματική αποστολή θα γίνει σε μεταγενέστερο χρόνο. Αυτό σημαίνει ότι
 // μπορούμε να ξεκινήσουμε με έναν προβλεπόμενο τύπο επιστροφής και στην
-// πορεία να αναθεωρήσουμε, μέχρι να αποσταλλούν τα πρώτα δεδομένα προς
-// το κανάλι απάντησης.
+// πορεία να αναθεωρήσουμε, μέχρι να αποσταλούν τα πρώτα δεδομένα προς το
+// κανάλι απάντησης.
 
 nodeRequest.prototype.header = function(tipos) {
-	if (this.redaeh === null)
-	Globals.fatal('header data already sent');
+	if (this.dataType === undefined)
+	globals.fatal('header data already sent');
 
-	this.redaeh = tipos;
+	this.dataType = tipos;
 	return this;
 };
 
@@ -71,29 +76,37 @@ nodeRequest.prototype.header = function(tipos) {
 // Η μέθοδος καλείται με το πρώτο write στο κανάλι απάντησης.
 
 nodeRequest.prototype.headerCheck = function() {
-	if (this.redaeh === null)
+	if (this.dataType === undefined)
 	return this;
 
 	this.response.writeHead(200, {
 		'Access-Control-Allow-Origin': '*',
-		'Content-type': 'text/' + this.redaeh + '; charset=utf-8',
+		'Content-type': 'text/' + this.undefined + '; charset=utf-8',
 	});
-	this.redaeh = null;
+
+	this.dataType = undefined;
 	return this;
 };
 
 nodeRequest.prototype.error = function(msg, code) {
-	if (code === undefined) code = 500;
-	if (this.redaeh === null)
-	Globals.fatal('header data already sent');
+	if (code === undefined)
+	code = 500;
+
+	if (this.dataType === undefined)
+	globals.fatal('header data already sent');
 
 	this.response.writeHead(code, {
 		'Access-Control-Allow-Origin': '*',
 		'Content-type': 'text/plain; charset=utf-8',
 	});
-	this.redaeh = null;
-	if (msg === undefined) msg = 'skiser error';
+
+	this.dataType = undefined;
+
+	if (msg === undefined)
+	msg = 'server: undefined data';
+
 	this.response.write(msg);
+
 	this.end();
 	return this;
 };
@@ -109,21 +122,17 @@ nodeRequest.prototype.write = function(s) {
 	if (s === undefined)
 	return this;
 
-	switch (typeof s) {
-	case 'number':
-		this.response.write(s.toString());
-		break;
-	case 'string':
-		if (s !== '')
-		this.response.write(s);
+	if (typeof(s) === 'number')
+	this.response.write(s.toString());
 
-		break;
-	case 'object':
-		this.response.write(JSON.stringify(s));
-		break;
-	default:
-		globals.fatal('response.write: invalid data type');
-	}
+	else if (typeof(s) === 'object')
+	this.response.write(JSON.stringify(s));
+
+	else if (typeof(s) !== 'string')
+	globals.fatal('response.write: invalid data type');
+
+	else if (s !== '')
+	this.response.write(s);
 
 	return this;
 };
@@ -138,11 +147,11 @@ nodeRequest.prototype.end = function(s) {
 	if (s === undefined)
 	this.response.end();
 
-	else if (typeof s === 'number')
+	else if (typeof(s) === 'number')
 	this.response.end(s.toString());
 
-	else if (typeof s !== 'string')
-	Globals.fatal('response.end: invalid data type');
+	else if (typeof(s) !== 'string')
+	globals.fatal('response.end: invalid data type');
 
 	else if (s !== '')
 	this.response.end(s);
@@ -198,20 +207,19 @@ nodeRequest.prototype.nodeRequestOxiSinedria = function(s) {
 	if (this.anonimo(s))
 	return true;
 
-	this.sinedria = skiniko.sinedriaGet(this.login);
+	this.sinedria = skiniko.sinedria[this.login];
+
 	if (!this.sinedria) {
 		this.error(s ? s : 'ανύπαρκτη συνεδρία αιτούντος');
 		console.error(this.login + ': ανύπαρκτη συνεδρία αιτούντος');
 		return true;
 	}
 
-/*
 	if (this.ip != this.sinedria.ip) {
 		this.error(s ? s : 'invalid IP address (' + this.ip + ' <> ' + this.sinedria.ip + ')');
 		console.error(this.login + ': invalid IP address(' + this.ip + ' <> ' + this.sinedria.ip + ')');
 		return true;
 	}
-*/
 
 	if (this.ip != this.sinedria.ip) {
 		console.error(this.login + ': new IP address (' + this.ip + ' <> ' + this.sinedria.ip + ', ' +
