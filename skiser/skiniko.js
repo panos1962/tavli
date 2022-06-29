@@ -9,19 +9,26 @@ skiniko.lista2 = {};
 
 skiniko.stisimo = function() {
 	log.fasi.nea('Στήσιμο σκηνικού');
-	log.level.push('Τραπέζια');
+	log.level.push();
+	log.print('Τραπέζια');
+	log.level.push();
 	skiniko.stisimoTrapezi(db.connection());
 };
 
 skiniko.stisimoTrapezi = function(conn) {
-	let query = 'SELECT `kodikos`, `stisimo`, `pektis1`, `apodoxi1`, ' +
-		'`pektis2`, `apodoxi2`, `poll` ' +
+	let query = 'SELECT `kodikos`, ' +
+		'UNIX_TIMESTAMP(`stisimo`) AS `stisimo`, ' +
+		'`pektis1`, `apodoxi1`, ' +
+		'`pektis2`, `apodoxi2`, ' +
+		'UNIX_TIMESTAMP(`poll`) AS `poll` ' +
 		'FROM `trapezi` ' +
 		'WHERE `arxio` IS NULL';
 
 	conn.query(query, function(conn, rows) {
+console.log(rows);
 		rows.forEach(function(trapezi) {
 			trapezi = new tavladoros.trapezi(trapezi);
+console.log(JSON.stringify(trapezi));
 			trapezi.trapeziPollSet();
 			skiniko.trapeziPush(trapezi);
 			skiniko.lista1[trapezi.kodikos] = 1;
@@ -146,7 +153,8 @@ skiniko.stisimoSimetoxi = function(conn) {
 		return skiniko;
 	}
 
-	log.level.pop().level.push('Συνεδρίες');
+	log.level.pop();
+	log.print('Συνεδρίες');
 	return skiniko.stisimoSinedria(conn);
 };
 
@@ -168,7 +176,8 @@ skiniko.stisimoSinedria = function(conn) {
 		skiniko.lista1 = [];
 		skiniko.lista2 = [];
 
-		log.level.push('Έλεγχος');
+		log.level.push();
+		log.print('Έλεγχος');
 		return skiniko.stisimoCheck(conn);
 	});
 
@@ -177,7 +186,7 @@ skiniko.stisimoSinedria = function(conn) {
 
 skiniko.stisimoCheck = function(conn) {
 	for (let pektis in skiniko.sinedria) {
-		skiniko.lista1[pektis] = true;
+		skiniko.lista1[pektis] = 1;
 
 		let sinedria = skiniko.sinedria[pektis];
 		let trapezi = skiniko.trapezi[sinedria.trapezi];
@@ -214,18 +223,21 @@ skiniko.stisimoCheck = function(conn) {
 
 	for (let trapezi in skiniko.trapezi) {
 		trapezi = skiniko.trapezi[trapezi];
-		skiniko.lista1[trapezi.pektis1] = true;
-		skiniko.lista1[trapezi.pektis2] = true;
+		skiniko.lista1[trapezi.pektis1] = 1;
+		skiniko.lista1[trapezi.pektis2] = 1;
 	}
 
 	delete skiniko.lista1[null];
 	delete skiniko.lista1[undefined];
 
+	log.level.pop();
+	log.print('Παίκτες');
 	return skiniko.stisimoPektis(conn);
 }
 
 skiniko.stisimoPektis = function(conn) {
 	for (let pektis in skiniko.lista1) {
+		skiniko.lista2[pektis] = 1;
 		delete skiniko.lista1[pektis];
 
 		let query = 'SELECT `login`, `onoma` ' +
@@ -244,9 +256,90 @@ skiniko.stisimoPektis = function(conn) {
 		return skiniko;
 	}
 
+	log.level.push();
+	log.print('Παράμετροι');
+	return skiniko.stisimoPeparam(conn);
+};
+
+skiniko.stisimoPeparam = function(conn) {
+	for (let login in skiniko.lista2) {
+		let pektis = skiniko.pektis[login];
+
+		skiniko.lista1[login] = 1;
+		delete skiniko.lista2[login];
+
+		let query = 'SELECT `param`, `timi` ' +
+			'FROM `peparam` ' +
+			'WHERE `pektis` = ' + login.json();
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(peparam) {
+				peparam = new tavladoros.peparam(peparam);
+				pektis.pektisPeparamPush(peparam);
+			});
+
+			skiniko.stisimoPeparam(conn);
+		});
+
+		return skiniko;
+	}
+
+	log.print('Προφίλ');
+	return skiniko.stisimoProfinfo(conn);
+};
+
+skiniko.stisimoProfinfo = function(conn) {
+	for (let login in skiniko.lista1) {
+		let pektis = skiniko.pektis[login];
+
+		skiniko.lista2[login] = 1;
+		delete skiniko.lista1[login];
+
+		let query = 'SELECT `sxoliastis`, `kimeno` ' +
+			'FROM `profinfo` ' +
+			'WHERE `pektis` = ' + login.json();
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(profinfo) {
+				profinfo = new tavladoros.profinfo(profinfo);
+				pektis.pektisProfinfoPush(profinfo);
+			});
+
+			skiniko.stisimoProfinfo(conn);
+		});
+
+		return skiniko;
+	}
+
+	log.print('Σχέσεις');
+	return skiniko.stisimoSxesi(conn);
+};
+
+skiniko.stisimoSxesi = function(conn) {
+	for (let login in skiniko.lista2) {
+		let pektis = skiniko.pektis[login];
+
+		skiniko.lista1[login] = 1;
+		delete skiniko.lista2[login];
+
+		let query = 'SELECT `sxetizomenos`, `sxesi` ' +
+			'FROM `sxesi` ' +
+			'WHERE `pektis` = ' + login.json();
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(sxesi) {
+				sxesi = new tavladoros.sxesi(sxesi);
+				pektis.pektisSxesiPush(sxesi);
+			});
+
+			skiniko.stisimoSxesi(conn);
+		});
+
+		return skiniko;
+	}
+
 	delete skiniko.lista1;
 	delete skiniko.lista2;
 
-console.log(skiniko.pektis);
 	return server.ekinisi();
 };

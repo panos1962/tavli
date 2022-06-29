@@ -299,7 +299,8 @@ String.prototype.evalAsfales = function() {
 
 globals.fatal = function(s) {
 	s = (s !== undefined ? s + ': ' : '');
-	throw (s + 'fatal error');
+	console.error(s + 'fatal error');
+	throw 'ERROR';
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

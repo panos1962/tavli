@@ -28,3 +28,37 @@ INSERT INTO `pektis` (
 ('litsa', 'Ευαγγελία Νομικού', 'eva.nomik@hotmail.com', 'b60d121b438a380c343d5ec3c2037564b82ffef3'),
 ('zisis', 'Ζήσης Καραφώτης', 'karafotis62@gmail.com', 'b60d121b438a380c343d5ec3c2037564b82ffef3'),
 ('lakis', 'Λάκης Γαβαλάς', 'gavalas@abc.com', 'b60d121b438a380c343d5ec3c2037564b82ffef3');
+
+INSERT INTO `peparam` (
+	`pektis`,
+	`param`,
+	`timi`
+) VALUES
+('panos', 'ΠΟΥΛΙΑ', 'ΜΑΥΡΑ'),
+('panos', 'ΑΠΑΣΧΟΛΗΜΕΝΟΣ', 'ΝΑΙ'),
+('panos', 'ΑΞΙΩΜΑ', 'ADMINISTRATOR'),
+('maria', 'ΠΟΥΛΙΑ', 'ΑΣΠΡΑ'),
+('maria', 'ΑΞΙΩΜΑ', 'VIP'),
+('tasos', 'ΑΞΙΩΜΑ', 'ΕΠΟΠΤΗΣ');
+
+INSERT INTO `profinfo` (
+	`pektis`,
+	`sxoliastis`,
+	`kimeno`
+) VALUES
+('panos', 'panos', 'Είμαι μαθηματικός και έχω γεννηθεί το 1962. Εκτός από τάβλι, παίζω πρέφα και μπουρλότο'),
+('panos', 'maria', 'Τηλ. 2310-999222.\nΚινητό: 6977-888999'),
+('panos', 'tasos', 'Καλός παίκτης. Έχει κάνει το site'),
+('maria', 'maria', 'Οι φίλοι με φωνάζουν Μαράκι. Αν είσαι νευρικός μην με καλέσεις.');
+
+INSERT INTO `sxesi` (
+	`pektis`,
+	`sxetizomenos`,
+	`sxesi`
+) VALUES
+('panos', 'maria', 'ΦΙΛΟΣ'),
+('panos', 'tasos', 'ΦΙΛΟΣ'),
+('panos', 'zisis', 'ΑΠΟΚΛΕΙΣΜΕΝΟΣ'),
+('maria', 'panos', 'ΦΙΛΟΣ'),
+('maria', 'dora', 'ΦΙΛΟΣ'),
+('tasos', 'akis', 'ΦΙΛΟΣ');

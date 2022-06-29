@@ -4,18 +4,19 @@ service.fereSkiniko = function(nodereq) {
 	if (nodereq.isvoli())
 	return;
 
-	if (nodereq.denPerastike('id', 'ακαθόριστο id σε αίτημα feredata'))
+	if (nodereq.denPerastike('id', 'ακαθόριστο id σε αίτημα "fereSkiniko"'))
 	return;
 
-	/*
-	if (service.feredata.freskaIpervasi(nodereq))
-	return;
-	*/
+	let sinedria = nodereq.sinedria;
 
-	nodereq.sinedriaGet().
+	nodereq.write(skiniko);
+	nodereq.end('END');
+
+/*
 	feredataPollSet().
 	feredataObsolete().
 	feredataSet(nodereq).
 	feredataFreska();
+*/
 };
 

@@ -103,6 +103,21 @@ tavladoros.pektis = function(props) {
 	this.sxesi = {};
 }
 
+tavladoros.pektis.prototype.pektisPeparamPush = function(peparam) {
+	this.peparam[peparam.param] = peparam.timi;
+	return this;
+};
+
+tavladoros.pektis.prototype.pektisProfinfoPush = function(profinfo) {
+	this.profinfo[profinfo.sxoliastis] = profinfo.kimeno;
+	return this;
+};
+
+tavladoros.pektis.prototype.pektisSxesiPush = function(sxesi) {
+	this.sxesi[sxesi.sxetizomenos] = sxesi.sxesi;
+	return this;
+};
+
 tavladoros.pektis.prototype.pektisPeparamSet = function(param, timi) {
 	if (!tavladoros.peparamValid.hasOwnProperty(param))
 	throw param + ': invalid parameter';
@@ -195,6 +210,33 @@ tavladoros.pektis.prototype.pektisIsFilos = function(pektis) {
 tavladoros.pektis.prototype.pektisIsApoklismenos = function(pektis) {
 	pektis = tavladoros.loginGet(pektis);
 	return (this.sxesi[pektis] === tavladoros.sxesiApoklismenos);
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.peparam = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.profinfo = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+tavladoros.sxesi = function(props) {
+	if (props) {
+		for (let i in props)
+		this[i] = props[i];
+	}
 };
 
 ///////////////////////////////////////////////////////////////////////////////@
@@ -316,6 +358,10 @@ tavladoros.sinedria.prototype.sinedriaIsPektis = function() {
 
 tavladoros.sinedria.prototype.sinedriaIsTheatis = function() {
 	return (this.simetoxi === tavladoros.simetoxiTheatis);
+};
+
+tavladoros.sinedria.prototype.sinedriaTrapeziGet = function() {
+	return this.trapezi;
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

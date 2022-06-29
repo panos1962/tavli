@@ -71,7 +71,8 @@ nodeRequest.prototype.header = function(tipos) {
 // Η μέθοδος καλείται με το πρώτο write στο κανάλι απάντησης.
 
 nodeRequest.prototype.headerCheck = function() {
-	if (this.redaeh === null) return this;
+	if (this.redaeh === null)
+	return this;
 
 	this.response.writeHead(200, {
 		'Access-Control-Allow-Origin': '*',
@@ -104,10 +105,26 @@ nodeRequest.prototype.error = function(msg, code) {
 
 nodeRequest.prototype.write = function(s) {
 	this.headerCheck();
-	if (s === undefined) return this;
-	else if (typeof s === 'number') this.response.write(s.toString());
-	else if (typeof s !== 'string') Globals.fatal('response.write: invalid data type');
-	else if (s !== '') this.response.write(s);
+
+	if (s === undefined)
+	return this;
+
+	switch (typeof s) {
+	case 'number':
+		this.response.write(s.toString());
+		break;
+	case 'string':
+		if (s !== '')
+		this.response.write(s);
+
+		break;
+	case 'object':
+		this.response.write(JSON.stringify(s));
+		break;
+	default:
+		globals.fatal('response.write: invalid data type');
+	}
+
 	return this;
 };
 
@@ -171,12 +188,13 @@ nodeRequest.prototype.anonimo = function(s) {
 	return false;
 };
 
-// Η μέθοδος "nosinedria" εξετάζει αν το αίτημα είναι επώνυμο και μάλιστα αν
-// υπάρχει συνεδρία στον server για τον εν λόγω παίκτη. Αν το αίτημα είναι
-// ανώνυμο ή δεν υπάρχει σχετική συνεδρία επιστρέφει true, αλλιώς επιστρέφει
-// false και εμπλουτίζεται το ενισχυμένο αίτημα με τη σχετική συνεδρία.
+// Η μέθοδος "nodeRequestOxiSinedria" εξετάζει αν το αίτημα είναι επώνυμο
+// και μάλιστα αν υπάρχει συνεδρία στον server για τον εν λόγω παίκτη. Αν
+// το αίτημα είναι ανώνυμο ή δεν υπάρχει σχετική συνεδρία επιστρέφει true,
+// αλλιώς επιστρέφει false και εμπλουτίζεται το ενισχυμένο αίτημα με τη
+// σχετική συνεδρία.
 
-nodeRequest.prototype.nosinedria = function(s) {
+nodeRequest.prototype.nodeRequestOxiSinedria = function(s) {
 	if (this.anonimo(s))
 	return true;
 
@@ -211,13 +229,15 @@ nodeRequest.prototype.nosinedria = function(s) {
 	// Αν η συνεδρία συνδέεται με κάποιο τραπέζι, θα προσθέσουμε
 	// και το τραπέζι ως property του ενισχυμένου αιτήματος.
 
-	let trapezi = this.sinedria.sinedriaTrapeziGet();
-	if (!trapezi) return false;
+	let trapezi = this.sinedria.trapezi;
+
+	if (!trapezi)
+	return false;
 
 	// Η συνεδρία σχετίζεται με κάποιο τραπέζι, επομένως προσπελαύνουμε
 	// το τραπέζι και το προσθέτουμε ως property στο ενισχυμένο αίτημα.
 
-	this.trapezi = skiniko.skinikoTrapeziGet(trapezi);
+	this.trapezi = skiniko.trapezi[trapezi];
 	if (!this.trapezi) {
 		this.error(s ? s : 'ανύπαρκτο τραπέζι αιτούντος');
 		return true;
@@ -225,7 +245,11 @@ nodeRequest.prototype.nosinedria = function(s) {
 
 	// Καλού κακού κάνουμε και έναν έλεγχο στη θέση.
 
-	if (!this.sinedria.sinedriaThesiGet()) {
+	switch (this.sinedria.thesi) {
+	case 1:
+	case 2:
+		break;
+	default:
 		this.error(s ? s : 'απροσδιόριστη θέση αιτούντος');
 		return true;
 	}
@@ -261,10 +285,6 @@ nodeRequest.prototype.pektisGet = function() {
 	return this.pektis;
 };
 
-nodeRequest.prototype.sinedriaGet = function() {
-	return this.sinedria;
-};
-
 nodeRequest.prototype.trapeziGet = function() {
 	return this.trapezi;
 };
@@ -275,12 +295,12 @@ nodeRequest.prototype.trapeziGet = function() {
 // true.
 
 nodeRequest.prototype.isvoli = function(s) {
-	var sinedria;
+	if (this.nodeRequestOxiSinedria(s))
+	return true;
 
-	if (this.nosinedria(s)) return true;
+	let sinedria = this.sinedria;
 
-	sinedria = this.sinedriaGet();
-	if (this.klidi !== sinedria.sinedriaKlidiGet()) {
+	if (this.klidi !== sinedria.klidi) {
 		this.error(s ? s : 'απόπειρα εισβολής');
 		return true;
 	}
@@ -292,33 +312,36 @@ nodeRequest.prototype.isvoli = function(s) {
 	if (server.serviceNoPoll.hasOwnProperty(this.service))
 	return false;
 
-	// Το αίτημα δεν ήταν αυτοματοποιημένο, επομένως θεωρούμε ότι η συνεδρία
-	// είναι ενεργή και επικοινωνεί με τον skiser στέλνοντας διάφορα αιτήματα.
+	// Το αίτημα δεν ήταν αυτοματοποιημένο, επομένως θεωρούμε ότι η
+	// συνεδρία είναι ενεργή και επικοινωνεί με τον skiser στέλνοντας
+	// διάφορα αιτήματα.
 
 	sinedria.sinedriaPollSet();
 
-	// Παράλληλα κρατάμε ζωντανό και τον παίκτη, απλώς επιχειρώντας να τον
-	// προσπελάσουμε στο σκηνικό.
+	let pektis = skiniko[sinedria.pektis];
 
-	server.skiniko.skinikoPektisGet(this.loginGet());
+	if (pektis)
+	pektis.pektisPollSet();
 
 	return false;
 };
 
 nodeRequest.prototype.oxiTrapezi = function(s) {
-	if (this.trapeziGet()) return false;
+	if (this.trapezi)
+	return false;
 
 	this.error(s ? s : 'ακαθόριστο τραπέζι αιτούντος');
 	return true;
 };
 
 nodeRequest.prototype.oxiPektis = function(s) {
-	var trapezi;
+	if (this.oxiTrapezi(s))
+	return true;
 
-	if (this.oxiTrapezi(s)) return true;
+	let trapezi = this.trapezi;
 
-	trapezi = this.trapeziGet();
-	if (trapezi.trapeziThesiPekti(this.loginGet())) return false;
+	if (trapezi.trapeziThesiPekti(this.loginGet()))
+	return false;
 
 	this.error(s ? s : 'Δεν είστε παίκτης στο τραπέζι');
 	return true;

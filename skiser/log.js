@@ -14,20 +14,13 @@ log.level = {
 		return log;
 	},
 
-	push: function(s) {
-		if (s)
-		log.print(s);
-
+	push: function() {
 		log.level.level++;
 		return log;
 	},
 
-	pop: function(s) {
+	pop: function() {
 		log.level.level--;
-
-		if (s)
-		log.print(s);
-
 		return log;
 	},
 };
