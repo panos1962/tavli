@@ -226,6 +226,51 @@ globals.randomString = function(min, max, pool) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+// Η function "json" δέχεται μια παράμετρο και την μετατρέπει σε μορφή ασφαλή
+// ώστε να χρησιμοποιηθεί ως rvalue σε δομές json. Η function δεν δίδεται ως 
+// string method ώστε να δύναται να χρησιμοποιηθεί σε οποιαδήποτε μεταβλητή
+// και όχι μόνο σε strings.
+//
+// Μπορούμε να περάσουμε και δεύτερη παράμετρο με την οποία λέμε αν θέλουμε
+// αντικατάσταση των control χαρακτήρων μέσα στα strings. Control χαρακτήρες
+// είναι τα newlines, τα carriage returns, τα tabs κλπ. By default αυτή η
+// παράμετρος λογίζεται true, επομένως όταν δεν θέλουμε αντικατάσταση των
+// control χαρακτήρων, περνάμε παράμετρο με τιμή false.
+
+globals.json = function(s, nl) {
+	let err = false;
+
+	if (s === undefined)
+	err = 'undefined data';
+
+	else if (s === null)
+	err = 'null data';
+
+	else {
+		switch (typeof s)  {
+		case 'number':
+			return s;
+		case 'string':
+			s = s.replace(/\\/g, '\\\\');
+
+			if (nl === undefined)
+			nl = true;
+
+			if (nl)
+			s = s.replace(/[\n\r\f\v\b\t]/g, ' ');
+
+			return "'" + s.replace(/'/g, '\\\'') + "'";
+		default:
+			err = s + ': invalid data type';
+			break;
+		}
+	}
+
+	globals.fatal('globals.json: ' + err);
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
 globals.consoleLog = function(msg) {
 	console.log(msg, '(' + globals.meraOra(true) + ')');
 };
@@ -236,11 +281,25 @@ globals.consoleError = function(msg) {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
+// Η μέθοδος "json" επιστρέφει json safe μορφή του ανά χείρας string.
+
+String.prototype.json = function(nl) {
+	return globals.json(this.valueOf(), nl);
+};
+
+
 String.prototype.evalAsfales = function() {
 	let x;
 
 	eval('x = ' + this.valueOf() + ';');
 	return x;
+};
+
+///////////////////////////////////////////////////////////////////////////////@
+
+globals.fatal = function(s) {
+	s = (s !== undefined ? s + ': ' : '');
+	throw (s + 'fatal error');
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

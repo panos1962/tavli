@@ -165,6 +165,8 @@ skiniko.stisimoSinedria = function(conn) {
 			skiniko.lista1[sinedria.pektis] = 1;
 		});
 
+		skiniko.lista1 = [];
+		skiniko.lista2 = [];
 
 		log.level.push('Έλεγχος');
 		return skiniko.stisimoCheck(conn);
@@ -175,6 +177,8 @@ skiniko.stisimoSinedria = function(conn) {
 
 skiniko.stisimoCheck = function(conn) {
 	for (let pektis in skiniko.sinedria) {
+		skiniko.lista1[pektis] = true;
+
 		let sinedria = skiniko.sinedria[pektis];
 		let trapezi = skiniko.trapezi[sinedria.trapezi];
 
@@ -208,8 +212,41 @@ skiniko.stisimoCheck = function(conn) {
 		}
 	}
 
+	for (let trapezi in skiniko.trapezi) {
+		trapezi = skiniko.trapezi[trapezi];
+		skiniko.lista1[trapezi.pektis1] = true;
+		skiniko.lista1[trapezi.pektis2] = true;
+	}
+
+	delete skiniko.lista1[null];
+	delete skiniko.lista1[undefined];
+
+	return skiniko.stisimoPektis(conn);
+}
+
+skiniko.stisimoPektis = function(conn) {
+	for (let pektis in skiniko.lista1) {
+		delete skiniko.lista1[pektis];
+
+		let query = 'SELECT `login`, `onoma` ' +
+			'FROM `pektis` ' +
+			'WHERE `login` = ' + pektis.json();
+
+		conn.query(query, function(conn, rows) {
+			rows.forEach(function(pektis) {
+				pektis = new tavladoros.pektis(pektis);
+				skiniko.pektisPush(pektis);
+			});
+
+			skiniko.stisimoPektis(conn);
+		});
+
+		return skiniko;
+	}
+
 	delete skiniko.lista1;
 	delete skiniko.lista2;
 
+console.log(skiniko.pektis);
 	return server.ekinisi();
 };

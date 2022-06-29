@@ -293,6 +293,11 @@ tavladoros.sinedria.prototype.sinedriaPollSet = function() {
 	return this;
 };
 
+tavladoros.sinedria.prototype.sinedriaIpSet = function(ip) {
+	this.ip = ip;
+	return this;
+};
+
 tavladoros.sinedria.prototype.sinedriaPektisGet = function() {
 	return this.pektis;
 };

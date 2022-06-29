@@ -35,9 +35,17 @@ skiniko.sinedriaPop = function(sinedria) {
 	return skiniko;
 };
 
-skiniko.pektisSet = function(pektis) {
+skiniko.sinedriaGet = function(login) {
+	return skiniko.sinedria[login];
+};
+
+skiniko.pektisPush = function(pektis) {
 	skiniko.pektis[pektis.login] = pektis;
 	return skiniko;
+};
+
+skiniko.pektisGet = function(login) {
+	return skiniko.pektis[login];
 };
 
 ///////////////////////////////////////////////////////////////////////////////@

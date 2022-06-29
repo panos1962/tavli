@@ -144,10 +144,11 @@ nodeRequest.prototype.end = function(s) {
 
 nodeRequest.prototype.anonimo = function(s) {
 	// XXX
-	// Για λόγους που δεν γνωρίζω το url property, το οποίο είναι αντικείμενο,
-	// παρουσιάζει έλλειψη της μεθόδου "hasOwnProperty". Γι' αυτό το λόγο
-	// «δανείζομαι» τη συγκεκριμένη μέθοδο από το Object prototype, επομένως
-	// o κώδικας είναι ολισθηρός σε αυτό το σημείο και σε άλλα παρόμοια.
+	// Για λόγους που δεν γνωρίζω το url property, το οποίο είναι
+	// αντικείμενο, παρουσιάζει έλλειψη της μεθόδου "hasOwnProperty".
+	// Γι' αυτό το λόγο «δανείζομαι» τη συγκεκριμένη μέθοδο από το
+	// Object prototype, επομένως o κώδικας είναι ολισθηρός σε αυτό
+	// το σημείο και σε άλλα παρόμοια.
 
 	if (!Object.prototype.hasOwnProperty.call(this.url, 'PK')) {
 	//XXX if (!this.url.hasOwnProperty('PK')) {
@@ -176,11 +177,10 @@ nodeRequest.prototype.anonimo = function(s) {
 // false και εμπλουτίζεται το ενισχυμένο αίτημα με τη σχετική συνεδρία.
 
 nodeRequest.prototype.nosinedria = function(s) {
-	var skiniko = this.skinikoGet(), trapezi;
+	if (this.anonimo(s))
+	return true;
 
-	if (this.anonimo(s)) return true;
-
-	this.sinedria = skiniko.skinikoSinedriaGet(this.login);
+	this.sinedria = skiniko.sinedriaGet(this.login);
 	if (!this.sinedria) {
 		this.error(s ? s : 'ανύπαρκτη συνεδρία αιτούντος');
 		console.error(this.login + ': ανύπαρκτη συνεδρία αιτούντος');
@@ -197,11 +197,11 @@ nodeRequest.prototype.nosinedria = function(s) {
 
 	if (this.ip != this.sinedria.ip) {
 		console.error(this.login + ': new IP address (' + this.ip + ' <> ' + this.sinedria.ip + ', ' +
-			Globals.meraOra() + ')');
+			globals.meraOra() + ')');
 		this.sinedria.sinedriaIpSet(this.ip);
 	}
 
-	this.pektis = skiniko.skinikoPektisGet(this.login);
+	this.pektis = skiniko.pektisGet(this.login);
 	if (!this.pektis) {
 		this.error(s ? s : 'ανύπαρκτος αιτών παίκτης');
 		console.error(this.login + ': ανύπαρκτος αιτών παίκτης');
@@ -211,7 +211,7 @@ nodeRequest.prototype.nosinedria = function(s) {
 	// Αν η συνεδρία συνδέεται με κάποιο τραπέζι, θα προσθέσουμε
 	// και το τραπέζι ως property του ενισχυμένου αιτήματος.
 
-	trapezi = this.sinedria.sinedriaTrapeziGet();
+	let trapezi = this.sinedria.sinedriaTrapeziGet();
 	if (!trapezi) return false;
 
 	// Η συνεδρία σχετίζεται με κάποιο τραπέζι, επομένως προσπελαύνουμε
