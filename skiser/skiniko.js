@@ -25,10 +25,9 @@ skiniko.stisimoTrapezi = function(conn) {
 		'WHERE `arxio` IS NULL';
 
 	conn.query(query, function(conn, rows) {
-console.log(rows);
 		rows.forEach(function(trapezi) {
+console.log(globals.randomString(10));
 			trapezi = new tavladoros.trapezi(trapezi);
-console.log(JSON.stringify(trapezi));
 			trapezi.trapeziPollSet();
 			skiniko.trapeziPush(trapezi);
 			skiniko.lista1[trapezi.kodikos] = 1;
@@ -75,8 +74,11 @@ skiniko.stisimoPexnidi = function(conn) {
 		skiniko.lista1[kodikos] = 1;
 		delete skiniko.lista2[kodikos];
 
-		let query = 'SELECT `kodikos`, `enarxi`, `idos`, `protos`, ' +
-			'`xamenos`, `ita`, `telos` ' +
+		let query = 'SELECT `kodikos`, ' +
+			'UNIX_TIMESTAMP(`enarxi`) AS `enarxi`, ' +
+			'`idos`, `protos`, ' +
+			'`xamenos`, `ita`, ' +
+			'UNIX_TIMESTAMP(`telos`) ' +
 			'FROM `pexnidi` ' +
 			'WHERE `trapezi` = ' + kodikos + ' ' +
 			'ORDER BY `kodikos`';
@@ -159,7 +161,9 @@ skiniko.stisimoSimetoxi = function(conn) {
 };
 
 skiniko.stisimoSinedria = function(conn) {
-	let query = 'SELECT `pektis`, `klidi`, `ip`, `isodos`, `poll`, ' +
+	let query = 'SELECT `pektis`, `klidi`, `ip`, ' +
+		'UNIX_TIMESTAMP(`isodos`) AS `isodos`, ' +
+		'UNIX_TIMESTAMP(`poll`) AS `poll`, ' +
 		'`trapezi`, `thesi`, `simetoxi` ' +
 		'FROM `sinedria`';
 
@@ -168,7 +172,9 @@ skiniko.stisimoSinedria = function(conn) {
 		skiniko.lista2 = [];
 
 		rows.forEach(function(sinedria) {
-			sinedria = new tavladoros.sinedria(sinedria).sinedriaPollSet();
+			sinedria = new tavladoros.sinedria(sinedria);
+			sinedria.sinedriaPollSet();
+
 			skiniko.sinedriaPush(sinedria);
 			skiniko.lista1[sinedria.pektis] = 1;
 		});

@@ -16,6 +16,9 @@ session_start();
 
 define("SESSION_XRISTIS", "xristis");
 
+define("SESSION_KLIDI", "klidi");
+define("KLIDI_LENGTH", 6);
+
 // Στα προγράμματα που συμπεριλαμβάνουμε το ανά χείρας αρχείο, δεν χρειάζεται
 // να συμπεριλαμβάνουμε χωριστά τη βασική βιβλιοθήκη (common/lib/standard.php)
 // καθώς τη συμπεριλαμβάνουμε εμμέσως σε αυτό το σημείο.

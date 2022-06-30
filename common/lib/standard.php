@@ -209,6 +209,26 @@ class Globals {
 		return json_encode($x, JSON_UNESCAPED_UNICODE);
 	}
 
+	public static function random_string($min, $max = NULL, $paleta = NULL) {
+		$s = "";
+
+		if (!isset($max))
+		$max = $min;
+
+		else if ($max <= $min)
+		return $s;
+
+		if (!isset($paleta))
+		$paleta = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+		$l = strlen($paleta);
+
+		for ($n = random_int($min, $max); $n > 0; $n--)
+		$s .= $paleta[rand() % $l];
+
+		return $s;
+	}
+
 	// Η function "fatal" δέχεται ως παράμετρο ένα μήνυμα λάθους το
 	// οποίο εκτυπώνει και διακόπτει το πρόγραμμα με exit status 2.
 

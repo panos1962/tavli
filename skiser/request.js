@@ -29,7 +29,6 @@ global.nodeRequest = function(request, response) {
 
 		else
 		this.ip = request.connection.remoteAddress;
-console.log(this.ip);
 
 		this.ip = globals.validIp(this.ip);
 	} catch (e) {
@@ -207,17 +206,11 @@ nodeRequest.prototype.nodeRequestOxiSinedria = function(s) {
 	if (this.anonimo(s))
 	return true;
 
-	this.sinedria = skiniko.sinedria[this.login];
+	this.sinedria = skiniko.sinedriaGet(this.login);
 
 	if (!this.sinedria) {
 		this.error(s ? s : 'ανύπαρκτη συνεδρία αιτούντος');
 		console.error(this.login + ': ανύπαρκτη συνεδρία αιτούντος');
-		return true;
-	}
-
-	if (this.ip != this.sinedria.ip) {
-		this.error(s ? s : 'invalid IP address (' + this.ip + ' <> ' + this.sinedria.ip + ')');
-		console.error(this.login + ': invalid IP address(' + this.ip + ' <> ' + this.sinedria.ip + ')');
 		return true;
 	}
 

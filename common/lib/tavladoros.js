@@ -255,7 +255,7 @@ tavladoros.trapezi = function(props) {
 };
 
 tavladoros.trapezi.prototype.trapeziPollSet = function() {
-	this.poll = new Date;
+	this.poll = globals.torasec();
 	return this;
 };
 
@@ -331,7 +331,7 @@ tavladoros.sinedria = function(props) {
 }
 
 tavladoros.sinedria.prototype.sinedriaPollSet = function() {
-	this.poll = new Date;
+	this.poll = globals.torasec();
 	return this;
 };
 

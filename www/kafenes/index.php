@@ -2,6 +2,9 @@
 if (Selida::oxi_xristis())
 exit(0);
 
+var_dump($_SESSION);
+exit(0);
+
 $plist = [
 	"ROYBAS",
 	"ntinos",

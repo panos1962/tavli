@@ -10,7 +10,9 @@ Isodos::xristis_check();
 Isodos::error_check();
 
 $_SESSION[SESSION_XRISTIS] = $_POST["login"];
-print Globals::json_encode(array("login" => $_POST["login"]));
+$_SESSION[SESSION_KLIDI] = Globals::random_string(KLIDI_LENGTH);
+
+print Globals::json_encode(array("login" => $_SESSION[SESSION_XRISTIS]));
 
 class Isodos {
 	public static $error = NULL;

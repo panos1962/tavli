@@ -232,17 +232,21 @@ globals.random = function() {
 };
 
 // Η μέθοδος "randomString" επιστρέφει ένα τυχαίο string με μήκος που
-// καθορίζεται από τις παραμέτρους. Το string αποτελείται από γράμματα του
-// λατινικού αλφαβήτου, αλλά αν θέλουμε μπορούμε να περάσουμε αυθαίρετο string
-// από το οποίο θα επιλεγούν χαρακτήρες (παλέτα).
+// καθορίζεται από τις παραμέτρους. Το string αποτελείται από κεφαλαία
+// γράμματα του λατινικού αλφαβήτου και αριθμητικά ψηφία, αλλά αν θέλουμε
+// μπορούμε να περάσουμε αυθαίρετο string από το οποίο θα επιλεγούν χαρακτήρες
+// (παλέτα).
 
 globals.randomString = function(min, max, pool) {
 	if (pool === undefined)
-	pool = 'abcdefghijklmnopqrstuvwxyz';
-
+	pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 	let n = pool.length - 1;
 	let s = '';
+
+	if (max === undefined)
+	max = min;
+
 	max = globals.random(min, max);
 
 	for (min = 0; min < max; min++)
