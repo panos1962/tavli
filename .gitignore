@@ -12,6 +12,7 @@ lex\.yy\.c
 *\.min\.js
 www/tavlijs
 local/*
+skiser/lock/*
 panos*
 !www/test_root.min.js
 !www/test/test_test.min.js
