@@ -5,15 +5,8 @@ progname="$(basename $0)"
 [ -z "${TAVLI_BASEDIR}" ] &&
 TAVLI_BASEDIR="/var/opt/tavli"
 
-[ -d "${TAVLI_BASEDIR}" ] || {
+cd "${TAVLI_BASEDIR}" 2>/dev/null ||  {
 	echo "${progname}: ${TAVLI_BASEDIR}: directory not found" >&2
-	exit 2
-}
-
-lockdir="${TAVLI_BASEDIR}/skiser/lock"
-
-[ -d "${lockdir}" ] || {
-	echo "${progname}: ${lockdir}: directory not found" >&2
 	exit 2
 }
 
@@ -43,8 +36,37 @@ done
 shift $(expr ${OPTIND} - 1)
 [ $# -ne 1 ] && usage
 
+lockdir="${TAVLI_BASEDIR}/skiser/skiser.lck"
+pidfile="${lockdir}/skiser.pid"
+logdir="${TAVLI_BASEDIR}/skiser/log"
+
+[ -d "${logdir}" ] || {
+	echo "${progname}: ${logdir}: directory not found" >&2
+	exit 2
+}
+
 skiser_status() {
-	echo "STATUS"
+	[ -d "${lockdir}" ] || {
+		echo "${progname}: not running"
+		exit 0
+	}
+
+	echo "${progname}: skiser is running"
+	ps -fp "$(cat ${pidfile})"
+	exit 0
+}
+
+skiser_start() {
+	mkdir "${lockdir}" 2>/dev/null || {
+		echo "${progname}: is already running" >&2
+		exit 2
+	}
+
+	nohup node "${TAVLI_BASEDIR}/skiser/main.js" \
+		>"${logdir}/skiser.out" 2>"${logdir}/skiser.err" &
+	echo "$!" >"${pidfile}"
+	ps -fp "$!"
+	exit 0
 }
 
 case "${1}" in

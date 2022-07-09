@@ -10,9 +10,11 @@
 *\.tab\.[ch]
 lex\.yy\.c
 *\.min\.js
+nohup\.out
 www/tavlijs
 local/*
-skiser/lock/*
+skiser/log/*
+skiser/skiser.lck/*
 panos*
 !www/test_root.min.js
 !www/test/test_test.min.js
