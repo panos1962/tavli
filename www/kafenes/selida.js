@@ -80,6 +80,19 @@ Selida.init = function() {
 		e.stopPropagation();
 		Kafenes.mousemove = Kafenes.mousemoveDefault;
 	});
+
+	$.get({
+		'url': Selida.skiser + 'fereSkiniko' +
+			'?PK=' + Selida.xristis +
+			'&KL=' + Selida.klidi +
+			'&id=1',
+		'success': function(rsp) {
+			console.log(rsp);
+		},
+		'failure': function(err) {
+			console.error(err);
+		},
+	});
 };
 
 Selida.resize = function() {

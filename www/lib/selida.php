@@ -46,6 +46,8 @@ class Selida {
 
 	public static $path_root;
 
+	public static $server;
+
 	// Η μεταβλητή "base_url" δείχνει το url της τοποθεσίας της αρχικής
 	// σελίδας της εφαρμογής, π.χ.
 	//
@@ -83,8 +85,8 @@ class Selida {
 
 		self::$init_ok = TRUE;
 
-		$server_name = $_SERVER["SERVER_NAME"];
-		switch ($server_name) {
+		self::$server = $_SERVER["SERVER_NAME"];
+		switch (self::$server) {
 		case "tavladoros.site":
 		case "tavladoros.gr":
 			self::$path_root = "";
@@ -94,7 +96,7 @@ class Selida {
 			break;
 		}
 
-		self::$base_url = "http://" . $server_name . self::$path_root;
+		self::$base_url = "http://" . self::$server . self::$path_root;
 
 		if (isset($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] == 443)) {
 			header("Location: " . self::$base_url);
@@ -170,11 +172,20 @@ throw new Error('globals.onomaMask !== ONOMA_MASK');
 if (globals.emailMask !== '<?php print EMAIL_MASK ?>')
 throw new Error('globals.emailMask !== EMAIL_MASK');
 
+Selida.skiser = 'http://<?php print self::$server .
+	":" . Globals::$conf->sport . "/"; ?>';
 Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
 Selida.xristis = <?php
 	if (self::is_xristis())
 	print "'" . self::$xristis . "';";
+
+	else
+	print "undefined";
+?>
+Selida.klidi = <?php
+	if (Selida::is_session(SESSION_KLIDI))
+	print "'" . $_SESSION[SESSION_KLIDI] . "'";
 
 	else
 	print "undefined";
@@ -310,6 +321,26 @@ self::toolbarCenterZari(1);
 		return __CLASS__;
 	}
 
+	public static function is_session($key) {
+		if (!isset($key))
+		return FALSE;
+
+		if (!isset($_SESSION))
+		return FALSE;
+
+		if (!is_array($_SESSION))
+		return FALSE;
+
+		if (!array_key_exists($key, $_SESSION))
+		return FALSE;
+
+		return TRUE;
+	}
+
+	public static function oxi_session($key) {
+		return !self::is_session($key);
+	}
+
 	public static function is_post($param) {
 		if (!isset($param))
 		return FALSE;
@@ -327,7 +358,7 @@ self::toolbarCenterZari(1);
 	}
 
 	public static function oxi_post($param) {
-		return !self::is_post($param, $_POST);
+		return !self::is_post($param);
 	}
 
 	public static function is_xristis() {

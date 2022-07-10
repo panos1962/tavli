@@ -10,7 +10,7 @@ service.fereSkiniko = function(nodereq) {
 	let sinedria = nodereq.sinedria;
 
 	nodereq.write(skiniko);
-	nodereq.end('END');
+	nodereq.end();
 
 /*
 	feredataPollSet().
