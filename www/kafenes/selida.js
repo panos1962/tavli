@@ -87,6 +87,16 @@ Selida.init = function() {
 			'&KL=' + Selida.klidi +
 			'&id=1',
 		'success': function(rsp) {
+			try {
+				eval('rsp = ' + rsp);
+			} catch(e) {
+				console.error(e)
+				return Selida.fyiErrorRight('σφάλμα επικοινωνίας');
+			}
+
+			if (rsp.hasOwnProperty('error'))
+			return Selida.fyiErrorRight(rsp.error);
+
 			console.log(rsp);
 		},
 		'failure': function(err) {

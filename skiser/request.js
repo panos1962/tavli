@@ -80,7 +80,7 @@ nodeRequest.prototype.headerCheck = function() {
 
 	this.response.writeHead(200, {
 		'Access-Control-Allow-Origin': '*',
-		'Content-type': 'text/' + this.undefined + '; charset=utf-8',
+		'Content-type': 'text/' + this.dataType + '; charset=utf-8',
 	});
 
 	this.dataType = undefined;
@@ -107,6 +107,11 @@ nodeRequest.prototype.error = function(msg, code) {
 	this.response.write(msg);
 
 	this.end();
+	return this;
+};
+
+nodeRequest.prototype.errmsg = function(msg) {
+	this.end('{"error":' + globals.json(msg) + '}');
 	return this;
 };
 
@@ -302,7 +307,7 @@ nodeRequest.prototype.isvoli = function(s) {
 	let sinedria = this.sinedria;
 
 	if (this.klidi !== sinedria.klidi) {
-		this.error(s ? s : 'απόπειρα εισβολής');
+		this.errmsg('απόπειρα εισβολής');
 		return true;
 	}
 
