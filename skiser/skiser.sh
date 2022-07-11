@@ -72,7 +72,10 @@ skiser_start() {
 
 	trap "cleanup; exit 0" 1 2 3 15
 
-	[ -n "${interactive}" ] && exec node "${TAVLI_BASEDIR}/skiser/main.js"
+	if [ -n "${interactive}" ]; then
+		node "${TAVLI_BASEDIR}/skiser/main.js"
+		return $?
+	fi
 
 	nohup node "${TAVLI_BASEDIR}/skiser/main.js" \
 		>"${logdir}/skiser.out" 2>"${logdir}/skiser.err" &
