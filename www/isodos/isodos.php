@@ -9,8 +9,12 @@ Isodos::error_check();
 Isodos::xristis_check();
 Isodos::error_check();
 
+$klidi = Globals::random_string(KLIDI_LENGTH);
+Isodos::klidi_update($klidi);
+Isodos::error_check();
+
 $_SESSION[SESSION_XRISTIS] = $_POST["login"];
-$_SESSION[SESSION_KLIDI] = Globals::random_string(KLIDI_LENGTH);
+$_SESSION[SESSION_KLIDI] = $klidi;
 
 print Globals::json_encode(array("login" => $_SESSION[SESSION_XRISTIS]));
 
@@ -58,6 +62,22 @@ class Isodos {
 		return self::error_set([
 			"pedio" => "login",
 			"minima" => "Login failed",
+		]);
+	}
+
+	public static function klidi_update($klidi) {
+		$query = "REPLACE INTO `sinedria` " .
+			"(`pektis`, `klidi`) VALUES (" .
+			Globals::sql_string($_POST["login"]) . ", " .
+			Globals::sql_string($klidi) . ")";
+		$result = Globals::query($query);
+
+		if (Globals::affected_rows() >= 1)
+		return __CLASS__;
+
+		return self::error_set([
+			"pedio" => "login",
+			"minima" => "Αποτυχία ενημέρωσης κωδικού συνεδρίας",
 		]);
 	}
 

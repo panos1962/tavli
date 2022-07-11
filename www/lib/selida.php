@@ -178,18 +178,18 @@ Selida.baseUrl = '<?php print self::$base_url; ?>';
 Selida.pathRoot = '<?php print self::$path_root; ?>';
 Selida.xristis = <?php
 	if (self::is_xristis())
-	print "'" . self::$xristis . "';";
+	print "'" . self::$xristis . "'";
 
 	else
 	print "undefined";
-?>
+?>;
 Selida.klidi = <?php
 	if (Selida::is_session(SESSION_KLIDI))
 	print "'" . $_SESSION[SESSION_KLIDI] . "'";
 
 	else
 	print "undefined";
-?>
+?>;
 //]]>
 </script>
 <?php
