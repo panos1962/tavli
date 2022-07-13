@@ -53,6 +53,12 @@ global.nodeRequest = function(request, response) {
 	// συνθετικό.
 
 	this.dataType = 'plain';
+
+	// Ακολουθεί το string της απάντησης. Η απάντηση δεν αποστέλλεται
+	// απευθείας στον client, αλλά προετοιμάζεται σιγά σιγά προσθέτοντας
+	// τμήματα της απάντησης (ως strings) στο property "rspbuf".
+
+	this.rspbuf = '';
 };
 
 // Η μέθοδος "header" χρησιμοποείται ως πρώτο βήμα στην απάντηση καθορίζοντας
@@ -305,6 +311,7 @@ nodeRequest.prototype.isvoli = function(s) {
 	return true;
 
 	let sinedria = this.sinedria;
+console.log(sinedria.klidi);
 
 	if (this.klidi !== sinedria.klidi) {
 		this.errmsg('απόπειρα εισβολής');
@@ -390,4 +397,24 @@ nodeRequest.prototype.denPerastike = function(parametros, msg) {
 
 nodeRequest.prototype.urlGet = function(s) {
 	return this.url[s];
+};
+
+nodeRequest.prototype.rspPush = function(s) {
+	if (s === undefined)
+	return this;
+
+	this.rspbuf += s;
+	return this;
+};
+
+nodeRequest.prototype.rspFlush = function(s) {
+	this.rspPush(s);
+
+	this.response.writeHead(200, {
+		'Access-Control-Allow-Origin': '*',
+		'Content-type': 'text/text; charset=utf-8',
+	});
+
+	this.response.end(this.rspbuf);
+	return this;
 };

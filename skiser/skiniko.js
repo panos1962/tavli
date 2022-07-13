@@ -26,7 +26,6 @@ skiniko.stisimoTrapezi = function(conn) {
 
 	conn.query(query, function(conn, rows) {
 		rows.forEach(function(trapezi) {
-console.log(globals.randomString(10));
 			trapezi = new tavladoros.trapezi(trapezi);
 			trapezi.trapeziPollSet();
 			skiniko.trapeziPush(trapezi);
@@ -172,6 +171,7 @@ skiniko.stisimoSinedria = function(conn) {
 		skiniko.lista2 = [];
 
 		rows.forEach(function(sinedria) {
+console.log(sinedria.klidi);
 			sinedria = new tavladoros.sinedria(sinedria);
 			sinedria.sinedriaPollSet();
 
