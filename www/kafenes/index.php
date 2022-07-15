@@ -2,10 +2,14 @@
 if (Selida::oxi_xristis())
 exit(0);
 
-require_once("test.php");
+#require_once("test.php");
 
 Selida::head();
 Selida::tavlijs();
+Selida::javascript("lib/tavladorosCommon");
+Selida::javascript("lib/tavladoros");
+Selida::javascript("lib/skinikoCommon");
+Selida::javascript("lib/skiniko");
 Selida::stylesheet("lib/panel");
 Selida::javascript("lib/panel");
 Selida::stylesheet("kafenes/selida");

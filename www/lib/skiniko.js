@@ -1,4 +1,4 @@
-Pektis.prototype.pektisDOM = function() {
+tavladoros.pektis.prototype.pektisDOM = function() {
 	if (this.hasOwnProperty('DOM'))
 	return this.DOM;
 
@@ -10,7 +10,7 @@ Pektis.prototype.pektisDOM = function() {
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Tavli.prototype.tavliDomGet = function(klasi) {
+tavladoros.tavli.prototype.tavliDomGet = function(klasi) {
 	let dom = $('<div>').addClass('tavli').addClass(klasi);
 	let boardAreaDom = $('<div>').addClass('boardArea');
 
@@ -51,12 +51,12 @@ perioxi3Dom.text('123');
 
 ///////////////////////////////////////////////////////////////////////////////@
 
-Thesi.xroma = [
+tavladoros.thesi.xroma = [
 	'#D2B48C',
 	'#CD853E'
 ];
 
-Thesi.prototype.thesiDomGet = function() {
+tavladoros.thesi.prototype.thesiDomGet = function() {
 	let thesiDOM = $('<div>').addClass('thesi');
 	let canvasDOM = $('<canvas>');
 	let canvas = canvasDOM[0];
@@ -80,4 +80,19 @@ Thesi.prototype.thesiDomGet = function() {
 	ctx.fill();
 
 	return thesiDOM.append(canvasDOM);
+};
+
+console.log(skiniko);
+skiniko.skinikoProcess = function(data) {
+	if (data.hasOwnProperty('pektis'))
+	skinikoProcessPektis(data.pektis);
+
+	return skiniko;
+};
+
+skiniko.pektisProcess = function(pektis) {
+	for (i in pektis)
+console.log(i);
+
+	return skiniko;
 };

@@ -97,9 +97,11 @@ Selida.init = function() {
 			if (rsp.hasOwnProperty('error'))
 			return Selida.fyiErrorRight(rsp.error);
 
+			skiniko.skinikoProcess(rsp);
 			console.log(rsp);
 		},
-		'failure': function(err) {
+		'error': function(err) {
+			Selida.fyiErrorRight('σφάλμα σκηνικού');
 			console.error(err);
 		},
 	});
